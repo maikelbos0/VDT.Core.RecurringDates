@@ -1,0 +1,76 @@
+﻿@page "/DailyPattern"
+
+<h1>Daily pattern</h1>
+
+<div class="row">
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="startDate" class="form-label">Start date</label>
+        <input type="date" class="form-control" id="startDate" @bind-value="@StartDate" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="endDate" class="form-label">End date</label>
+        <input type="date" class="form-control" id="endDate" @bind-value="@EndDate" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="occurrences" class="form-label">Occurrences</label>
+        <input type="number" class="form-control" id="occurrences" @bind-value="@Occurrences" min="1" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="endDate" class="form-label">Interval</label>
+        <input type="number" class="form-control" id="endDate" @bind-value="@Interval" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="referenceDate" class="form-label">Interval reference date</label>
+        <input type="date" class="form-control" id="referenceDate" @bind-value="@ReferenceDate" min="1" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label class="form-label">Weekend handling</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="weekendHandlingInclude" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.Include)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.Include" />
+            <label class="form-check-label" for="weekendHandlingInclude">Include</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="weekendHandlingSkip" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.Skip)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.Skip" />
+            <label class="form-check-label" for="weekendHandlingSkip">Skip</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="weekendHandlingAdjustToMonday" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToMonday)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.AdjustToMonday" />
+            <label class="form-check-label" for="weekendHandlingAdjustToMonday">Adjust to Monday</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="weekendHandlingAdjustToFriday" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToFriday)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.AdjustToFriday" />
+            <label class="form-check-label" for="weekendHandlingAdjustToFriday">Adjust to Friday</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" id="weekendHandlingAdjustToWeekday" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToWeekday)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.AdjustToWeekday" />
+            <label class="form-check-label" for="weekendHandlingAdjustToWeekday">Adjust to weekday</label>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <button class="btn btn-primary w-100">Calculate recurrence</button>
+    </div>
+</div>
+
+@code {
+    private int? occurrences;
+    private int interval = 1;
+
+    private DateTime? StartDate { get; set; }
+    private DateTime? EndDate { get; set; }
+    private int? Occurrences {
+        get => occurrences;
+        set => occurrences = value == null ? null : Math.Max(value.Value, 1);
+    }
+    private int Interval {
+        get => interval;
+        set => interval = Math.Max(value, 1);
+    }
+    private DateTime? ReferenceDate { get; set; }
+    private RecurrencePatternWeekendHandling WeekendHandling { get; set; } = RecurrencePatternWeekendHandling.Include;
+}

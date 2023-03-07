@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDT.Core.RecurringDates", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDT.Core.RecurringDates.Tests", "VDT.Core.RecurringDates.Tests\VDT.Core.RecurringDates.Tests.csproj", "{119FCFF5-FFF2-4681-B53C-BBB9287AD8F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDT.Core.RecurringDates.Examples", "VDT.Core.RecurringDates.Examples\VDT.Core.RecurringDates.Examples.csproj", "{1A101E2E-6990-4D51-A73B-34902DDAC84E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDT.Core.RecurringDates.Examples", "VDT.Core.RecurringDates.Examples\VDT.Core.RecurringDates.Examples.csproj", "{1A101E2E-6990-4D51-A73B-34902DDAC84E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
