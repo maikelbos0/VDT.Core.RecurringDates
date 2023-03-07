@@ -29,27 +29,14 @@
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
-        <label class="form-label">Weekend handling</label>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" id="weekendHandlingInclude" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.Include)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.Include" />
-            <label class="form-check-label" for="weekendHandlingInclude">Include</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" id="weekendHandlingSkip" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.Skip)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.Skip" />
-            <label class="form-check-label" for="weekendHandlingSkip">Skip</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" id="weekendHandlingAdjustToMonday" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToMonday)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.AdjustToMonday" />
-            <label class="form-check-label" for="weekendHandlingAdjustToMonday">Adjust to Monday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" id="weekendHandlingAdjustToFriday" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToFriday)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.AdjustToFriday" />
-            <label class="form-check-label" for="weekendHandlingAdjustToFriday">Adjust to Friday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" id="weekendHandlingAdjustToWeekday" checked="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToWeekday)" @onchange="() => WeekendHandling = RecurrencePatternWeekendHandling.AdjustToWeekday" />
-            <label class="form-check-label" for="weekendHandlingAdjustToWeekday">Adjust to weekday</label>
-        </div>
+        <label for="weekendHandling" class="form-label">Weekend handling</label>
+        <select class="form-select" id="weekendHandling" @onchange="args => WeekendHandling = Enum.Parse<RecurrencePatternWeekendHandling>(args.Value?.ToString() ?? throw new InvalidOperationException())">
+            <option value="@RecurrencePatternWeekendHandling.Include" selected="@(WeekendHandling == RecurrencePatternWeekendHandling.Include)">Include</option>
+            <option value="@RecurrencePatternWeekendHandling.Skip" selected="@(WeekendHandling == RecurrencePatternWeekendHandling.Skip)">Skip</option>
+            <option value="@RecurrencePatternWeekendHandling.AdjustToMonday" selected="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToMonday)">Adjust to Monday</option>
+            <option value="@RecurrencePatternWeekendHandling.AdjustToFriday" selected="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToFriday)">Adjust to Friday</option>
+            <option value="@RecurrencePatternWeekendHandling.AdjustToWeekday" selected="@(WeekendHandling == RecurrencePatternWeekendHandling.AdjustToMonday)">Adjust to weekday</option>
+        </select>
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
