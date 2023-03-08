@@ -1,0 +1,33 @@
+﻿@using System.Globalization;
+@using System.Text;
+
+<div class="col-12 col-md-6 col-xl-4">
+    <h2>@ReferenceDate.ToString("MMMM yyyy", new CultureInfo("en-US"))</h2>
+
+    <div class="calendar-container">
+        <div class="calendar-cell fw-bold">Sun</div>
+        <div class="calendar-cell fw-bold">Mon</div>
+        <div class="calendar-cell fw-bold">Tue</div>
+        <div class="calendar-cell fw-bold">Wed</div>
+        <div class="calendar-cell fw-bold">Thu</div>
+        <div class="calendar-cell fw-bold">Fri</div>
+        <div class="calendar-cell fw-bold">Sat</div>
+
+        @for (var day = 1; day < DateTime.DaysInMonth(ReferenceDate.Year, ReferenceDate.Month); day++) {
+            var date = new DateTime(ReferenceDate.Year, ReferenceDate.Month, day);
+            var style = day == 1 ? FormattableString.Invariant($"margin-left: {14.28 * (int)date.DayOfWeek}%") : "";
+            var cssClass = HighlightedDates.Contains(date) ? "calendar-cell-highlighted" : "calendar-cell";
+
+            <div class="@cssClass" style="@style">@day</div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public DateTime ReferenceDate { get; set; }
+
+    [Parameter]
+    public HashSet<DateTime> HighlightedDates { get; set; } = new HashSet<DateTime>();
+}

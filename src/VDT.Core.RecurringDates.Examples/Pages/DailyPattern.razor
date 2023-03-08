@@ -50,11 +50,18 @@
 </div>
 
 @if (Recurrence != null) {
-    <ul>
-        @foreach (var date in Recurrence.GetDates(DateTime.Today, DateTime.Today.AddMonths(3))) {
-            <li>@date.ToString("yyyy-MM-dd")</li>
+    // TODO make component here
+    var referenceDate = Recurrence.StartDate == DateTime.MinValue ? DateTime.Today : Recurrence.StartDate;
+
+    referenceDate = referenceDate.AddDays(1 - referenceDate.Day);
+
+    var highlightedDates = Recurrence.GetDates(referenceDate, referenceDate.AddMonths(3).AddDays(-1)).ToHashSet();
+    
+    <div class="row">
+        @for(var i = 0; i < 3; i++) {
+            <Calendar ReferenceDate="referenceDate.AddMonths(i)" HighlightedDates="highlightedDates"/>
         }
-    </ul>
+    </div>
 }
 
 @code {
