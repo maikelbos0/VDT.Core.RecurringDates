@@ -8,19 +8,19 @@
         <div class="col-12 col-md-6 col-xl-4">
             <h2 class="text-center">@referenceDate.ToString("MMMM yyyy", new CultureInfo("en-US"))</h2>
 
-            <div class="calendar-container">
-                <div class="calendar-cell fw-bold">Sun</div>
-                <div class="calendar-cell fw-bold">Mon</div>
-                <div class="calendar-cell fw-bold">Tue</div>
-                <div class="calendar-cell fw-bold">Wed</div>
-                <div class="calendar-cell fw-bold">Thu</div>
-                <div class="calendar-cell fw-bold">Fri</div>
-                <div class="calendar-cell fw-bold">Sat</div>
+            <div class="calendar-month">
+                <div class="calendar-day-header">Sun</div>
+                <div class="calendar-day-header">Mon</div>
+                <div class="calendar-day-header">Tue</div>
+                <div class="calendar-day-header">Wed</div>
+                <div class="calendar-day-header">Thu</div>
+                <div class="calendar-day-header">Fri</div>
+                <div class="calendar-day-header">Sat</div>
 
                 @for (var day = 1; day < DateTime.DaysInMonth(referenceDate.Year, referenceDate.Month); day++) {
                     var date = new DateTime(referenceDate.Year, referenceDate.Month, day);
                     var marginLeft = (0.1428 * (day == 1 ? (int)date.DayOfWeek : 0)).ToString("0.00%", CultureInfo.InvariantCulture);
-                    var cssClass = HighlightedDates.Contains(date) ? "calendar-cell-highlighted" : "calendar-cell";
+                    var cssClass = HighlightedDates.Contains(date) ? "calendar-day-highlighted" : "calendar-day";
 
                     <div class="@cssClass" style="margin-left: @marginLeft">@day</div>
                 }
@@ -29,7 +29,7 @@
     }
 </div>
 
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between mb-3">
     <button class="btn btn-secondary" @onclick="PreviousMonth">Previous month</button>
     <button class="btn btn-secondary" @onclick="NextMonth">Next month</button>
 </div>
