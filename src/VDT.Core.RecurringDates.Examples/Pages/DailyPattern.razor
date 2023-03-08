@@ -2,6 +2,11 @@
 
 <h1>Daily pattern</h1>
 
+<p>
+    Use below form to build a recurrence that has a pattern that occurs every day or every several days. The recurrence is built using a mixture of fluent
+    syntax and property assignment on a recurrence builder.
+</p>
+
 <div class="row">
     <div class="col-12 col-md-6 col-xl-4 mb-3">
         <label for="startDate" class="form-label">Start date</label>
@@ -40,9 +45,17 @@
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
-        <button class="btn btn-primary w-100">Calculate recurrence</button>
+        <button class="btn btn-primary w-100" @onclick="BuildRecurrence">Build recurrence</button>
     </div>
 </div>
+
+@if (Recurrence != null) {
+    <ul>
+        @foreach (var date in Recurrence.GetDates(DateTime.Today, DateTime.Today.AddMonths(3))) {
+            <li>@date.ToString("yyyy-MM-dd")</li>
+        }
+    </ul>
+}
 
 @code {
     private int? occurrences;
@@ -60,4 +73,29 @@
     }
     private DateTime? ReferenceDate { get; set; }
     private RecurrencePatternWeekendHandling WeekendHandling { get; set; } = RecurrencePatternWeekendHandling.Include;
+    private Recurrence? Recurrence { get; set; }
+
+    private void BuildRecurrence() {
+        var builder = Recurs.Every(interval).Days();
+
+        builder.WeekendHandling = WeekendHandling;
+
+        if (ReferenceDate != null) {
+            builder.ReferenceDate = ReferenceDate;
+        }
+
+        if (StartDate != null) {
+            builder.RecurrenceBuilder.StartDate = StartDate.Value;
+        }
+
+        if (EndDate != null) {
+            builder.RecurrenceBuilder.EndDate = EndDate.Value;
+        }
+
+        if (Occurrences != null) {
+            builder.RecurrenceBuilder.Occurrences = Occurrences.Value;
+        }
+
+        Recurrence = builder.Build();
+    }
 }
