@@ -19,13 +19,13 @@
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
-        <label for="endDate" class="form-label">Interval</label>
-        <input type="number" class="form-control" id="endDate" @bind-value="@Interval" />
+        <label for="interval" class="form-label">Interval</label>
+        <input type="number" class="form-control" id="interval" @bind-value="@Interval" min="1" />
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
         <label for="referenceDate" class="form-label">Interval reference date</label>
-        <input type="date" class="form-control" id="referenceDate" @bind-value="@ReferenceDate" min="1" />
+        <input type="date" class="form-control" id="referenceDate" @bind-value="@ReferenceDate" />
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
