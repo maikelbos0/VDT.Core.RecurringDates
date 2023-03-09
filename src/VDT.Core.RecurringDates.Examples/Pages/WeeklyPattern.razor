@@ -34,7 +34,7 @@
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
-        <label for="firstDayOfWeek" class="form-label">First day of week</label>
+        <label for="firstDayOfWeek" class="form-label">First day of the week</label>
         <select class="form-select" id="firstDayOfWeek" @onchange="SetFirstDayOfWeek">
             <option value="" selected="@(FirstDayOfWeek == null)">(default)</option>
             <option value="@DayOfWeek.Sunday" selected="@(FirstDayOfWeek == DayOfWeek.Sunday)">Sunday</option>
@@ -47,7 +47,40 @@
         </select>
     </div>
 
-    <!-- TODO add weekdays -->
+    <div class="col-12 mb-3">
+        <div>
+            <label for="firstDayOfWeek" class="form-label">Days of the week</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekSunday" checked="@DaysOfWeek[DayOfWeek.Sunday]" @onchange="() => DaysOfWeek[DayOfWeek.Sunday] = !DaysOfWeek[DayOfWeek.Sunday]" />
+            <label class="form-check-label" for="dayOfWeekSunday">Sunday</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekMonday" checked="@DaysOfWeek[DayOfWeek.Monday]" @onchange="() => DaysOfWeek[DayOfWeek.Monday] = !DaysOfWeek[DayOfWeek.Monday]" />
+            <label class="form-check-label" for="dayOfWeekMonday">Monday</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekTuesday" checked="@DaysOfWeek[DayOfWeek.Tuesday]" @onchange="() => DaysOfWeek[DayOfWeek.Tuesday] = !DaysOfWeek[DayOfWeek.Tuesday]" />
+            <label class="form-check-label" for="dayOfWeekTuesday">Tuesday</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekWednesday" checked="@DaysOfWeek[DayOfWeek.Wednesday]" @onchange="() => DaysOfWeek[DayOfWeek.Wednesday] = !DaysOfWeek[DayOfWeek.Wednesday]" />
+            <label class="form-check-label" for="dayOfWeekWednesday">Wednesday</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekThursday" checked="@DaysOfWeek[DayOfWeek.Thursday]" @onchange="() => DaysOfWeek[DayOfWeek.Thursday] = !DaysOfWeek[DayOfWeek.Thursday]" />
+            <label class="form-check-label" for="dayOfWeekThursday">Thursday</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekFriday" checked="@DaysOfWeek[DayOfWeek.Friday]" @onchange="() => DaysOfWeek[DayOfWeek.Friday] = !DaysOfWeek[DayOfWeek.Friday]" />
+            <label class="form-check-label" for="dayOfWeekFriday">Friday</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dayOfWeekSaturday" checked="@DaysOfWeek[DayOfWeek.Saturday]" @onchange="() => DaysOfWeek[DayOfWeek.Saturday] = !DaysOfWeek[DayOfWeek.Saturday]" />
+            <label class="form-check-label" for="dayOfWeekSaturday">Saturday</label>
+        </div>
+    </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3">
         <button class="btn btn-primary w-100" @onclick="BuildRecurrence">Build recurrence</button>
@@ -75,6 +108,15 @@
     private DateTime? ReferenceDate { get; set; }
     private DayOfWeek? FirstDayOfWeek { get; set; }
     private Recurrence? Recurrence { get; set; }
+    private Dictionary<DayOfWeek, bool> DaysOfWeek { get; } = new() {
+        { DayOfWeek.Sunday, false },
+        { DayOfWeek.Monday, false },
+        { DayOfWeek.Tuesday, false },
+        { DayOfWeek.Wednesday, false },
+        { DayOfWeek.Thursday, false },
+        { DayOfWeek.Friday, false },
+        { DayOfWeek.Saturday, false }
+    };
 
     private void SetFirstDayOfWeek(ChangeEventArgs args) {
         var value = args.Value?.ToString();
@@ -88,8 +130,7 @@
     }
 
     private void BuildRecurrence() {
-        var builder = Recurs.Every(interval).Weeks();
-        //.On()
+        var builder = Recurs.Every(interval).Weeks().On(DaysOfWeek.Where(d => d.Value).Select(d => d.Key));
 
         if (FirstDayOfWeek != null) {
             builder.FirstDayOfWeek = FirstDayOfWeek.Value;
