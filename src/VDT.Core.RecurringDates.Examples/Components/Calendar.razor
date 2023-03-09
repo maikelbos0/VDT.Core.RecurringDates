@@ -30,8 +30,8 @@
 </div>
 
 <div class="d-flex justify-content-between mb-3">
-    <button class="btn btn-secondary" @onclick="PreviousMonth">Previous month</button>
-    <button class="btn btn-secondary" @onclick="NextMonth">Next month</button>
+    <button class="btn btn-secondary" @onclick="GoToPreviousMonth">Previous month</button>
+    <button class="btn btn-secondary" @onclick="GoToNextMonth">Next month</button>
 </div>
 
 @code {
@@ -46,20 +46,29 @@
     private DateTime ReferenceDate { get; set; }
     private HashSet<DateTime> HighlightedDates { get; set; } = null!;
 
-    protected override void OnParametersSet() {
-        SetDates(Recurrence.StartDate == DateTime.MinValue ? DateTime.Today : Recurrence.StartDate);
+    public async override Task SetParametersAsync(ParameterView parameters) {
+        var receivedNewRecurrence = parameters.TryGetValue<Recurrence>(nameof(Recurrence), out var recurrence) && recurrence != Recurrence;
+
+        await base.SetParametersAsync(parameters);
+
+        if (receivedNewRecurrence) {
+            ReferenceDate = Recurrence.StartDate == DateTime.MinValue ? DateTime.Today : Recurrence.StartDate;
+            ReferenceDate = ReferenceDate.AddDays(1 - ReferenceDate.Day);
+            RefreshHighlightedDates();
+        }
     }
 
-    private void PreviousMonth() {
-        SetDates(ReferenceDate.AddMonths(-1));
+    private void GoToPreviousMonth() {
+        ReferenceDate = ReferenceDate.AddMonths(-1);
+        RefreshHighlightedDates();
     }
 
-    private void NextMonth() {
-        SetDates(ReferenceDate.AddMonths(1));
+    private void GoToNextMonth() {
+        ReferenceDate = ReferenceDate.AddMonths(1);
+        RefreshHighlightedDates();
     }
 
-    private void SetDates(DateTime newReferenceDate) {
-        ReferenceDate = newReferenceDate.AddDays(1 - newReferenceDate.Day);
+    private void RefreshHighlightedDates() {
         HighlightedDates = Recurrence.GetDates(ReferenceDate, ReferenceDate.AddMonths(Months).AddDays(-1)).ToHashSet();
     }
 }
