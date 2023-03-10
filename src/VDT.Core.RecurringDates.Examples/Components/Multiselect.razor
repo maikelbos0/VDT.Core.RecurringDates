@@ -1,7 +1,7 @@
 ﻿@typeparam TItem
 
 <div>
-    <div @onclick="() => IsExpanded = !IsExpanded">
+    <div class="form-multiselect" data-expanded="@IsExpanded" @onclick="() => IsExpanded = !IsExpanded">
         @string.Join(", ", SelectedItems.Select(item => Items[item]).DefaultIfEmpty("(none selected)"))
     </div>
 
