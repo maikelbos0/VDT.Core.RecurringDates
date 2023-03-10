@@ -1,0 +1,45 @@
+﻿@typeparam TItem
+
+<div>
+    <div @onclick="() => IsExpanded = !IsExpanded">
+        @string.Join(", ", SelectedItems.Select(item => Items[item]).DefaultIfEmpty("(none selected)"))
+    </div>
+
+    @if (IsExpanded) {
+        <div>
+            @foreach (var itemPair in Items) {
+                var id = $"multiselect-item-{Guid.NewGuid()}";
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="@id" checked="@SelectedItems.Contains(itemPair.Key)" @onchange="() => OnItemSelectedChange(itemPair.Key)" />
+                    <label class="form-check-label" for="@id">@itemPair.Value</label>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private bool IsExpanded { get; set; } = false;
+
+    [Parameter]
+    public List<TItem> SelectedItems { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public Dictionary<TItem, string> Items { get; set; } = new();
+
+    private async Task OnItemSelectedChange(TItem item) {
+        if (SelectedItems.Contains(item)) {
+            SelectedItems.Remove(item);
+        }
+        else {
+            SelectedItems.Add(item);
+        }
+
+        await SelectedItemsChanged.InvokeAsync(SelectedItems);
+    }
+}
