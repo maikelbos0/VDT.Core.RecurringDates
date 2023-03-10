@@ -1,12 +1,12 @@
 ﻿@typeparam TItem
 
-<div>
-    <div class="form-multiselect" data-expanded="@IsExpanded" @onclick="() => IsExpanded = !IsExpanded">
+<div class="position-relative">
+    <div class="form-multiselect-header" data-expanded="@IsExpanded" @onclick="() => IsExpanded = !IsExpanded">
         @string.Join(", ", SelectedItems.Select(item => Items[item]).DefaultIfEmpty("(none selected)"))
     </div>
 
     @if (IsExpanded) {
-        <div>
+        <div class="form-multiselect-items">
             @foreach (var itemPair in Items) {
                 var id = $"multiselect-item-{Guid.NewGuid()}";
 
