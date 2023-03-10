@@ -80,6 +80,8 @@
 }
 
 .form-multiselect-items {
+    position: absolute;
+    width: 100%;
     border: 1px solid #ced4da;
     background-color: #ffffff;
     padding: 0.375rem 0.75rem;
