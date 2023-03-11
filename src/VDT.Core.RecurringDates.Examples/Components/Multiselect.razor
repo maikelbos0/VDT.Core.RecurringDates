@@ -3,7 +3,7 @@
 <GlobalEventHandler OnClick="TryClose" />
 
 <div class="position-relative" @onclick="PreventClosing">
-    <div class="form-multiselect-header" data-is-open="@IsOpen" @onclick="Toggle">
+    <div class="form-multiselect-header" @onclick="Toggle" @onkeydown="ToggleIfNeeded" tabindex="0">
         @Header
     </div>
 
@@ -49,6 +49,12 @@
 
     private void Toggle() {
         IsOpen = !IsOpen;
+    }
+
+    private void ToggleIfNeeded(KeyboardEventArgs args) {
+        if ("ENTER".Equals(args.Key, StringComparison.InvariantCultureIgnoreCase) || " ".Equals(args.Key, StringComparison.InvariantCultureIgnoreCase)) {
+            Toggle();
+        }
     }
 
     private void PreventClosing() {
