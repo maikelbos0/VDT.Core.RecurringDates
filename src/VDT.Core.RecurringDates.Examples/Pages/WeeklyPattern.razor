@@ -79,14 +79,14 @@
     }
     private DateTime? ReferenceDate { get; set; }
     private DayOfWeek? FirstDayOfWeek { get; set; }
-    private Dictionary<DayOfWeek, string> AllDaysOfWeek { get; } = new() {
-        { DayOfWeek.Sunday, "Sunday" },
-        { DayOfWeek.Monday, "Monday" },
-        { DayOfWeek.Tuesday, "Tuesday" },
-        { DayOfWeek.Wednesday, "Wednesday" },
-        { DayOfWeek.Thursday, "Thursday" },
-        { DayOfWeek.Friday, "Friday" },
-        { DayOfWeek.Saturday, "Saturday" }
+    private List<(DayOfWeek, string)> AllDaysOfWeek { get; } = new() {
+        (DayOfWeek.Sunday, "Sunday"),
+        (DayOfWeek.Monday, "Monday"),
+        (DayOfWeek.Tuesday, "Tuesday"),
+        (DayOfWeek.Wednesday, "Wednesday"),
+        (DayOfWeek.Thursday, "Thursday"),
+        (DayOfWeek.Friday, "Friday"),
+        (DayOfWeek.Saturday, "Saturday")
     };
     private List<DayOfWeek> DaysOfWeek { get; set; } = new();
     private Recurrence? Recurrence { get; set; }
