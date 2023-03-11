@@ -1,11 +1,13 @@
 ﻿@typeparam TItem
 
-<div class="position-relative">
-    <div class="form-multiselect-header" data-expanded="@IsExpanded" @onclick="() => IsExpanded = !IsExpanded">
+<GlobalEventHandler OnClick="TryClose" />
+
+<div class="position-relative" @onclick="PreventClosing">
+    <div class="form-multiselect-header" data-is-open="@IsOpen" @onclick="Toggle">
         @Header
     </div>
 
-    @if (IsExpanded) {
+    @if (IsOpen) {
         <div class="form-multiselect-items">
             @foreach (var item in Items) {
                 var id = $"multiselect-item-{Guid.NewGuid()}";
@@ -20,7 +22,8 @@
 </div>
 
 @code {
-    private bool IsExpanded { get; set; } = false;
+    private bool ShouldPreventClosing { get; set; } = false;
+    private bool IsOpen { get; set; } = false;
     private string Header => string.Join(", ", Items.Where(item => SelectedItems.Contains(item.Key)).Select(item => item.Description).DefaultIfEmpty("(none selected)"));
 
     [Parameter]
@@ -42,5 +45,21 @@
         }
 
         await SelectedItemsChanged.InvokeAsync(SelectedItems);
+    }
+
+    private void Toggle() {
+        IsOpen = !IsOpen;
+    }
+
+    private void PreventClosing() {
+        ShouldPreventClosing = true;
+    }
+
+    private void TryClose() {
+        if (!ShouldPreventClosing) {
+            IsOpen = false;
+        }
+
+        ShouldPreventClosing = false;
     }
 }

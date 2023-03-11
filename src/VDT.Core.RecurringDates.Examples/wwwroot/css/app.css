@@ -73,7 +73,7 @@
     }
 }
 
-.form-multiselect-header[data-expanded] {
+.form-multiselect-header[data-is-open] {
     border-color: #86b7fe;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
