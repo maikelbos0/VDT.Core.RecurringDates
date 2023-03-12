@@ -54,7 +54,7 @@
 </div>
 
 @if (Recurrence != null) {
-    <Calendar Recurrence="Recurrence" Months="6" />
+    <Calendar Recurrence="Recurrence" NumberOfMonths="6" />
 }
 
 @code {
@@ -74,13 +74,9 @@
     private DateTime? ReferenceDate { get; set; }
     private List<(int, string)> AllDaysOfMonth { get; } = Enumerable.Range(1, 31).Select(i => (i, i.ToString())).ToList();
     private List<int> DaysOfMonth { get; set; } = new();
-    private List<(LastDayOfMonth, string)> AllLastDaysOfMonth { get; } = new() {
-        (LastDayOfMonth.Last, "Last day"),
-        (LastDayOfMonth.SecondLast, "Second last day"),
-        (LastDayOfMonth.ThirdLast, "Third last day"),
-        (LastDayOfMonth.FourthLast, "Fourth last day"),
-        (LastDayOfMonth.FifthLast, "Fifth last day"),
-    };
+    private List<(LastDayOfMonth, string)> AllLastDaysOfMonth { get; } = Enum.GetValues<LastDayOfMonth>()
+        .Select(lastDayOfMonth => (lastDayOfMonth, Regex.Replace(lastDayOfMonth.ToString(), @"(?<!^)([A-Z])", m => $" {m.Value.ToLower()}") + " day"))
+        .ToList();
     private List<LastDayOfMonth> LastDaysOfMonth { get; set; } = new();
     private List<((DayOfWeekInMonth, DayOfWeek), string)> AllDaysOfWeek { get; } = Enum.GetValues<DayOfWeekInMonth>()
         .SelectMany(dayOfWeekInMonth => Enum.GetValues<DayOfWeek>().Select(dayOfWeek => (dayOfWeekInMonth, dayOfWeek)))

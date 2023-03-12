@@ -37,13 +37,10 @@
         <label for="firstDayOfWeek" class="form-label">First day of the week</label>
         <select class="form-select" id="firstDayOfWeek" @onchange="SetFirstDayOfWeek">
             <option value="" selected="@(FirstDayOfWeek == null)">(default)</option>
-            <option value="@DayOfWeek.Sunday" selected="@(FirstDayOfWeek == DayOfWeek.Sunday)">Sunday</option>
-            <option value="@DayOfWeek.Monday" selected="@(FirstDayOfWeek == DayOfWeek.Monday)">Monday</option>
-            <option value="@DayOfWeek.Tuesday" selected="@(FirstDayOfWeek == DayOfWeek.Tuesday)">Tuesday</option>
-            <option value="@DayOfWeek.Wednesday" selected="@(FirstDayOfWeek == DayOfWeek.Wednesday)">Wednesday</option>
-            <option value="@DayOfWeek.Thursday" selected="@(FirstDayOfWeek == DayOfWeek.Thursday)">Thursday</option>
-            <option value="@DayOfWeek.Friday" selected="@(FirstDayOfWeek == DayOfWeek.Friday)">Friday</option>
-            <option value="@DayOfWeek.Saturday" selected="@(FirstDayOfWeek == DayOfWeek.Saturday)">Saturday</option>
+
+            @foreach (var dayOfWeek in Enum.GetValues<DayOfWeek>()) {
+                <option value="@dayOfWeek" selected="@(FirstDayOfWeek == dayOfWeek)">@dayOfWeek</option>
+            }
         </select>
     </div>
 
@@ -58,7 +55,7 @@
 </div>
 
 @if (Recurrence != null) {
-    <Calendar Recurrence="Recurrence" Months="3" />
+    <Calendar Recurrence="Recurrence" NumberOfMonths="3" />
 }
 
 @code {
@@ -77,15 +74,7 @@
     }
     private DateTime? ReferenceDate { get; set; }
     private DayOfWeek? FirstDayOfWeek { get; set; }
-    private List<(DayOfWeek, string)> AllDaysOfWeek { get; } = new() {
-        (DayOfWeek.Sunday, "Sunday"),
-        (DayOfWeek.Monday, "Monday"),
-        (DayOfWeek.Tuesday, "Tuesday"),
-        (DayOfWeek.Wednesday, "Wednesday"),
-        (DayOfWeek.Thursday, "Thursday"),
-        (DayOfWeek.Friday, "Friday"),
-        (DayOfWeek.Saturday, "Saturday")
-    };
+    private List<(DayOfWeek, string)> AllDaysOfWeek { get; } = Enum.GetValues<DayOfWeek>().Select(dayOfWeek => (dayOfWeek, dayOfWeek.ToString())).ToList();
     private List<DayOfWeek> DaysOfWeek { get; set; } = new();
     private Recurrence? Recurrence { get; set; }
 

@@ -2,7 +2,7 @@
 @using System.Text;
 
 <div class="row">
-    @for (var i = 0; i < Months; i++) {
+    @for (var i = 0; i < NumberOfMonths; i++) {
         var referenceDate = ReferenceDate.AddMonths(i);
 
         <div class="col-12 col-md-6 col-xl-4 mb-3">
@@ -37,7 +37,7 @@
 @code {
     [Parameter]
     [EditorRequired]
-    public int Months { get; set; }
+    public int NumberOfMonths { get; set; }
 
     [Parameter]
     [EditorRequired]
@@ -69,6 +69,6 @@
     }
 
     private void RefreshHighlightedDates() {
-        HighlightedDates = Recurrence.GetDates(ReferenceDate, ReferenceDate.AddMonths(Months).AddDays(-1)).ToHashSet();
+        HighlightedDates = Recurrence.GetDates(ReferenceDate, ReferenceDate.AddMonths(NumberOfMonths).AddDays(-1)).ToHashSet();
     }
 }
