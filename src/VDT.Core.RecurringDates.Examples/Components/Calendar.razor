@@ -17,7 +17,7 @@
                 <div class="calendar-day-header">Fri</div>
                 <div class="calendar-day-header">Sat</div>
 
-                @for (var day = 1; day < DateTime.DaysInMonth(referenceDate.Year, referenceDate.Month); day++) {
+                @for (var day = 1; day <= DateTime.DaysInMonth(referenceDate.Year, referenceDate.Month); day++) {
                     var date = new DateTime(referenceDate.Year, referenceDate.Month, day);
                     var marginLeft = (0.1428 * (day == 1 ? (int)date.DayOfWeek : 0)).ToString("0.00%", CultureInfo.InvariantCulture);
                     var cssClass = HighlightedDates.Contains(date) ? "calendar-day-highlighted" : "calendar-day";
