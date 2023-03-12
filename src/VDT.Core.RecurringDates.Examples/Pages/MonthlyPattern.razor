@@ -38,6 +38,11 @@
         <Multiselect Items="AllDaysOfMonth" @bind-SelectedItems="DaysOfMonth" />
     </div>
 
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label class="form-label">Last days of the month</label>
+        <Multiselect Items="AllLastDaysOfMonth" @bind-SelectedItems="LastDaysOfMonth" />
+    </div>
+
     <div class="col-12 col-md-6 col-xl-4 mb-3 align-self-end">
         <button class="btn btn-primary w-100" @onclick="BuildRecurrence">Build recurrence</button>
     </div>
@@ -64,10 +69,18 @@
     private DateTime? ReferenceDate { get; set; }
     private List<(int, string)> AllDaysOfMonth { get; } = Enumerable.Range(1, 31).Select(i => (i, i.ToString())).ToList();
     private List<int> DaysOfMonth { get; set; } = new();
+    private List<(LastDayOfMonth, string)> AllLastDaysOfMonth { get; } = new() {
+        (LastDayOfMonth.Last, "Last day"),
+        (LastDayOfMonth.SecondLast, "Second last day"),
+        (LastDayOfMonth.ThirdLast, "Third last day"),
+        (LastDayOfMonth.FourthLast, "Fourth last day"),
+        (LastDayOfMonth.FifthLast, "Fifth last day"),
+    };
+    private List<LastDayOfMonth> LastDaysOfMonth { get; set; } = new();
     private Recurrence? Recurrence { get; set; }
 
     private void BuildRecurrence() {
-        var builder = Recurs.Every(interval).Months().On(DaysOfMonth);
+        var builder = Recurs.Every(interval).Months().On(DaysOfMonth).On(LastDaysOfMonth);
 
         if (ReferenceDate != null) {
             builder.ReferenceDate = ReferenceDate;
