@@ -33,6 +33,11 @@
         <input type="date" class="form-control" id="referenceDate" @bind-value="@ReferenceDate" />
     </div>
 
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label class="form-label">Days of the month</label>
+        <Multiselect Items="AllDaysOfMonth" @bind-SelectedItems="DaysOfMonth" />
+    </div>
+
     <div class="col-12 col-md-6 col-xl-4 mb-3 align-self-end">
         <button class="btn btn-primary w-100" @onclick="BuildRecurrence">Build recurrence</button>
     </div>
@@ -57,10 +62,12 @@
         set => interval = Math.Max(value, 1);
     }
     private DateTime? ReferenceDate { get; set; }
+    private List<(int, string)> AllDaysOfMonth { get; } = Enumerable.Range(1, 31).Select(i => (i, i.ToString())).ToList();
+    private List<int> DaysOfMonth { get; set; } = new();
     private Recurrence? Recurrence { get; set; }
 
     private void BuildRecurrence() {
-        var builder = Recurs.Every(interval).Months();
+        var builder = Recurs.Every(interval).Months().On(DaysOfMonth);
 
         if (ReferenceDate != null) {
             builder.ReferenceDate = ReferenceDate;
