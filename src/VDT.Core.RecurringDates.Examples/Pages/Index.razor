@@ -3,6 +3,13 @@
 <h1>Home</h1>
 
 <p>
-    Easily calculate ranges of recurring dates based on patterns such as every 3 days, every Friday, every third Tuesday of every second month, in an intuitive
-    and flexible way.
+    Easily calculate ranges of recurring dates based on patterns in an intuitive and flexible way. Use the builder to create your recurrences with 
+    combinations of daily, weekly or monthly patterns with various options, or construct the recurrence objects directly.
+</p>
+
+<p>
+    Out of the box, it is possible to combine various daily, weekly and monthly patterns, but if this does not satisfy your needs it is easy to implement and
+    use custom patterns by inheriting from the <code>RecurrencePattern</code> base class. In addition, you can create your own builder by inheriting from the
+    base <code>RecurrencePatternBuilder&lt;TBuilder&gt;</code> and adding extension methods to the <code>RecurrenceBuilder</code> and
+    <code>RecurrencePatternBuilderStart</code> classes.
 </p>
