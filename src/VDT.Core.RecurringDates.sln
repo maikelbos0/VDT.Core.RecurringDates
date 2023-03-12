@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDT.Core.RecurringDates", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDT.Core.RecurringDates.Tests", "VDT.Core.RecurringDates.Tests\VDT.Core.RecurringDates.Tests.csproj", "{119FCFF5-FFF2-4681-B53C-BBB9287AD8F9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDT.Core.RecurringDates.Examples", "VDT.Core.RecurringDates.Examples\VDT.Core.RecurringDates.Examples.csproj", "{1A101E2E-6990-4D51-A73B-34902DDAC84E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{119FCFF5-FFF2-4681-B53C-BBB9287AD8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{119FCFF5-FFF2-4681-B53C-BBB9287AD8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{119FCFF5-FFF2-4681-B53C-BBB9287AD8F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A101E2E-6990-4D51-A73B-34902DDAC84E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A101E2E-6990-4D51-A73B-34902DDAC84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A101E2E-6990-4D51-A73B-34902DDAC84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A101E2E-6990-4D51-A73B-34902DDAC84E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

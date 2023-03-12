@@ -1,0 +1,109 @@
+﻿@page "/MonthlyPattern"
+
+<h1>Monthly pattern</h1>
+
+<p>
+    Use below form to build a recurrence that has a pattern that occurs every month or every several months. The recurrence is built using a mixture of fluent
+    syntax and property assignment on a recurrence builder.
+</p>
+
+<div class="row">
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="startDate" class="form-label">Start date</label>
+        <input type="date" class="form-control" id="startDate" @bind-value="@StartDate" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="endDate" class="form-label">End date</label>
+        <input type="date" class="form-control" id="endDate" @bind-value="@EndDate" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="occurrences" class="form-label">Occurrences</label>
+        <input type="number" class="form-control" id="occurrences" @bind-value="@Occurrences" min="1" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="interval" class="form-label">Interval</label>
+        <input type="number" class="form-control" id="interval" @bind-value="@Interval" min="1" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label for="referenceDate" class="form-label">Interval reference date</label>
+        <input type="date" class="form-control" id="referenceDate" @bind-value="@ReferenceDate" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label class="form-label">Days of the month</label>
+        <Multiselect Items="AllDaysOfMonth" @bind-SelectedItems="DaysOfMonth" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label class="form-label">Last days of the month</label>
+        <Multiselect Items="AllLastDaysOfMonth" @bind-SelectedItems="LastDaysOfMonth" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3">
+        <label class="form-label">Days of the week</label>
+        <Multiselect Items="AllDaysOfWeek" @bind-SelectedItems="DaysOfWeek" />
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3 align-self-end">
+        <button class="btn btn-primary w-100" @onclick="BuildRecurrence">Build recurrence</button>
+    </div>
+</div>
+
+@if (Recurrence != null) {
+    <Calendar Recurrence="Recurrence" NumberOfMonths="6" />
+}
+
+@code {
+    private int? occurrences;
+    private int interval = 1;
+
+    private DateTime? StartDate { get; set; }
+    private DateTime? EndDate { get; set; }
+    private int? Occurrences {
+        get => occurrences;
+        set => occurrences = value == null ? null : Math.Max(value.Value, 1);
+    }
+    private int Interval {
+        get => interval;
+        set => interval = Math.Max(value, 1);
+    }
+    private DateTime? ReferenceDate { get; set; }
+    private List<(int, string)> AllDaysOfMonth { get; } = Enumerable.Range(1, 31).Select(i => (i, i.ToString())).ToList();
+    private List<int> DaysOfMonth { get; set; } = new();
+    private List<(LastDayOfMonth, string)> AllLastDaysOfMonth { get; } = Enum.GetValues<LastDayOfMonth>()
+        .Select(lastDayOfMonth => (lastDayOfMonth, Regex.Replace(lastDayOfMonth.ToString(), @"(?<!^)([A-Z])", m => $" {m.Value.ToLower()}") + " day"))
+        .ToList();
+    private List<LastDayOfMonth> LastDaysOfMonth { get; set; } = new();
+    private List<((DayOfWeekInMonth, DayOfWeek), string)> AllDaysOfWeek { get; } = Enum.GetValues<DayOfWeekInMonth>()
+        .SelectMany(dayOfWeekInMonth => Enum.GetValues<DayOfWeek>().Select(dayOfWeek => (dayOfWeekInMonth, dayOfWeek)))
+        .Select(day => (day, $"{day.dayOfWeekInMonth} {day.dayOfWeek}"))
+        .ToList();
+    private List<(DayOfWeekInMonth, DayOfWeek)> DaysOfWeek { get; set; } = new();
+    private Recurrence? Recurrence { get; set; }
+
+    private void BuildRecurrence() {
+        var builder = Recurs.Every(interval).Months().On(DaysOfMonth).On(LastDaysOfMonth).On(DaysOfWeek);
+
+        if (ReferenceDate != null) {
+            builder.ReferenceDate = ReferenceDate;
+        }
+
+        if (StartDate != null) {
+            builder.RecurrenceBuilder.StartDate = StartDate.Value;
+        }
+
+        if (EndDate != null) {
+            builder.RecurrenceBuilder.EndDate = EndDate.Value;
+        }
+
+        if (Occurrences != null) {
+            builder.RecurrenceBuilder.Occurrences = Occurrences.Value;
+        }
+
+        Recurrence = builder.Build();
+    }
+}

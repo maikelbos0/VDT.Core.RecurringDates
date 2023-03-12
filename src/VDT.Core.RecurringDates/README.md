@@ -8,6 +8,7 @@ Easily calculate ranges of recurring dates based on patterns in an intuitive and
   - Daily, with weekend handling options
   - Weekly, with options for first day of the week and which days of the week are valid
   - Montly, either for days of the month or specific days of the week in a month
+- Ability to combine patterns easily
 - Easy to use builder syntax
 - Fully customizable and extensible: it's easy to add your own patterns
 
