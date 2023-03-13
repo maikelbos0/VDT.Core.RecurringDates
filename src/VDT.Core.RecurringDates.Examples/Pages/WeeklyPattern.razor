@@ -90,7 +90,11 @@
     }
 
     private void BuildRecurrence() {
-        var builder = Recurs.Every(interval).Weeks().On(DaysOfWeek);
+        var builder = Recurs
+            .From(StartDate)
+            .Until(EndDate)
+            .StopAfter(Occurrences)
+            .Every(interval).Weeks().On(DaysOfWeek);
 
         if (FirstDayOfWeek != null) {
             builder.FirstDayOfWeek = FirstDayOfWeek.Value;
@@ -98,18 +102,6 @@
 
         if (ReferenceDate != null) {
             builder.ReferenceDate = ReferenceDate;
-        }
-
-        if (StartDate != null) {
-            builder.RecurrenceBuilder.StartDate = StartDate.Value;
-        }
-
-        if (EndDate != null) {
-            builder.RecurrenceBuilder.EndDate = EndDate.Value;
-        }
-
-        if (Occurrences != null) {
-            builder.RecurrenceBuilder.Occurrences = Occurrences.Value;
         }
 
         Recurrence = builder.Build();

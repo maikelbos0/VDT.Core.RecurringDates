@@ -35,13 +35,13 @@ namespace VDT.Core.RecurringDates {
         public RecurrenceBuilder GetRecurrenceBuilder() => RecurrenceBuilder;
 
         /// <inheritdoc/>
-        public IRecurrenceBuilder From(DateTime startDate) => RecurrenceBuilder.From(startDate);
+        public IRecurrenceBuilder From(DateTime? startDate) => RecurrenceBuilder.From(startDate);
 
         /// <inheritdoc/>
-        public IRecurrenceBuilder Until(DateTime endDate) => RecurrenceBuilder.Until(endDate);
+        public IRecurrenceBuilder Until(DateTime? endDate) => RecurrenceBuilder.Until(endDate);
 
         /// <inheritdoc/>
-        public IRecurrenceBuilder StopAfter(int occurrences) => RecurrenceBuilder.StopAfter(occurrences);
+        public IRecurrenceBuilder StopAfter(int? occurrences) => RecurrenceBuilder.StopAfter(occurrences);
 
         /// <inheritdoc/>
         public DailyRecurrencePatternBuilder Daily() => RecurrenceBuilder.Daily();
