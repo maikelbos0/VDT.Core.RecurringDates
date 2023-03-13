@@ -68,7 +68,7 @@ namespace VDT.Core.RecurringDates {
     /// <typeparam name="TBuilder">Builder implementation type</typeparam>
     public abstract class RecurrencePatternBuilder<TBuilder> : RecurrencePatternBuilder where TBuilder : RecurrencePatternBuilder<TBuilder> {
         /// <summary>
-        /// Gets or sets the date to use as a reference for calculating periods when the interval is greater than 1
+        /// Gets or sets the date to use as a reference for calculating periods when the interval is greater than 1; defaults to <see cref="RecurrenceBuilder.StartDate"/>
         /// </summary>
         public DateTime? ReferenceDate { get; set; }
 
@@ -82,9 +82,9 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Sets the date to use as a reference for calculating periods when the interval is greater than 1
         /// </summary>
-        /// <param name="referenceDate">Reference date</param>
+        /// <param name="referenceDate">Reference date; defaults to <see cref="RecurrenceBuilder.StartDate"/></param>
         /// <returns>A reference to this recurrence pattern builder</returns>
-        public RecurrencePatternBuilder<TBuilder> WithReferenceDate(DateTime referenceDate) {
+        public RecurrencePatternBuilder<TBuilder> WithReferenceDate(DateTime? referenceDate) {
             ReferenceDate = referenceDate;
             return this;
         }
