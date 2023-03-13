@@ -84,9 +84,9 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         /// <param name="referenceDate">Reference date; defaults to <see cref="RecurrenceBuilder.StartDate"/></param>
         /// <returns>A reference to this recurrence pattern builder</returns>
-        public RecurrencePatternBuilder<TBuilder> WithReferenceDate(DateTime? referenceDate) {
+        public TBuilder WithReferenceDate(DateTime? referenceDate) {
             ReferenceDate = referenceDate;
-            return this;
+            return (TBuilder)this;
         }
     }
 }

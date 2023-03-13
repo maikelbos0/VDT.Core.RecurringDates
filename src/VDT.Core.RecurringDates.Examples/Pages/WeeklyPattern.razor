@@ -3,8 +3,8 @@
 <h1>Weekly pattern</h1>
 
 <p>
-    Use below form to build a recurrence that has a pattern that occurs every week or every several weeks. The recurrence is built using a mixture of fluent
-    syntax and property assignment on a recurrence builder.
+    Use below form to build a recurrence that has a pattern that occurs every week or every several weeks.  The recurrence is built using fluent builder
+    syntax on a recurrence builder.
 </p>
 
 <div class="row">
@@ -90,19 +90,15 @@
     }
 
     private void BuildRecurrence() {
-        var builder = Recurs
+        Recurrence = Recurs
             .From(StartDate)
             .Until(EndDate)
             .StopAfter(Occurrences)
             .Every(interval)
             .Weeks()
+            .WithReferenceDate(ReferenceDate)
             .On(DaysOfWeek)
-            .UsingFirstDayOfWeek(FirstDayOfWeek);
-
-        if (ReferenceDate != null) {
-            builder.ReferenceDate = ReferenceDate;
-        }
-
-        Recurrence = builder.Build();
+            .UsingFirstDayOfWeek(FirstDayOfWeek)
+            .Build();
     }
 }

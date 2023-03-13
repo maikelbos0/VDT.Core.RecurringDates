@@ -3,8 +3,8 @@
 <h1>Monthly pattern</h1>
 
 <p>
-    Use below form to build a recurrence that has a pattern that occurs every month or every several months. The recurrence is built using a mixture of fluent
-    syntax and property assignment on a recurrence builder.
+    Use below form to build a recurrence that has a pattern that occurs every month or every several months. The recurrence is built using fluent builder 
+    syntax on a recurrence builder.
 </p>
 
 <div class="row">
@@ -86,20 +86,16 @@
     private Recurrence? Recurrence { get; set; }
 
     private void BuildRecurrence() {
-        var builder = Recurs
+        Recurrence = Recurs
             .From(StartDate)
             .Until(EndDate)
             .StopAfter(Occurrences)
             .Every(interval)
             .Months()
+            .WithReferenceDate(ReferenceDate)
             .On(DaysOfMonth)
             .On(LastDaysOfMonth)
-            .On(DaysOfWeek);
-
-        if (ReferenceDate != null) {
-            builder.ReferenceDate = ReferenceDate;
-        }
-
-        Recurrence = builder.Build();
+            .On(DaysOfWeek)
+            .Build();
     }
 }
