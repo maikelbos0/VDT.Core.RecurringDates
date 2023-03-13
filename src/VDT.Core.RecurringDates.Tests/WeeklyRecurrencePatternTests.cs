@@ -29,6 +29,11 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData(DayOfWeek.Monday, 1, "2022-12-01", "2022-12-01", false, DayOfWeek.Friday)]
         [InlineData(DayOfWeek.Monday, 2, "2022-12-01", "2022-12-09", false, DayOfWeek.Thursday, DayOfWeek.Friday)]
         [InlineData(DayOfWeek.Monday, 2, "2022-12-01", "2022-12-16", true, DayOfWeek.Thursday, DayOfWeek.Friday)]
+        [InlineData(DayOfWeek.Sunday, 2, "0001-01-01", "0001-01-15", true, DayOfWeek.Monday)]
+        [InlineData(DayOfWeek.Sunday, 2, "0001-01-15", "0001-01-01", true, DayOfWeek.Monday)]
+        [InlineData(DayOfWeek.Sunday, 2, "0001-01-06", "0001-01-20", true, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)]
+        [InlineData(DayOfWeek.Wednesday, 2, "0001-01-06", "0001-01-21", true, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)]
+        [InlineData(DayOfWeek.Saturday, 2, "0001-01-06", "0001-01-22", true, DayOfWeek.Sunday, DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday)]
         public void IsValid(DayOfWeek firstDayOfWeek, int interval, DateTime referenceDate, DateTime date, bool expectedIsValid, params DayOfWeek[] daysOfWeek) {
             var pattern = new WeeklyRecurrencePattern(interval, referenceDate, firstDayOfWeek, daysOfWeek);
 
