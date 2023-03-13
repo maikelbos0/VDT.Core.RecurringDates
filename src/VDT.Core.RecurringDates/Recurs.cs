@@ -8,23 +8,23 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Creates a new recurrence builder and sets the inclusive start date
         /// </summary>
-        /// <param name="startDate">The inclusive start date</param>
+        /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
         /// <returns>A newly created recurrence builder</returns>
-        public static IRecurrenceBuilder From(DateTime startDate) => new RecurrenceBuilder().From(startDate);
+        public static IRecurrenceBuilder From(DateTime? startDate) => new RecurrenceBuilder().From(startDate);
 
         /// <summary>
         /// Creates a new recurrence builder and sets the inclusive end date
         /// </summary>
-        /// <param name="endDate">The inclusive end date</param>
+        /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
         /// <returns>A newly created recurrence builder</returns>
-        public static IRecurrenceBuilder Until(DateTime endDate) => new RecurrenceBuilder().Until(endDate);
+        public static IRecurrenceBuilder Until(DateTime? endDate) => new RecurrenceBuilder().Until(endDate);
 
         /// <summary>
         /// Creates a new recurrence builder and sets the maximum number of occurrences
         /// </summary>
-        /// <param name="occurrences">The maximum number of occurrences</param>
+        /// <param name="occurrences">The maximum number of occurrences; if <see langword="null"/> it repeats without limit</param>
         /// <returns>A newly created recurrence builder</returns>
-        public static IRecurrenceBuilder StopAfter(int occurrences) => new RecurrenceBuilder().StopAfter(occurrences);
+        public static IRecurrenceBuilder StopAfter(int? occurrences) => new RecurrenceBuilder().StopAfter(occurrences);
 
         /// <summary>
         /// Creates a new recurrence builder and adds a pattern to it to repeat daily

@@ -37,19 +37,19 @@ namespace VDT.Core.RecurringDates {
         public RecurrenceBuilder GetRecurrenceBuilder() => this;
 
         /// <inheritdoc/>
-        public IRecurrenceBuilder From(DateTime startDate) {
-            StartDate = startDate.Date;
+        public IRecurrenceBuilder From(DateTime? startDate) {
+            StartDate = startDate?.Date ?? DateTime.MinValue;
             return this;
         }
 
         /// <inheritdoc/>
-        public IRecurrenceBuilder Until(DateTime endDate) {
-            EndDate = endDate.Date;
+        public IRecurrenceBuilder Until(DateTime? endDate) {
+            EndDate = endDate?.Date ?? DateTime.MaxValue;
             return this;
         }
 
         /// <inheritdoc/>
-        public IRecurrenceBuilder StopAfter(int occurrences) {
+        public IRecurrenceBuilder StopAfter(int? occurrences) {
             Occurrences = occurrences;
             return this;
         }

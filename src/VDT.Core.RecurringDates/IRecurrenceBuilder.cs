@@ -14,23 +14,23 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Sets the inclusive start date for this recurrence
         /// </summary>
-        /// <param name="startDate">The inclusive start date</param>
+        /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
         /// <returns>A reference to this recurrence builder</returns>
-        IRecurrenceBuilder From(DateTime startDate);
+        IRecurrenceBuilder From(DateTime? startDate);
 
         /// <summary>
         /// Sets the inclusive end date for this recurrence
         /// </summary>
-        /// <param name="endDate">The inclusive end date</param>
+        /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
         /// <returns>A reference to this recurrence builder</returns>
-        IRecurrenceBuilder Until(DateTime endDate);
+        IRecurrenceBuilder Until(DateTime? endDate);
 
         /// <summary>
         /// Sets the maximum number of occurrences for this recurrence
         /// </summary>
-        /// <param name="occurrences">The maximum number of occurrences</param>
+        /// <param name="occurrences">The maximum number of occurrences; if <see langword="null"/> it repeats without limit</param>
         /// <returns>A reference to this recurrence builder</returns>
-        IRecurrenceBuilder StopAfter(int occurrences);
+        IRecurrenceBuilder StopAfter(int? occurrences);
 
         /// <summary>
         /// Adds a pattern to this recurrence to repeat daily

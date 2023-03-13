@@ -13,12 +13,30 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
+        public void From_Null_Sets_DateTime_MinValue() {
+            var builder = new RecurrenceBuilder();
+
+            Assert.Same(builder, builder.From(null));
+
+            Assert.Equal(DateTime.MinValue, builder.StartDate);
+        }
+
+        [Fact]
         public void Until() {
             var builder = new RecurrenceBuilder();
 
             Assert.Same(builder, builder.Until(new DateTime(2022, 12, 31)));
 
             Assert.Equal(new DateTime(2022, 12, 31), builder.EndDate);
+        }
+
+        [Fact]
+        public void Until_Null_Sets_DateTime_MaxValue() {
+            var builder = new RecurrenceBuilder();
+
+            Assert.Same(builder, builder.Until(null));
+
+            Assert.Equal(DateTime.MaxValue, builder.EndDate);
         }
 
         [Fact]
