@@ -94,11 +94,10 @@
             .From(StartDate)
             .Until(EndDate)
             .StopAfter(Occurrences)
-            .Every(interval).Weeks().On(DaysOfWeek);
-
-        if (FirstDayOfWeek != null) {
-            builder.FirstDayOfWeek = FirstDayOfWeek.Value;
-        }
+            .Every(interval)
+            .Weeks()
+            .On(DaysOfWeek)
+            .UsingFirstDayOfWeek(FirstDayOfWeek);
 
         if (ReferenceDate != null) {
             builder.ReferenceDate = ReferenceDate;

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Globalization;
 
 namespace VDT.Core.RecurringDates {
     /// <summary>
@@ -8,7 +10,8 @@ namespace VDT.Core.RecurringDates {
     /// </summary>
     public class WeeklyRecurrencePatternBuilder : RecurrencePatternBuilder<WeeklyRecurrencePatternBuilder> {
         /// <summary>
-        /// Gets or sets the first day of the week to use when calculating the reference week when the interval is greater than 1
+        /// Gets or sets the first day of the week to use when calculating the reference week when the interval is greater than 1; defaults to
+        /// <see cref="DateTimeFormatInfo.FirstDayOfWeek"/> from <see cref="Thread.CurrentCulture"/>
         /// </summary>
         public DayOfWeek? FirstDayOfWeek { get; set; }
 
@@ -27,9 +30,10 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Sets the first day of the week to use when calculating the reference week when the interval is greater than 1
         /// </summary>
-        /// <param name="firstDayOfWeek">Day of the week to use as the first</param>
+        /// <param name="firstDayOfWeek">Day of the week to use as the first; defaults to <see cref="DateTimeFormatInfo.FirstDayOfWeek"/> from 
+        /// <see cref="Thread.CurrentCulture"/></param>
         /// <returns>A reference to this recurrence pattern builder</returns>
-        public WeeklyRecurrencePatternBuilder UsingFirstDayOfWeek(DayOfWeek firstDayOfWeek) {
+        public WeeklyRecurrencePatternBuilder UsingFirstDayOfWeek(DayOfWeek? firstDayOfWeek) {
             FirstDayOfWeek = firstDayOfWeek;
             return this;
         }

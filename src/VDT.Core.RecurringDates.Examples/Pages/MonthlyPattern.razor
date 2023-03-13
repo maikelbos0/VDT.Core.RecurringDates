@@ -90,7 +90,11 @@
             .From(StartDate)
             .Until(EndDate)
             .StopAfter(Occurrences)
-            .Every(interval).Months().On(DaysOfMonth).On(LastDaysOfMonth).On(DaysOfWeek);
+            .Every(interval)
+            .Months()
+            .On(DaysOfMonth)
+            .On(LastDaysOfMonth)
+            .On(DaysOfWeek);
 
         if (ReferenceDate != null) {
             builder.ReferenceDate = ReferenceDate;
