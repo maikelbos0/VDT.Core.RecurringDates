@@ -76,9 +76,9 @@
             .From(StartDate)
             .Until(EndDate)
             .StopAfter(Occurrences)
-            .Every(interval).Days();
-
-        builder.WeekendHandling = WeekendHandling;
+            .Every(interval)
+            .Days()
+            .WithWeekendHandling(WeekendHandling);
 
         if (ReferenceDate != null) {
             builder.ReferenceDate = ReferenceDate;

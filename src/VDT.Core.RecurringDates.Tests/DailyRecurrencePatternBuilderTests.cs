@@ -4,6 +4,15 @@ using Xunit;
 namespace VDT.Core.RecurringDates.Tests {
     public class DailyRecurrencePatternBuilderTests {
         [Fact]
+        public void WithWeekendHandling() {
+            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+
+            Assert.Same(builder, builder.WithWeekendHandling(RecurrencePatternWeekendHandling.AdjustToFriday));
+
+            Assert.Equal(RecurrencePatternWeekendHandling.AdjustToFriday, builder.WeekendHandling);
+        }
+
+        [Fact]
         public void IncludeWeekends() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 

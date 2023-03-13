@@ -18,6 +18,16 @@ namespace VDT.Core.RecurringDates {
         public DailyRecurrencePatternBuilder(RecurrenceBuilder recurrenceBuilder, int interval) : base(recurrenceBuilder, interval) { }
 
         /// <summary>
+        /// Sets how this recurrence pattern should handle <see cref="DayOfWeek.Saturday"/> and <see cref="DayOfWeek.Sunday"/>
+        /// </summary>
+        /// <param name="weekendHandling">Indicates how a recurrence pattern should handle <see cref="DayOfWeek.Saturday"/> and <see cref="DayOfWeek.Sunday"/></param>
+        /// <returns>A reference to this recurrence pattern builder</returns>
+        public DailyRecurrencePatternBuilder WithWeekendHandling(RecurrencePatternWeekendHandling weekendHandling) {
+            WeekendHandling = weekendHandling;
+            return this;
+        }
+
+        /// <summary>
         /// Include <see cref="DayOfWeek.Saturday"/> and <see cref="DayOfWeek.Sunday"/>
         /// </summary>
         /// <returns>A reference to this recurrence pattern builder</returns>
