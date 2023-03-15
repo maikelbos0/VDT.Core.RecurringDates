@@ -10,12 +10,12 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets or sets the inclusive start date for this recurrence; defaults to <see cref="DateTime.MinValue"/>
         /// </summary>
-        public DateTime StartDate { get; set; } = DateTime.MinValue;
+        public DateTime? StartDate { get; set; }
 
         /// <summary>
         /// Gets or sets the inclusive end date for this recurrence; defaults to <see cref="DateTime.MaxValue"/>
         /// </summary>
-        public DateTime EndDate { get; set; } = DateTime.MaxValue;
+        public DateTime? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum number of occurrences for this recurrence; if <see langword="null"/> it repeats without limit
@@ -38,13 +38,13 @@ namespace VDT.Core.RecurringDates {
 
         /// <inheritdoc/>
         public IRecurrenceBuilder From(DateTime? startDate) {
-            StartDate = startDate?.Date ?? DateTime.MinValue;
+            StartDate = startDate;
             return this;
         }
 
         /// <inheritdoc/>
         public IRecurrenceBuilder Until(DateTime? endDate) {
-            EndDate = endDate?.Date ?? DateTime.MaxValue;
+            EndDate = endDate;
             return this;
         }
 

@@ -30,8 +30,7 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Sets the first day of the week to use when calculating the reference week when the interval is greater than 1
         /// </summary>
-        /// <param name="firstDayOfWeek">Day of the week to use as the first; defaults to <see cref="DateTimeFormatInfo.FirstDayOfWeek"/> from 
-        /// <see cref="Thread.CurrentCulture"/></param>
+        /// <param name="firstDayOfWeek">Day of the week to use as the first; defaults to <see cref="DateTimeFormatInfo.FirstDayOfWeek"/> from <see cref="Thread.CurrentCulture"/></param>
         /// <returns>A reference to this recurrence pattern builder</returns>
         public WeeklyRecurrencePatternBuilder UsingFirstDayOfWeek(DayOfWeek? firstDayOfWeek) {
             FirstDayOfWeek = firstDayOfWeek;
