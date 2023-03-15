@@ -43,6 +43,10 @@ namespace VDT.Core.RecurringDates {
         /// <param name="daysOfWeek">Ordinal days of the week (e.g. the second Thursday of the month) which are valid for this recurrence pattern</param>
         /// <param name="lastDaysOfMonth">Last days of the month which are valid for this recurrence pattern</param>
         /// <param name="cacheDaysOfMonth">Indicates whether or not days of specific months should be cached; defaults to <see langword="false"/></param>
+        /// <remarks>
+        /// If <paramref name="daysOfMonth"/>, <paramref name="daysOfWeek"/> and <paramref name="lastDaysOfMonth"/> are empty, the day of the month of 
+        /// <paramref name="referenceDate"/> will be added to <see cref="DaysOfMonth"/>.
+        /// </remarks>
         public MonthlyRecurrencePattern(
             int interval, 
             DateTime? referenceDate,
