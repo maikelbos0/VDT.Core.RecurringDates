@@ -19,10 +19,10 @@ namespace VDT.Core.RecurringDates {
         /// Create a recurring date pattern
         /// </summary>
         /// <param name="interval">Interval between occurrences of this pattern</param>
-        /// <param name="referenceDate">Date to use as a reference for calculating periods when the interval is greater than 1</param>
-        public RecurrencePattern(int interval, DateTime referenceDate) {
+        /// <param name="referenceDate">Date to use as a reference for calculating periods when the interval is greater than 1; defaults to <see cref="DateTime.MaxValue"/></param>
+        public RecurrencePattern(int interval, DateTime? referenceDate) {
             Interval = Guard.IsPositive(interval);
-            ReferenceDate = referenceDate;
+            ReferenceDate = referenceDate?.Date ?? DateTime.MinValue;
         }
 
         /// <summary>

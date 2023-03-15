@@ -13,6 +13,20 @@ namespace VDT.Core.RecurringDates.Tests {
             public override bool IsValid(DateTime date) => ValidDates.Contains(date);
         }
 
+        [Fact]
+        public void Constructor_Without_StartDate_Sets_DateTime_MinValue() {
+            var recurrence = new Recurrence(null, new DateTime(2022, 1, 11), null, Enumerable.Empty<RecurrencePattern>(), false);
+
+            Assert.Equal(DateTime.MinValue, recurrence.StartDate);
+        }
+
+        [Fact]
+        public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 1), null, null, Enumerable.Empty<RecurrencePattern>(), false);
+
+            Assert.Equal(DateTime.MaxValue, recurrence.EndDate);
+        }
+
         [Theory]
         [InlineData(true, true)]
         [InlineData(false, false)]
@@ -133,7 +147,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValidInAnyPattern_Caches_When_CacheDates_Is_True() {
             var recurrencePattern = new TestRecurrencePattern(2, new DateTime(2022, 1, 1));
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { recurrencePattern }, true);
-            
+
             var firstResult = recurrence.IsValidInAnyPattern(new DateTime(2022, 1, 1));
 
             recurrencePattern.ValidDates.Add(new DateTime(2022, 1, 1));
