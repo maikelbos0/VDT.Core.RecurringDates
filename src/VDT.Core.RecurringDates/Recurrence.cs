@@ -40,16 +40,6 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Create a recurrence to determine valid dates for the given patterns
         /// </summary>
-        /// <param name="startDate">Inclusive start date for this recurrence</param>
-        /// <param name="endDate">Inclusive end date for this recurrence</param>
-        /// <param name="occurrences">Maximum number of occurrences for this recurrence</param>
-        /// <param name="patterns">Recurrence patterns that this recurrence will use to determine valid dates</param>
-        [Obsolete("This constructor has been deprecated because it is incomplete. It will be removed in future versions.")]
-        public Recurrence(DateTime startDate, DateTime endDate, int? occurrences, params RecurrencePattern[] patterns) : this(startDate, endDate, occurrences, patterns.AsEnumerable(), false) { }
-
-        /// <summary>
-        /// Create a recurrence to determine valid dates for the given patterns
-        /// </summary>
         /// <param name="startDate">Inclusive start date for this recurrence; defaults to <see cref="DateTime.MinValue"/></param>
         /// <param name="endDate">Inclusive end date for this recurrence; defaults to <see cref="DateTime.MaxValue"/></param>
         /// <param name="occurrences">Maximum number of occurrences for this recurrence</param>
