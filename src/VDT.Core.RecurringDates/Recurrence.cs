@@ -108,6 +108,23 @@ namespace VDT.Core.RecurringDates {
             }
         }
 
+        /// <summary>
+        /// Determine whether a given date is valid according to this recurrence
+        /// </summary>
+        /// <param name="date">Date to check</param>
+        /// <returns><see langword="true"/> if the given date is valid according to this recurrence; otherwise <see langword="false"/></returns>
+        public bool IsValid(DateTime date) {
+            date = date.Date;
+
+            if (date < StartDate || date > EndDate) {
+                return false;
+            }
+
+            // TODO occurrences
+
+            return IsValidInAnyPattern(date);
+        }
+
         internal bool IsValidInAnyPattern(DateTime date) {
             return dateCache?.GetOrAdd(date, IsValidInAnyPatternInternal) ?? IsValidInAnyPatternInternal(date);
 

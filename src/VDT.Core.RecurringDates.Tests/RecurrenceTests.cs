@@ -97,6 +97,32 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Theory]
+        [InlineData("2022-01-01", false)]
+        [InlineData("2022-01-03", true)]
+        [InlineData("2022-01-04", false)]
+        [InlineData("2022-01-05", true)]
+        [InlineData("2022-01-06", false)]
+        [InlineData("2022-01-07", false)]
+        public void IsValid(DateTime date, bool expectedIsValid) {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 3), new DateTime(2022, 1, 6), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 3)) }, false);
+
+            Assert.Equal(expectedIsValid, recurrence.IsValid(date));
+        }
+
+        [Theory]
+        [InlineData("2022-01-01", false)]
+        [InlineData("2022-01-03", true)]
+        [InlineData("2022-01-04", false)]
+        [InlineData("2022-01-05", true)]
+        [InlineData("2022-01-06", false)]
+        [InlineData("2022-01-07", false)]
+        public void IsValid_Occurrences(DateTime date, bool expectedIsValid) {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 3), DateTime.MaxValue, 2, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 3)) }, false);
+
+            Assert.Equal(expectedIsValid, recurrence.IsValid(date));
+        }
+
+        [Theory]
         [InlineData("2022-01-01")]
         [InlineData("2022-01-02")]
         [InlineData("2022-01-03")]
