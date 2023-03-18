@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -166,6 +167,22 @@ namespace VDT.Core.RecurringDates.Tests {
             Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
         }
 
+        [Theory]
+        [InlineData("2022-01-01", false)]
+        [InlineData("2022-01-02", true)]
+        [InlineData("2022-01-03", false)]
+        [InlineData("2022-01-04", true)]
+        public void IsValidInPatternsAndFilters_Filters(DateTime date, bool expectedIsValid) {
+            var filter1 = Substitute.For<IFilter>();
+            var filter2 = Substitute.For<IFilter>();
+            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, false, new[] { filter1, filter2 });
+
+            filter1.IsFiltered(Arg.Any<DateTime>()).Returns(c => c.ArgAt<DateTime>(0) < new DateTime(2022, 1, 2));
+            filter2.IsFiltered(Arg.Any<DateTime>()).Returns(c => c.ArgAt<DateTime>(0) == new DateTime(2022, 1, 3));
+
+            Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
+        }
+
         [Fact]
         public void IsValidInPatternsAndFilters_Caches_When_CacheDates_Is_True() {
             var recurrencePattern = new TestRecurrencePattern(2, new DateTime(2022, 1, 1));
@@ -189,7 +206,5 @@ namespace VDT.Core.RecurringDates.Tests {
 
             Assert.NotEqual(firstResult, recurrence.IsValidInPatternsAndFilters(new DateTime(2022, 1, 1)));
         }
-
-        // TODO test filters
     }
 }
