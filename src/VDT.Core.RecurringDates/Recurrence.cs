@@ -120,9 +120,23 @@ namespace VDT.Core.RecurringDates {
                 return false;
             }
 
-            // TODO occurrences
+            if (Occurrences == null) {
+                return IsValidInAnyPattern(date);
+            }
+            else {
+                var occurrences = 0;
+                var currentDate = StartDate;
 
-            return IsValidInAnyPattern(date);
+                while (currentDate < date && Occurrences > occurrences) {
+                    if (IsValidInAnyPattern(currentDate)) {
+                        occurrences++;
+                    }
+
+                    currentDate = currentDate.AddDays(1);
+                }
+
+                return occurrences < Occurrences && IsValidInAnyPattern(date);
+            }
         }
 
         internal bool IsValidInAnyPattern(DateTime date) {
