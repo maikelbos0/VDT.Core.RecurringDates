@@ -37,16 +37,7 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
-        public void GetDates_No_Pattern() {
-            var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 11), null, Enumerable.Empty<RecurrencePattern>(), false);
-
-            var dates = recurrence.GetDates();
-
-            Assert.Empty(dates);
-        }
-
-        [Fact]
-        public void GetDates_Single_Pattern() {
+        public void GetDates() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, false);
 
             var dates = recurrence.GetDates();
@@ -54,19 +45,6 @@ namespace VDT.Core.RecurringDates.Tests {
             Assert.Equal(new[] {
                 new DateTime(2022, 1, 1),
                 new DateTime(2022, 1, 3)
-            }, dates);
-        }
-
-        [Fact]
-        public void GetDates_Double_Pattern() {
-            var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)), new DailyRecurrencePattern(5, new DateTime(2022, 1, 4)) }, false);
-
-            var dates = recurrence.GetDates();
-
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 1),
-                new DateTime(2022, 1, 3),
-                new DateTime(2022, 1, 4)
             }, dates);
         }
 
@@ -131,13 +109,36 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Theory]
+        [InlineData("2022-01-01")]
+        [InlineData("2022-01-04")]
+        [InlineData("2022-01-06")]
+        public void IsValidInAnyPattern_No_Pattern(DateTime date) {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 11), null, Enumerable.Empty<RecurrencePattern>(), false);
+
+            Assert.False(recurrence.IsValidInAnyPattern(date));
+        }
+
+        [Theory]
+        [InlineData("2022-01-01", true)]
+        [InlineData("2022-01-02", false)]
+        [InlineData("2022-01-03", true)]
+        [InlineData("2022-01-04", false)]
+        [InlineData("2022-01-05", true)]
+        [InlineData("2022-01-06", false)]
+        public void IsValidInAnyPattern_Single_Pattern(DateTime date, bool expectedIsValid) {
+            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, false);
+
+            Assert.Equal(expectedIsValid, recurrence.IsValidInAnyPattern(date));
+        }
+
+        [Theory]
         [InlineData("2022-01-01", true)]
         [InlineData("2022-01-02", false)]
         [InlineData("2022-01-03", true)]
         [InlineData("2022-01-04", true)]
         [InlineData("2022-01-05", true)]
         [InlineData("2022-01-06", false)]
-        public void IsValidInAnyPattern(DateTime date, bool expectedIsValid) {
+        public void IsValidInAnyPattern_Double_Pattern(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)), new DailyRecurrencePattern(3, new DateTime(2022, 1, 1)) }, false);
 
             Assert.Equal(expectedIsValid, recurrence.IsValidInAnyPattern(date));
