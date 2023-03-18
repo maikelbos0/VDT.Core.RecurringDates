@@ -88,7 +88,8 @@ namespace VDT.Core.RecurringDates {
 
         /// <inheritdoc/>
         public Recurrence Build() {
-            return new Recurrence(StartDate, EndDate, Occurrences, PatternBuilders.Select(builder => builder.BuildPattern()), CacheDates);
+            // TODO filters
+            return new Recurrence(StartDate, EndDate, Occurrences, PatternBuilders.Select(builder => builder.BuildPattern()), CacheDates, Enumerable.Empty<IFilter>());
         }
     }
 }
