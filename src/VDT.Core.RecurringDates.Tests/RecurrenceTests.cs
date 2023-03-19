@@ -172,7 +172,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData("2022-01-03", false)]
         [InlineData("2022-01-04", true)]
         public void IsValidInPatternsAndFilters_Filters(DateTime date, bool expectedIsValid) {
-            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, false, new[] { new DateFilter(new DateTime(2022, 1, 1)), new DateFilter(new DateTime(2022, 1, 3)) });
+            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, false, new[] { new DateFilter(new[] { new DateTime(2022, 1, 1) }), new DateFilter(new[] { new DateTime(2022, 1, 3) }) });
 
             Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
         }

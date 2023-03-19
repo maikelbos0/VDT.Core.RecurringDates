@@ -19,7 +19,7 @@ namespace VDT.Core.RecurringDates {
         /// Create a filter to invalidate specific dates
         /// </summary>
         /// <param name="dates">Dates to invalidate</param>
-        public DateFilter(params DateTime[] dates) {
+        public DateFilter(IEnumerable<DateTime> dates) {
             this.dates.UnionWith(dates.Select(date => date.Date));
         }
 

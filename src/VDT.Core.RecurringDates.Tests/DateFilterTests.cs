@@ -9,7 +9,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData("2022-01-03", true)]
         [InlineData("2022-01-04", false)]
         public void IsFiltered(DateTime date, bool expectedIsFiltered) {
-            var filter = new DateFilter(new DateTime(2022, 1, 2), new DateTime(2022, 1, 3));
+            var filter = new DateFilter(new[] { new DateTime(2022, 1, 2), new DateTime(2022, 1, 3) });
 
             Assert.Equal(expectedIsFiltered, filter.IsFiltered(date));
         }
