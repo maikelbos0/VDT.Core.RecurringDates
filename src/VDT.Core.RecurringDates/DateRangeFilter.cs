@@ -18,8 +18,8 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Create a filter to invalidate date ranges
         /// </summary>
-        /// <param name="startDate">Inclusive date from which dates will be invalidated</param>
-        /// <param name="endDate">Inclusive date up to which dates will be invalidated</param>
+        /// <param name="startDate">Inclusive date from which dates will be invalidated; defaults to <see cref="DateTime.MinValue"/></param>
+        /// <param name="endDate">Inclusive date up to which dates will be invalidated; defaults to <see cref="DateTime.MaxValue"/></param>
         public DateRangeFilter(DateTime? startDate, DateTime? endDate) {
             StartDate = startDate?.Date ?? DateTime.MinValue;
             EndDate = endDate?.Date ?? DateTime.MaxValue;
