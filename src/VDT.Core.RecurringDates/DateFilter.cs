@@ -11,7 +11,7 @@ namespace VDT.Core.RecurringDates {
         private readonly HashSet<DateTime> dates = new();
 
         /// <summary>
-        /// Dates to invalidate
+        /// Gets the dates to invalidate
         /// </summary>
         public IReadOnlyCollection<DateTime> Dates => new ReadOnlyCollection<DateTime>(dates.ToList());
 
