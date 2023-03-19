@@ -1,5 +1,4 @@
-﻿using NSubstitute;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -173,12 +172,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData("2022-01-03", false)]
         [InlineData("2022-01-04", true)]
         public void IsValidInPatternsAndFilters_Filters(DateTime date, bool expectedIsValid) {
-            var filter1 = Substitute.For<IFilter>();
-            var filter2 = Substitute.For<IFilter>();
-            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, false, new[] { filter1, filter2 });
-
-            filter1.IsFiltered(Arg.Any<DateTime>()).Returns(c => c.ArgAt<DateTime>(0) < new DateTime(2022, 1, 2));
-            filter2.IsFiltered(Arg.Any<DateTime>()).Returns(c => c.ArgAt<DateTime>(0) == new DateTime(2022, 1, 3));
+            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, false, new[] { new DateFilter(new DateTime(2022, 1, 1)), new DateFilter(new DateTime(2022, 1, 3)) });
 
             Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
         }
