@@ -39,7 +39,7 @@ namespace VDT.Core.RecurringDates {
         public IReadOnlyList<RecurrencePattern> Patterns => new ReadOnlyCollection<RecurrencePattern>(patterns);
 
         /// <summary>
-        /// Filters that this recurrence will use to filter out otherwise valid dates
+        /// Filters that this recurrence will use to invalidate otherwise valid dates
         /// </summary>
         public IReadOnlyList<IFilter> Filters => new ReadOnlyCollection<IFilter>(filters);
 
@@ -51,7 +51,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="occurrences">Maximum number of occurrences for this recurrence</param>
         /// <param name="patterns">Recurrence patterns that this recurrence will use to determine valid dates</param>
         /// <param name="cacheDates">Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled</param>
-        /// <param name="filters">Filters that this recurrence will use to filter out otherwise valid dates</param>
+        /// <param name="filters">Filters that this recurrence will use to invalidate otherwise valid dates</param>
         public Recurrence(DateTime? startDate, DateTime? endDate, int? occurrences, IEnumerable<RecurrencePattern> patterns, bool cacheDates, IEnumerable<IFilter> filters) {
             StartDate = startDate?.Date ?? DateTime.MinValue;
             EndDate = endDate?.Date ?? DateTime.MaxValue;
