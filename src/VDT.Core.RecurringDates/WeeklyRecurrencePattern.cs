@@ -10,7 +10,7 @@ namespace VDT.Core.RecurringDates {
     /// Pattern for dates that recur every week or every several weeks
     /// </summary>
     public class WeeklyRecurrencePattern : RecurrencePattern {
-        private readonly long Reference;
+        private readonly long reference;
         private readonly HashSet<DayOfWeek> daysOfWeek = new();
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace VDT.Core.RecurringDates {
         /// </remarks>
         public WeeklyRecurrencePattern(int interval, DateTime? referenceDate, DayOfWeek? firstDayOfWeek = null, IEnumerable<DayOfWeek>? daysOfWeek = null) : base(interval, referenceDate) {
             FirstDayOfWeek = firstDayOfWeek ?? Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-            Reference = GetIntervalReference(ReferenceDate);
+            reference = GetIntervalReference(ReferenceDate);
 
             if (daysOfWeek != null && daysOfWeek.Any()) {
                 this.daysOfWeek.UnionWith(daysOfWeek);
@@ -48,7 +48,7 @@ namespace VDT.Core.RecurringDates {
         /// <inheritdoc/>
         public override bool IsValid(DateTime date) => daysOfWeek.Contains(date.DayOfWeek) && FitsInterval(date);
 
-        private bool FitsInterval(DateTime date) => Interval == 1 || (GetIntervalReference(date) - Reference) % (7 * Interval) == 0;
+        private bool FitsInterval(DateTime date) => Interval == 1 || (GetIntervalReference(date) - reference) % (7 * Interval) == 0;
 
         private long GetIntervalReference(DateTime date) => date.Ticks / TimeSpan.TicksPerDay + (FirstDayOfWeek - date.DayOfWeek - 7) % 7;
     }

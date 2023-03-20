@@ -96,10 +96,10 @@ namespace VDT.Core.RecurringDates {
                 var lastDayOfMonth = new DateTime(date.Year, date.Month, daysInMonth);
 
                 allDaysOfMonth.UnionWith(daysOfMonth.Where(dayOfMonth => dayOfMonth <= daysInMonth));
-                allDaysOfMonth.UnionWith(DaysOfWeek
+                allDaysOfMonth.UnionWith(daysOfWeek
                     .Where(dayOfWeek => dayOfWeek.Item1 != DayOfWeekInMonth.Last)
                     .Select(dayOfWeek => firstDayOfMonth.AddDays((int)dayOfWeek.Item1 * 7 + (dayOfWeek.Item2 - firstDayOfMonth.DayOfWeek + 7) % 7).Day));
-                allDaysOfMonth.UnionWith(DaysOfWeek
+                allDaysOfMonth.UnionWith(daysOfWeek
                     .Where(dayOfWeek => dayOfWeek.Item1 == DayOfWeekInMonth.Last)
                     .Select(dayOfWeek => lastDayOfMonth.AddDays((dayOfWeek.Item2 - lastDayOfMonth.DayOfWeek - 7) % 7).Day));
                 allDaysOfMonth.UnionWith(lastDaysOfMonth.Select(lastDayOfMonth => daysInMonth - (int)lastDayOfMonth));
