@@ -102,6 +102,8 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.PatternBuilders.Add(new DailyRecurrencePatternBuilder(builder, 3));
             builder.PatternBuilders.Add(new WeeklyRecurrencePatternBuilder(builder, 2));
+            builder.FilterBuilders.Add(new DateFilterBuilder());
+            builder.FilterBuilders.Add(new DateRangeFilterBuilder());
 
             var result = builder.Build();
 
@@ -111,6 +113,8 @@ namespace VDT.Core.RecurringDates.Tests {
             Assert.Equal(builder.PatternBuilders.Count, result.Patterns.Count);
             Assert.Contains(result.Patterns, pattern => pattern is DailyRecurrencePattern && pattern.Interval == 3);
             Assert.Contains(result.Patterns, pattern => pattern is WeeklyRecurrencePattern && pattern.Interval == 2);
+            Assert.Contains(result.Filters, filter => filter is DateFilter);
+            Assert.Contains(result.Filters, filter => filter is DateRangeFilter);
         }
     }
 }

@@ -33,6 +33,11 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         public List<RecurrencePatternBuilder> PatternBuilders { get; set; } = new();
 
+        /// <summary>
+        /// Gets or sets the builders which will be invoked to build filters for this recurrence
+        /// </summary>
+        public List<IFilterBuilder> FilterBuilders { get; set; } = new();
+
         /// <inheritdoc/>
         public RecurrenceBuilder GetRecurrenceBuilder() => this;
 
@@ -88,8 +93,7 @@ namespace VDT.Core.RecurringDates {
 
         /// <inheritdoc/>
         public Recurrence Build() {
-            // TODO filters
-            return new Recurrence(StartDate, EndDate, Occurrences, PatternBuilders.Select(builder => builder.BuildPattern()), Enumerable.Empty<IFilter>(), CacheDates);
+            return new Recurrence(StartDate, EndDate, Occurrences, PatternBuilders.Select(builder => builder.BuildPattern()), FilterBuilders.Select(builder => builder.BuildFilter()), CacheDates);
         }
     }
 }
