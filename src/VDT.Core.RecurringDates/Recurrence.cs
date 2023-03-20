@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace VDT.Core.RecurringDates {
@@ -10,8 +10,6 @@ namespace VDT.Core.RecurringDates {
     /// </summary>
     public class Recurrence {
         private readonly ConcurrentDictionary<DateTime, bool>? dateCache;
-        private readonly List<RecurrencePattern> patterns = new();
-        private readonly List<IFilter> filters = new();
 
         /// <summary>
         /// Gets the inclusive start date for this recurrence
@@ -36,12 +34,12 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets the recurrence patterns that this recurrence will use to determine valid dates
         /// </summary>
-        public IReadOnlyList<RecurrencePattern> Patterns => new ReadOnlyCollection<RecurrencePattern>(patterns);
+        public ImmutableList<RecurrencePattern> Patterns { get; }
 
         /// <summary>
         /// Filters that this recurrence will use to invalidate otherwise valid dates
         /// </summary>
-        public IReadOnlyList<IFilter> Filters => new ReadOnlyCollection<IFilter>(filters);
+        public ImmutableList<IFilter> Filters { get; }
 
         /// <summary>
         /// Create a recurrence to determine valid dates for the given patterns
@@ -56,13 +54,13 @@ namespace VDT.Core.RecurringDates {
             StartDate = startDate?.Date ?? DateTime.MinValue;
             EndDate = endDate?.Date ?? DateTime.MaxValue;
             Occurrences = occurrences;
-            this.patterns.AddRange(patterns);
+            Patterns = ImmutableList.CreateRange(patterns);
 
             if (cacheDates) {
                 dateCache = new();
             }
 
-            this.filters.AddRange(filters);
+            Filters = ImmutableList.CreateRange(filters);
         }
 
         /// <summary>
@@ -151,7 +149,7 @@ namespace VDT.Core.RecurringDates {
         internal bool IsValidInPatternsAndFilters(DateTime date) {
             return dateCache?.GetOrAdd(date, IsValidInPatternsAndFiltersInternal) ?? IsValidInPatternsAndFiltersInternal(date);
 
-            bool IsValidInPatternsAndFiltersInternal(DateTime date) => patterns.Any(pattern => pattern.IsValid(date)) && !filters.Any(filter => filter.IsFiltered(date));
+            bool IsValidInPatternsAndFiltersInternal(DateTime date) => Patterns.Any(pattern => pattern.IsValid(date)) && !Filters.Any(filter => filter.IsFiltered(date));
         }
     }
 }

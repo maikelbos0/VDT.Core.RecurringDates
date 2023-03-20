@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace VDT.Core.RecurringDates {
@@ -8,22 +8,20 @@ namespace VDT.Core.RecurringDates {
     /// Filter to invalidate specific dates that would otherwise be valid
     /// </summary>
     public class DateFilter : IFilter {
-        private readonly HashSet<DateTime> dates = new();
-
         /// <summary>
         /// Gets the dates to invalidate
         /// </summary>
-        public IReadOnlyCollection<DateTime> Dates => new ReadOnlyCollection<DateTime>(dates.ToList());
+        public ImmutableHashSet<DateTime> Dates { get; }
 
         /// <summary>
         /// Create a filter to invalidate specific dates
         /// </summary>
         /// <param name="dates">Dates to invalidate</param>
         public DateFilter(IEnumerable<DateTime> dates) {
-            this.dates.UnionWith(dates.Select(date => date.Date));
+            Dates = ImmutableHashSet.CreateRange(dates.Select(date => date.Date));
         }
 
         /// <inheritdoc/>
-        public bool IsFiltered(DateTime date) => dates.Contains(date);
+        public bool IsFiltered(DateTime date) => Dates.Contains(date);
     }
 }

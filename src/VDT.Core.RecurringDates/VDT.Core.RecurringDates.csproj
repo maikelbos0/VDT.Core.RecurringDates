@@ -34,4 +34,8 @@
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+	</ItemGroup>
+
 </Project>

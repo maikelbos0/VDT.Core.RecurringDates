@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -11,7 +11,6 @@ namespace VDT.Core.RecurringDates {
     /// </summary>
     public class WeeklyRecurrencePattern : RecurrencePattern {
         private readonly long reference;
-        private readonly HashSet<DayOfWeek> daysOfWeek = new();
 
         /// <summary>
         /// Gets the first day of the week to use when calculating the reference week when the interval is greater than 1
@@ -21,7 +20,7 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets the days of the week which are valid for this recurrence pattern
         /// </summary>
-        public IReadOnlyList<DayOfWeek> DaysOfWeek => new ReadOnlyCollection<DayOfWeek>(daysOfWeek.ToList());
+        public ImmutableHashSet<DayOfWeek> DaysOfWeek { get; }
 
         /// <summary>
         /// Create a pattern for dates that recur every week or every several weeks
@@ -38,15 +37,15 @@ namespace VDT.Core.RecurringDates {
             reference = GetIntervalReference(ReferenceDate);
 
             if (daysOfWeek != null && daysOfWeek.Any()) {
-                this.daysOfWeek.UnionWith(daysOfWeek);
+                DaysOfWeek = ImmutableHashSet.CreateRange(daysOfWeek);
             }
             else {
-                this.daysOfWeek.Add(ReferenceDate.DayOfWeek);
+                DaysOfWeek = ImmutableHashSet.Create(ReferenceDate.DayOfWeek);
             }
         }
 
         /// <inheritdoc/>
-        public override bool IsValid(DateTime date) => daysOfWeek.Contains(date.DayOfWeek) && FitsInterval(date);
+        public override bool IsValid(DateTime date) => DaysOfWeek.Contains(date.DayOfWeek) && FitsInterval(date);
 
         private bool FitsInterval(DateTime date) => Interval == 1 || (GetIntervalReference(date) - reference) % (7 * Interval) == 0;
 
