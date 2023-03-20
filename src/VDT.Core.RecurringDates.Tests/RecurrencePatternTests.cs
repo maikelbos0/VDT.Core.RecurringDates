@@ -21,7 +21,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Constructor_Without_ReferenceDate_Sets_DateTime_MinValue() {
             var pattern = new TestRecurrencePattern(1, null);
 
-            Assert.Equal(DateTime.MinValue, pattern.ReferenceDate);
+            Assert.Equal(DateTime.MinValue.Date, pattern.ReferenceDate);
         }
 
         [Fact]

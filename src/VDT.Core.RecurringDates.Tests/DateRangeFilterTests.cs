@@ -7,14 +7,14 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Constructor_Without_StartDate_Sets_DateTime_MinValue() {
             var filter = new DateRangeFilter(null, new DateTime(2022, 1, 11));
 
-            Assert.Equal(DateTime.MinValue, filter.StartDate);
+            Assert.Equal(DateTime.MinValue.Date, filter.StartDate);
         }
 
         [Fact]
         public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 1), null);
 
-            Assert.Equal(DateTime.MaxValue, filter.EndDate);
+            Assert.Equal(DateTime.MaxValue.Date, filter.EndDate);
         }
 
         [Theory]

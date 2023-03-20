@@ -51,8 +51,8 @@ namespace VDT.Core.RecurringDates {
         /// <param name="filters">Filters that this recurrence will use to invalidate otherwise valid dates</param>
         /// <param name="cacheDates">Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled</param>
         public Recurrence(DateTime? startDate, DateTime? endDate, int? occurrences, IEnumerable<RecurrencePattern> patterns, IEnumerable<IFilter> filters, bool cacheDates) {
-            StartDate = startDate?.Date ?? DateTime.MinValue;
-            EndDate = endDate?.Date ?? DateTime.MaxValue;
+            StartDate = (startDate ?? DateTime.MinValue).Date;
+            EndDate = (endDate ?? DateTime.MaxValue).Date;
             Occurrences = occurrences;
             Patterns = ImmutableList.CreateRange(patterns);
             Filters = ImmutableList.CreateRange(filters);
@@ -83,9 +83,13 @@ namespace VDT.Core.RecurringDates {
             if (Occurrences == null) {
                 var currentDate = from.Value;
 
-                while (currentDate <= until) {
+                while (true) {
                     if (IsValidInPatternsAndFilters(currentDate)) {
                         yield return currentDate;
+                    }
+
+                    if (currentDate >= until) {
+                        break;
                     }
 
                     currentDate = currentDate.AddDays(1);
@@ -95,13 +99,17 @@ namespace VDT.Core.RecurringDates {
                 var occurrences = 0;
                 var currentDate = StartDate;
 
-                while (currentDate <= until && Occurrences > occurrences) {
+                while (true) {
                     if (IsValidInPatternsAndFilters(currentDate)) {
                         occurrences++;
 
                         if (currentDate >= from) {
                             yield return currentDate;
                         }
+                    }
+
+                    if (currentDate >= until || occurrences >= Occurrences) {
+                        break;
                     }
 
                     currentDate = currentDate.AddDays(1);
