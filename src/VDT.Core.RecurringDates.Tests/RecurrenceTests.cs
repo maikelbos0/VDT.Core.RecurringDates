@@ -63,6 +63,18 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
+        public void GetDates_Removes_Time_From_From() {
+            var recurrence = new Recurrence(null, new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
+
+            var dates = recurrence.GetDates(new DateTime(2022, 1, 1, 11, 12, 30));
+
+            Assert.Equal(new[] {
+                new DateTime(2022, 1, 1),
+                new DateTime(2022, 1, 3)
+            }, dates);
+        }
+
+        [Fact]
         public void GetDates_From_To_Outside_StartDate_EndDate() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
 
@@ -121,6 +133,13 @@ namespace VDT.Core.RecurringDates.Tests {
             var recurrence = new Recurrence(new DateTime(2022, 1, 3), new DateTime(2022, 1, 6), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 3)) }, Enumerable.Empty<IFilter>(), false);
 
             Assert.Equal(expectedIsValid, recurrence.IsValid(date));
+        }
+
+        [Fact]
+        public void IsValid_Removes_Time_From_Date() {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 1, 11, 12, 30), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
+
+            Assert.True(recurrence.IsValid(new DateTime(2022, 1, 1, 11, 12, 30)));
         }
 
         [Theory]

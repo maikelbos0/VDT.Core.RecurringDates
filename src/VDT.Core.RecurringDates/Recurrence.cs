@@ -66,28 +66,24 @@ namespace VDT.Core.RecurringDates {
         /// Gets valid dates for this recurrence within the specified optional range
         /// </summary>
         /// <param name="from">If provided, no dates before this date will be returned</param>
-        /// <param name="to">If provided, no dates after this date will be returned</param>
+        /// <param name="until">If provided, no dates after this date will be returned</param>
         /// <returns>Valid dates for this recurrence within the specified optional range</returns>
-        public IEnumerable<DateTime> GetDates(DateTime? from = null, DateTime? to = null) {
+        public IEnumerable<DateTime> GetDates(DateTime? from = null, DateTime? until = null) {
             if (from == null || from < StartDate) {
                 from = StartDate;
             }
+            else {
+                from = from.Value.Date;
+            }
 
-            if (to == null || to > EndDate) {
-                to = EndDate;
+            if (until == null || until > EndDate) {
+                until = EndDate;
             }
 
             if (Occurrences == null) {
-                return GetDatesWithoutOccurrences(from.Value.Date, to.Value.Date);
-            }
-            else {
-                return GetDatesWithOccurrences(from.Value.Date, to.Value.Date);
-            }
+                var currentDate = from.Value;
 
-            IEnumerable<DateTime> GetDatesWithoutOccurrences(DateTime from, DateTime to) {
-                var currentDate = from;
-
-                while (currentDate <= to) {
+                while (currentDate <= until) {
                     if (IsValidInPatternsAndFilters(currentDate)) {
                         yield return currentDate;
                     }
@@ -95,12 +91,11 @@ namespace VDT.Core.RecurringDates {
                     currentDate = currentDate.AddDays(1);
                 }
             }
-
-            IEnumerable<DateTime> GetDatesWithOccurrences(DateTime from, DateTime to) {
+            else {
                 var occurrences = 0;
                 var currentDate = StartDate;
 
-                while (currentDate <= to && Occurrences > occurrences) {
+                while (currentDate <= until && Occurrences > occurrences) {
                     if (IsValidInPatternsAndFilters(currentDate)) {
                         occurrences++;
 
