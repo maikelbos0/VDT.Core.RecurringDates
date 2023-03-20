@@ -147,18 +147,18 @@ class, start with one of the existing starting methods on the `Recurs` class, or
 
 ```
 public class AnnualRecurrencePattern : RecurrencePattern {
-    private readonly HashSet<int> daysOfYear = new();
+    public ImmutableHashSet<int> DaysOfYear { get; }
 
-    public AnnualRecurrencePattern(int interval, DateTime referenceDate, IEnumerable<int> daysOfYear) : base(interval, referenceDate) {
-        this.daysOfYear.UnionWith(daysOfYear);
+    public AnnualRecurrencePattern(int interval, DateTime? referenceDate, IEnumerable<int> daysOfYear) : base(interval, referenceDate) {
+        DaysOfYear = ImmutableHashSet.CreateRange(daysOfYear);
     }
 
     public override bool IsValid(DateTime date)
-        => daysOfYear.Contains(date.DayOfYear) && (Interval == 1 || (date.Year - ReferenceDate.Year) % Interval == 0);
+        => DaysOfYear.Contains(date.DayOfYear) && (Interval == 1 || (date.Year - ReferenceDate.Year) % Interval == 0);
 }
 
 public class AnnualRecurrencePatternBuilder : RecurrencePatternBuilder<AnnualRecurrencePatternBuilder> {
-    public HashSet<int> DaysOfYear { get; set; } = new HashSet<int>();
+    public List<int> DaysOfYear { get; }
 
     public AnnualRecurrencePatternBuilder(RecurrenceBuilder recurrenceBuilder, int interval) : base(recurrenceBuilder, interval) { }
 
@@ -166,7 +166,7 @@ public class AnnualRecurrencePatternBuilder : RecurrencePatternBuilder<AnnualRec
         => On(days.AsEnumerable());
 
     public AnnualRecurrencePatternBuilder On(IEnumerable<int> days) {
-        DaysOfYear.UnionWith(days);
+        DaysOfYear.AddRange(days);
         return this;
     }
 
@@ -188,7 +188,6 @@ public static class RecurrencePatternBuilderStartExtensions {
         start.RecurrenceBuilder.PatternBuilders.Add(builder);
         return builder;
     }
-
 }
 ```
 
@@ -202,5 +201,4 @@ var recurrence = Recurs
 
 // Get all valid days for the years 2010 to 2012; 2010-04-10, 2010-10-27, 2011-10-27, 2012-04-09 and 2012-10-26
 var dates = recurrence.GetDates(new DateTime(2010, 1, 1), new DateTime(2012, 12, 31)).ToList();
-
 ```
