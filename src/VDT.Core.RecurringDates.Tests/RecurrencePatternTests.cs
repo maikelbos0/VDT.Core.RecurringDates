@@ -23,5 +23,12 @@ namespace VDT.Core.RecurringDates.Tests {
 
             Assert.Equal(DateTime.MinValue, pattern.ReferenceDate);
         }
+
+        [Fact]
+        public void Constructor_Removes_Time_From_ReferenceDate() {
+            var pattern = new TestRecurrencePattern(1, new DateTime(2022, 1, 2, 11, 12, 30));
+
+            Assert.Equal(new DateTime(2022, 1, 2), pattern.ReferenceDate);
+        }
     }
 }

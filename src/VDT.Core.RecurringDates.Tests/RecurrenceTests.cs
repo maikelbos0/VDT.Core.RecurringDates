@@ -21,10 +21,24 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
+        public void Constructor_Removes_Time_From_StartDate() {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 2, 11, 12, 30), new DateTime(2022, 1, 3, 12, 37, 30), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
+
+            Assert.Equal(new DateTime(2022, 1, 2), recurrence.StartDate);
+        }
+
+        [Fact]
         public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1), null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
 
             Assert.Equal(DateTime.MaxValue, recurrence.EndDate);
+        }
+
+        [Fact]
+        public void Constructor_Removes_Time_From_EndDate() {
+            var recurrence = new Recurrence(new DateTime(2022, 1, 2, 11, 12, 30), new DateTime(2022, 1, 3, 12, 37, 30), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
+
+            Assert.Equal(new DateTime(2022, 1, 3), recurrence.EndDate);
         }
 
         [Theory]
