@@ -27,11 +27,6 @@ namespace VDT.Core.RecurringDates {
         public int? Occurrences { get; }
 
         /// <summary>
-        /// Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled
-        /// </summary>
-        public bool CacheDates => dateCache != null;
-
-        /// <summary>
         /// Gets the recurrence patterns that this recurrence will use to determine valid dates
         /// </summary>
         public ImmutableList<RecurrencePattern> Patterns { get; }
@@ -42,25 +37,29 @@ namespace VDT.Core.RecurringDates {
         public ImmutableList<IFilter> Filters { get; }
 
         /// <summary>
+        /// Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled
+        /// </summary>
+        public bool CacheDates => dateCache != null;
+
+        /// <summary>
         /// Create a recurrence to determine valid dates for the given patterns
         /// </summary>
         /// <param name="startDate">Inclusive start date for this recurrence; defaults to <see cref="DateTime.MinValue"/></param>
         /// <param name="endDate">Inclusive end date for this recurrence; defaults to <see cref="DateTime.MaxValue"/></param>
         /// <param name="occurrences">Maximum number of occurrences for this recurrence</param>
         /// <param name="patterns">Recurrence patterns that this recurrence will use to determine valid dates</param>
-        /// <param name="cacheDates">Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled</param>
         /// <param name="filters">Filters that this recurrence will use to invalidate otherwise valid dates</param>
-        public Recurrence(DateTime? startDate, DateTime? endDate, int? occurrences, IEnumerable<RecurrencePattern> patterns, bool cacheDates, IEnumerable<IFilter> filters) {
+        /// <param name="cacheDates">Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled</param>
+        public Recurrence(DateTime? startDate, DateTime? endDate, int? occurrences, IEnumerable<RecurrencePattern> patterns, IEnumerable<IFilter> filters, bool cacheDates) {
             StartDate = startDate?.Date ?? DateTime.MinValue;
             EndDate = endDate?.Date ?? DateTime.MaxValue;
             Occurrences = occurrences;
             Patterns = ImmutableList.CreateRange(patterns);
+            Filters = ImmutableList.CreateRange(filters);
 
             if (cacheDates) {
                 dateCache = new();
             }
-
-            Filters = ImmutableList.CreateRange(filters);
         }
 
         /// <summary>
