@@ -10,7 +10,7 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets or sets the dates to invalidate
         /// </summary>
-        public HashSet<DateTime> Dates { get; set; } = new HashSet<DateTime>();
+        public List<DateTime> Dates { get; set; } = new List<DateTime>();
 
         /// <summary>
         /// Adds the given dates to the dates this filter invalidates
@@ -25,7 +25,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="dates">Dates that should be added</param>
         /// <returns>A reference to this filter builder</returns>
         public DateFilterBuilder On(IEnumerable<DateTime> dates) {
-            Dates.UnionWith(dates);
+            Dates.AddRange(dates);
             return this;
         }
 

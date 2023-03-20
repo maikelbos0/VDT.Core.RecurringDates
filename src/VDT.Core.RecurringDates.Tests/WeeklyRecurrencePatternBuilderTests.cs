@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -16,20 +15,21 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void On() {
             var builder = new WeeklyRecurrencePatternBuilder(new RecurrenceBuilder(), 1) {
-                DaysOfWeek = new HashSet<DayOfWeek>() {
+                DaysOfWeek = new() {
                     DayOfWeek.Tuesday,
                     DayOfWeek.Wednesday,
                     DayOfWeek.Thursday
                 }
             };
 
-            Assert.Same(builder, builder.On(DayOfWeek.Tuesday, DayOfWeek.Friday));
+            Assert.Same(builder, builder.On(DayOfWeek.Friday, DayOfWeek.Monday));
 
             Assert.Equal(new[] {
                 DayOfWeek.Tuesday,
                 DayOfWeek.Wednesday,
                 DayOfWeek.Thursday,
-                DayOfWeek.Friday
+                DayOfWeek.Friday,
+                DayOfWeek.Monday
             }, builder.DaysOfWeek);
         }
 
@@ -39,7 +39,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new WeeklyRecurrencePatternBuilder(recurrenceBuilder, 2) {
                 ReferenceDate = new DateTime(2022, 2, 1),
                 FirstDayOfWeek = DayOfWeek.Wednesday,
-                DaysOfWeek = new HashSet<DayOfWeek>() { DayOfWeek.Sunday, DayOfWeek.Thursday }
+                DaysOfWeek = new() { DayOfWeek.Sunday, DayOfWeek.Thursday }
             };
 
             var result = Assert.IsType<WeeklyRecurrencePattern>(builder.BuildPattern());

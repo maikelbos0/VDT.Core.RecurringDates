@@ -10,18 +10,18 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets or sets the days of the month which are valid for this recurrence pattern
         /// </summary>
-        public HashSet<int> DaysOfMonth { get; set; } = new HashSet<int>();
+        public List<int> DaysOfMonth { get; set; } = new List<int>();
 
         /// <summary>
         /// Gets or sets the ordinal days of the week (e.g. the second Thursday of the month) which are valid for this recurrence pattern
         /// </summary>
-        public HashSet<(DayOfWeekInMonth, DayOfWeek)> DaysOfWeek { get; set; } = new HashSet<(DayOfWeekInMonth, DayOfWeek)>();
+        public List<(DayOfWeekInMonth, DayOfWeek)> DaysOfWeek { get; set; } = new List<(DayOfWeekInMonth, DayOfWeek)>();
 
         /// <summary>
         /// Gets or sets the last days of the month which are valid for this recurrence pattern
         /// pattern
         /// </summary>
-        public HashSet<LastDayOfMonth> LastDaysOfMonth { get; set; } = new HashSet<LastDayOfMonth>();
+        public List<LastDayOfMonth> LastDaysOfMonth { get; set; } = new List<LastDayOfMonth>();
 
         /// <summary>
         /// Indicates whether or not days of specific months should be cached; enable this cache to significantly speed up this pattern type at the cost of
@@ -50,7 +50,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="days">Days of the month that should be added</param>
         /// <returns>A reference to this recurrence pattern builder</returns>
         public MonthlyRecurrencePatternBuilder On(IEnumerable<int> days) {
-            DaysOfMonth.UnionWith(Guard.ArePositive(days));
+            DaysOfMonth.AddRange(Guard.ArePositive(days));
             return this;
         }
 
@@ -77,7 +77,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="days">Ordinal days of the week that should be added</param>
         /// <returns>A reference to this recurrence pattern builder</returns>
         public MonthlyRecurrencePatternBuilder On(IEnumerable<(DayOfWeekInMonth, DayOfWeek)> days) {
-            DaysOfWeek.UnionWith(days);
+            DaysOfWeek.AddRange(days);
             return this;
         }
 
@@ -95,7 +95,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="days">Last days of the month that should be added</param>
         /// <returns>A reference to this recurrence pattern builder</returns>
         public MonthlyRecurrencePatternBuilder On(IEnumerable<LastDayOfMonth> days) {
-            LastDaysOfMonth.UnionWith(days);
+            LastDaysOfMonth.AddRange(days);
             return this;
         }
 
