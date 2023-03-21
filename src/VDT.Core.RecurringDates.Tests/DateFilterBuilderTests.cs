@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -13,15 +14,15 @@ namespace VDT.Core.RecurringDates.Tests {
                 }
             };
 
-            Assert.Same(builder, builder.On(new DateTime(2022, 2, 2), new DateTime(2022, 2, 4)));
+            builder.Should().Be(builder.On(new DateTime(2022, 2, 2), new DateTime(2022, 2, 4)));
 
-            Assert.Equal(new[] {
+            builder.Dates.Should().BeEquivalentTo(new[] {
                 new DateTime(2022, 2, 1),
                 new DateTime(2022, 2, 3),
                 new DateTime(2022, 2, 5),
                 new DateTime(2022, 2, 2),
                 new DateTime(2022, 2, 4)
-            }, builder.Dates);
+            });
         }
 
         [Fact]
@@ -34,9 +35,7 @@ namespace VDT.Core.RecurringDates.Tests {
                 }
             };
 
-            var result = Assert.IsType<DateFilter>(builder.BuildFilter());
-
-            Assert.Equal(builder.Dates, result.Dates);
+            builder.BuildFilter().Should().BeOfType<DateFilter>().Subject.Dates.Should().BeEquivalentTo(builder.Dates);
         }
     }
 }
