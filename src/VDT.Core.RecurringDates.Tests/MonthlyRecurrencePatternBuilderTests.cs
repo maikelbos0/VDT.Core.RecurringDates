@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -9,9 +10,9 @@ namespace VDT.Core.RecurringDates.Tests {
                 DaysOfMonth = new() { 5, 9, 17 }
             };
 
-            Assert.Same(builder, builder.On(11, 19));
+            builder.Should().BeSameAs(builder.On(11, 19));
 
-            Assert.Equal(new[] { 5, 9, 17, 11, 19 }, builder.DaysOfMonth);
+            builder.DaysOfMonth.Should().BeEquivalentTo(new[] { 5, 9, 17, 11, 19 });
         }
 
         [Theory]
@@ -21,7 +22,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void On_DaysOfMonth_Throws_For_Invalid_Days(params int[] days) {
             var builder = new MonthlyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => builder.On(days));
+            builder.Invoking(builder => builder.On(days)).Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Fact]
@@ -34,14 +35,14 @@ namespace VDT.Core.RecurringDates.Tests {
                 }
             };
 
-            Assert.Same(builder, builder.On(DayOfWeekInMonth.Third, DayOfWeek.Thursday));
+            builder.Should().BeSameAs(builder.On(DayOfWeekInMonth.Third, DayOfWeek.Thursday));
 
-            Assert.Equal(new[] {
+            builder.DaysOfWeek.Should().BeEquivalentTo(new[] {
                 (DayOfWeekInMonth.First, DayOfWeek.Tuesday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Friday),
                 (DayOfWeekInMonth.First, DayOfWeek.Monday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Thursday)
-            }, builder.DaysOfWeek);
+            });
         }
 
         [Fact]
@@ -54,35 +55,43 @@ namespace VDT.Core.RecurringDates.Tests {
                 }
             };
 
-            Assert.Same(builder, builder.On((DayOfWeekInMonth.Second, DayOfWeek.Friday), (DayOfWeekInMonth.Third, DayOfWeek.Thursday)));
+            builder.Should().BeSameAs(builder.On((DayOfWeekInMonth.Second, DayOfWeek.Friday), (DayOfWeekInMonth.Third, DayOfWeek.Thursday)));
 
-            Assert.Equal(new[] {
+            builder.DaysOfWeek.Should().BeEquivalentTo(new[] {
                 (DayOfWeekInMonth.First, DayOfWeek.Tuesday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Friday),
                 (DayOfWeekInMonth.First, DayOfWeek.Monday),
                 (DayOfWeekInMonth.Second, DayOfWeek.Friday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Thursday)
-            }, builder.DaysOfWeek);
+            });
         }
 
         [Fact]
         public void On_LastDaysOfMonth() {
             var builder = new MonthlyRecurrencePatternBuilder(new RecurrenceBuilder(), 1) {
-                LastDaysOfMonth = new() { LastDayOfMonth.Last, LastDayOfMonth.FourthLast }
+                LastDaysOfMonth = new() { 
+                    LastDayOfMonth.Last, 
+                    LastDayOfMonth.FourthLast 
+                }
             };
 
-            Assert.Same(builder, builder.On(LastDayOfMonth.SecondLast, LastDayOfMonth.FifthLast));
+            builder.Should().BeSameAs(builder.On(LastDayOfMonth.SecondLast, LastDayOfMonth.FifthLast));
 
-            Assert.Equal(new[] { LastDayOfMonth.Last, LastDayOfMonth.FourthLast, LastDayOfMonth.SecondLast, LastDayOfMonth.FifthLast }, builder.LastDaysOfMonth);
+            builder.LastDaysOfMonth.Should().BeEquivalentTo(new[] { 
+                LastDayOfMonth.Last, 
+                LastDayOfMonth.FourthLast, 
+                LastDayOfMonth.SecondLast, 
+                LastDayOfMonth.FifthLast 
+            });
         }
 
         [Fact]
         public void WithDaysOfMonthCaching() {
             var builder = new MonthlyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Same(builder, builder.WithDaysOfMonthCaching());
+            builder.Should().BeSameAs(builder.WithDaysOfMonthCaching());
 
-            Assert.True(builder.CacheDaysOfMonth);
+            builder.CacheDaysOfMonth.Should().BeTrue();
         }
 
         [Fact]
@@ -96,14 +105,14 @@ namespace VDT.Core.RecurringDates.Tests {
                 CacheDaysOfMonth = true
             };
 
-            var result = Assert.IsType<MonthlyRecurrencePattern>(builder.BuildPattern());
+            var result = builder.BuildPattern().Should().BeOfType<MonthlyRecurrencePattern>().Subject;
 
-            Assert.Equal(builder.ReferenceDate, result.ReferenceDate);
-            Assert.Equal(builder.Interval, result.Interval);
-            Assert.Equal(builder.DaysOfMonth, result.DaysOfMonth);
-            Assert.Equal(builder.DaysOfWeek, result.DaysOfWeek); // TODO make collection comparisons not care about order; perhaps use FluentAssertions
-            Assert.Equal(builder.LastDaysOfMonth, result.LastDaysOfMonth);
-            Assert.True(result.CacheDaysOfMonth);
+            result.ReferenceDate.Should().Be(builder.ReferenceDate);
+            result.Interval.Should().Be(builder.Interval);
+            result.DaysOfMonth.Should().BeEquivalentTo(builder.DaysOfMonth);
+            result.DaysOfWeek.Should().BeEquivalentTo(builder.DaysOfWeek);
+            result.LastDaysOfMonth.Should().BeEquivalentTo(builder.LastDaysOfMonth);
+            result.CacheDaysOfMonth.Should().Be(builder.CacheDaysOfMonth);
         }
 
         [Fact]
@@ -113,7 +122,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = builder.BuildPattern();
 
-            Assert.Equal(recurrenceBuilder.StartDate, result.ReferenceDate);
+            result.ReferenceDate.Should().Be(recurrenceBuilder.StartDate);
         }
     }
 }
