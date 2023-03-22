@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -7,14 +8,14 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Constructor_Without_StartDate_Sets_DateTime_MinValue() {
             var filter = new DateRangeFilter(null, new DateTime(2022, 1, 11));
 
-            Assert.Equal(DateTime.MinValue.Date, filter.StartDate);
+            filter.StartDate.Should().Be(DateTime.MinValue.Date);
         }
 
         [Fact]
         public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 1), null);
 
-            Assert.Equal(DateTime.MaxValue.Date, filter.EndDate);
+            filter.EndDate.Should().Be(DateTime.MaxValue.Date);
         }
 
         [Theory]
@@ -26,7 +27,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsFiltered(DateTime date, bool expectedIsFiltered) {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 2), new DateTime(2022, 1, 4));
 
-            Assert.Equal(expectedIsFiltered, filter.IsFiltered(date));
+            filter.IsFiltered(date).Should().Be(expectedIsFiltered);
         }
     }
 }
