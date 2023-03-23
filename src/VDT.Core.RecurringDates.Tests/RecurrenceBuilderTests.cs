@@ -37,7 +37,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = builder.Daily();
 
-            result.RecurrenceBuilder.Should().Be(builder);
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
             builder.PatternBuilders.Should().Contain(result);
             result.Interval.Should().Be(1);
         }
@@ -48,7 +48,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = builder.Weekly();
 
-            result.RecurrenceBuilder.Should().Be(builder);
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
             builder.PatternBuilders.Should().Contain(result);
             result.Interval.Should().Be(1);
         }
@@ -59,7 +59,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = builder.Monthly();
 
-            result.RecurrenceBuilder.Should().Be(builder);
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
             builder.PatternBuilders.Should().Contain(result);
             result.Interval.Should().Be(1);
         }
@@ -70,7 +70,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = builder.Every(2);
 
-            result.RecurrenceBuilder.Should().Be(builder);
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
             result.Interval.Should().Be(2);
         }
 
