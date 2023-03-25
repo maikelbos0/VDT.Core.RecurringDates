@@ -35,7 +35,7 @@ namespace VDT.Core.RecurringDates.Tests {
                 }
             };
 
-            builder.BuildFilter().Should().BeOfType<DateFilter>().Subject.Dates.Should().BeEquivalentTo(builder.Dates);
+            builder.BuildFilter().Should().BeOfType<DateFilter>().Which.Dates.Should().BeEquivalentTo(builder.Dates);
         }
     }
 }
