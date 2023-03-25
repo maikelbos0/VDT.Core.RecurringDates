@@ -111,7 +111,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new RecurrenceBuilder();
             var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            builder.Should().Be(patternBuilder.WithDateCaching());
+            builder.Should().BeSameAs(patternBuilder.WithDateCaching());
 
             builder.CacheDates.Should().BeTrue();
         }

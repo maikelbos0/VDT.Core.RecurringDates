@@ -8,7 +8,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void From() {
             var builder = new RecurrenceBuilder();
 
-            builder.Should().Be(builder.From(new DateTime(2022, 1, 1)));
+            builder.Should().BeSameAs(builder.From(new DateTime(2022, 1, 1)));
 
             builder.StartDate.Should().Be(new DateTime(2022, 1, 1));
         }
@@ -17,7 +17,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Until() {
             var builder = new RecurrenceBuilder();
 
-            builder.Should().Be(builder.Until(new DateTime(2022, 12, 31)));
+            builder.Should().BeSameAs(builder.Until(new DateTime(2022, 12, 31)));
 
             builder.EndDate.Should().Be(new DateTime(2022, 12, 31));
         }
@@ -26,7 +26,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void StopAfter() {
             var builder = new RecurrenceBuilder();
 
-            builder.Should().Be(builder.StopAfter(10));
+            builder.Should().BeSameAs(builder.StopAfter(10));
 
             builder.Occurrences.Should().Be(10);
         }
@@ -88,7 +88,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void WithDateCaching() {
             var builder = new RecurrenceBuilder();
 
-            builder.Should().Be(builder.WithDateCaching());
+            builder.Should().BeSameAs(builder.WithDateCaching());
 
             builder.CacheDates.Should().BeTrue();
         }
