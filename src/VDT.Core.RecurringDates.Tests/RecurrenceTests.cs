@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -17,28 +18,28 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Constructor_Without_StartDate_Sets_DateTime_MinValue() {
             var recurrence = new Recurrence(null, new DateTime(2022, 1, 11), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(DateTime.MinValue.Date, recurrence.StartDate);
+            recurrence.StartDate.Should().Be(DateTime.MinValue.Date);
         }
 
         [Fact]
         public void Constructor_Removes_Time_From_StartDate() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 2, 11, 12, 30), new DateTime(2022, 1, 3, 12, 37, 30), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(new DateTime(2022, 1, 2), recurrence.StartDate);
+            recurrence.StartDate.Should().Be(new DateTime(2022, 1, 2));
         }
 
         [Fact]
         public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1), null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(DateTime.MaxValue.Date, recurrence.EndDate);
+            recurrence.EndDate.Should().Be(DateTime.MaxValue.Date);
         }
 
         [Fact]
         public void Constructor_Removes_Time_From_EndDate() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 2, 11, 12, 30), new DateTime(2022, 1, 3, 12, 37, 30), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(new DateTime(2022, 1, 3), recurrence.EndDate);
+            recurrence.EndDate.Should().Be(new DateTime(2022, 1, 3));
         }
 
         [Theory]
@@ -47,7 +48,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void CacheDates(bool cacheDates, bool expectedCacheDates) {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 11), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), cacheDates);
 
-            Assert.Equal(expectedCacheDates, recurrence.CacheDates);
+            recurrence.CacheDates.Should().Be(expectedCacheDates);
         }
 
         [Fact]
@@ -56,11 +57,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates();
 
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 1),
-                new DateTime(2022, 1, 3),
-                new DateTime(2022, 1, 5)
-            }, dates);
+            dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3), new DateTime(2022, 1, 5));
         }
 
         [Fact]
@@ -69,10 +66,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates(new DateTime(2022, 1, 1, 11, 12, 30));
 
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 1),
-                new DateTime(2022, 1, 3)
-            }, dates);
+            dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3));
         }
 
         [Fact]
@@ -81,10 +75,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates(new DateTime(9999, 12, 30), DateTime.MaxValue).ToList();
 
-            Assert.Equal(new[] {
-                new DateTime(9999, 12, 30),
-                new DateTime(9999, 12, 31)
-            }, dates);
+            dates.Should().Equal(new DateTime(9999, 12, 30), new DateTime(9999, 12, 31));
         }
 
         [Fact]
@@ -93,10 +84,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates(new DateTime(9999, 12, 30), DateTime.MaxValue).ToList();
 
-            Assert.Equal(new[] {
-                new DateTime(9999, 12, 30),
-                new DateTime(9999, 12, 31)
-            }, dates);
+            dates.Should().Equal(new DateTime(9999, 12, 30), new DateTime(9999, 12, 31));
         }
 
         [Fact]
@@ -105,10 +93,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates(DateTime.MinValue, DateTime.MaxValue);
 
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 1),
-                new DateTime(2022, 1, 3)
-            }, dates);
+            dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3));
         }
 
         [Fact]
@@ -117,10 +102,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4));
 
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 1),
-                new DateTime(2022, 1, 3)
-            }, dates);
+            dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3));
         }
 
         [Fact]
@@ -129,10 +111,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates();
 
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 1),
-                new DateTime(2022, 1, 3)
-            }, dates);
+            dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3));
         }
 
         [Fact]
@@ -141,10 +120,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var dates = recurrence.GetDates(new DateTime(2022, 1, 6));
 
-            Assert.Equal(new[] {
-                new DateTime(2022, 1, 7),
-                new DateTime(2022, 1, 9)
-            }, dates);
+            dates.Should().Equal(new DateTime(2022, 1, 7), new DateTime(2022, 1, 9));
         }
 
         [Theory]
@@ -157,14 +133,14 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValid(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(new DateTime(2022, 1, 3), new DateTime(2022, 1, 6), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 3)) }, Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(expectedIsValid, recurrence.IsValid(date));
+            recurrence.IsValid(date).Should().Be(expectedIsValid);
         }
 
         [Fact]
         public void IsValid_Removes_Time_From_Date() {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1, 11, 12, 30), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
 
-            Assert.True(recurrence.IsValid(new DateTime(2022, 1, 1, 11, 12, 30)));
+            recurrence.IsValid(new DateTime(2022, 1, 1, 11, 12, 30)).Should().BeTrue();
         }
 
         [Theory]
@@ -177,7 +153,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValid_Occurrences(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(new DateTime(2022, 1, 3), DateTime.MaxValue, 2, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 3)) }, Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(expectedIsValid, recurrence.IsValid(date));
+            recurrence.IsValid(date).Should().Be(expectedIsValid);
         }
 
         [Theory]
@@ -188,7 +164,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValidInPatternsAndFilters_No_Pattern(DateTime date) {
             var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 11), null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
 
-            Assert.False(recurrence.IsValidInPatternsAndFilters(date));
+            recurrence.IsValidInPatternsAndFilters(date).Should().BeFalse();
         }
 
         [Theory]
@@ -199,7 +175,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValidInPatternsAndFilters_Single_Pattern(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
+            recurrence.IsValidInPatternsAndFilters(date).Should().Be(expectedIsValid);
         }
 
         [Theory]
@@ -210,7 +186,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValidInPatternsAndFilters_Offset_ReferenceDate(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 2)) }, Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
+            recurrence.IsValidInPatternsAndFilters(date).Should().Be(expectedIsValid);
         }
 
         [Theory]
@@ -221,7 +197,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValidInPatternsAndFilters_Double_Pattern(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)), new DailyRecurrencePattern(3, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
 
-            Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
+            recurrence.IsValidInPatternsAndFilters(date).Should().Be(expectedIsValid);
         }
 
         [Theory]
@@ -232,7 +208,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValidInPatternsAndFilters_Filters(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, new[] { new DateFilter(new[] { new DateTime(2022, 1, 1) }), new DateFilter(new[] { new DateTime(2022, 1, 3) }) }, false);
 
-            Assert.Equal(expectedIsValid, recurrence.IsValidInPatternsAndFilters(date));
+            recurrence.IsValidInPatternsAndFilters(date).Should().Be(expectedIsValid);
         }
 
         [Fact]
@@ -244,7 +220,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             recurrencePattern.ValidDates.Add(new DateTime(2022, 1, 1));
 
-            Assert.Equal(firstResult, recurrence.IsValidInPatternsAndFilters(new DateTime(2022, 1, 1)));
+            recurrence.IsValidInPatternsAndFilters(new DateTime(2022, 1, 1)).Should().Be(firstResult);
         }
 
         [Fact]
@@ -256,7 +232,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             recurrencePattern.ValidDates.Add(new DateTime(2022, 1, 1));
 
-            Assert.NotEqual(firstResult, recurrence.IsValidInPatternsAndFilters(new DateTime(2022, 1, 1)));
+            recurrence.IsValidInPatternsAndFilters(new DateTime(2022, 1, 1)).Should().NotBe(firstResult);
         }
     }
 }
