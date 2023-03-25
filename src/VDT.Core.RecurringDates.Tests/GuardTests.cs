@@ -27,7 +27,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData(2, 9, 19)]
         [InlineData(int.MaxValue)]
         public void ArePositive_Returns_Positive_Numbers(params int[] values) {
-            Guard.ArePositive(values).Should().BeEquivalentTo(values);
+            Guard.ArePositive(values).Should().Equal(values);
         }
 
         [Theory]

@@ -12,7 +12,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.Should().BeSameAs(builder.On(11, 19));
 
-            builder.DaysOfMonth.Should().BeEquivalentTo(new[] { 5, 9, 17, 11, 19 });
+            builder.DaysOfMonth.Should().Equal(5, 9, 17, 11, 19);
         }
 
         [Theory]
@@ -37,12 +37,12 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.Should().BeSameAs(builder.On(DayOfWeekInMonth.Third, DayOfWeek.Thursday));
 
-            builder.DaysOfWeek.Should().BeEquivalentTo(new[] {
+            builder.DaysOfWeek.Should().Equal(
                 (DayOfWeekInMonth.First, DayOfWeek.Tuesday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Friday),
                 (DayOfWeekInMonth.First, DayOfWeek.Monday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Thursday)
-            });
+            );
         }
 
         [Fact]
@@ -57,13 +57,13 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.Should().BeSameAs(builder.On((DayOfWeekInMonth.Second, DayOfWeek.Friday), (DayOfWeekInMonth.Third, DayOfWeek.Thursday)));
 
-            builder.DaysOfWeek.Should().BeEquivalentTo(new[] {
+            builder.DaysOfWeek.Should().Equal(
                 (DayOfWeekInMonth.First, DayOfWeek.Tuesday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Friday),
                 (DayOfWeekInMonth.First, DayOfWeek.Monday),
                 (DayOfWeekInMonth.Second, DayOfWeek.Friday),
                 (DayOfWeekInMonth.Third, DayOfWeek.Thursday)
-            });
+            );
         }
 
         [Fact]
@@ -77,12 +77,12 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.Should().BeSameAs(builder.On(LastDayOfMonth.SecondLast, LastDayOfMonth.FifthLast));
 
-            builder.LastDaysOfMonth.Should().BeEquivalentTo(new[] { 
-                LastDayOfMonth.Last, 
+            builder.LastDaysOfMonth.Should().Equal(
+                LastDayOfMonth.Last,
                 LastDayOfMonth.FourthLast, 
                 LastDayOfMonth.SecondLast, 
-                LastDayOfMonth.FifthLast 
-            });
+                LastDayOfMonth.FifthLast
+            );
         }
 
         [Fact]

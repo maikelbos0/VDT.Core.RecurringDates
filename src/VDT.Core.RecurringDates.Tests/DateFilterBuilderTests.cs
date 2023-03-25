@@ -16,13 +16,13 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.Should().Be(builder.On(new DateTime(2022, 2, 2), new DateTime(2022, 2, 4)));
 
-            builder.Dates.Should().BeEquivalentTo(new[] {
+            builder.Dates.Should().Equal(
                 new DateTime(2022, 2, 1),
                 new DateTime(2022, 2, 3),
                 new DateTime(2022, 2, 5),
                 new DateTime(2022, 2, 2),
                 new DateTime(2022, 2, 4)
-            });
+            );
         }
 
         [Fact]
