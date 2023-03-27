@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VDT.Core.RecurringDates {
     /// <summary>
@@ -62,6 +63,20 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         /// <returns>A reference to this recurrence pattern builder</returns>
         RecurrenceBuilder WithDateCaching();
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified dates
+        /// </summary>
+        /// <param name="dates">Dates to invalidate</param>
+        /// <returns>A builder to configure the date filter</returns>
+        DateFilterBuilder ExceptOn(params DateTime[] dates);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified dates
+        /// </summary>
+        /// <param name="dates">Dates to invalidate</param>
+        /// <returns>A builder to configure the date filter</returns>
+        DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates);
 
         /// <summary>
         /// Build the recurrence based on the provided specifications and patterns

@@ -94,6 +94,16 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
+        public void ExceptOn() {
+            var builder = new RecurrenceBuilder();
+
+            var result = builder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
+            result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+        }
+
+        [Fact]
         public void Build() {
             var builder = new RecurrenceBuilder() {
                 StartDate = new DateTime(2022, 1, 1),

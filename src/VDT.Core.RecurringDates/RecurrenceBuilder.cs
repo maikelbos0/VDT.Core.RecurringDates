@@ -92,6 +92,16 @@ namespace VDT.Core.RecurringDates {
         }
 
         /// <inheritdoc/>
+        public DateFilterBuilder ExceptOn(params DateTime[] dates) => ExceptOn(dates.AsEnumerable());
+
+        /// <inheritdoc/>
+        public DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates) {
+            var builder = new DateFilterBuilder(this).On(dates);
+            FilterBuilders.Add(builder);
+            return builder;
+        }
+
+        /// <inheritdoc/>
         public Recurrence Build() {
             return new Recurrence(StartDate, EndDate, Occurrences, PatternBuilders.Select(builder => builder.BuildPattern()), FilterBuilders.Select(builder => builder.BuildFilter()), CacheDates);
         }

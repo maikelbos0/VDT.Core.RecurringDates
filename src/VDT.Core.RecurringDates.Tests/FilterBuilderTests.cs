@@ -13,9 +13,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void From() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(patternBuilder.From(new DateTime(2022, 1, 1)));
+            builder.Should().BeSameAs(filterBuilder.From(new DateTime(2022, 1, 1)));
 
             builder.StartDate.Should().Be(new DateTime(2022, 1, 1));
         }
@@ -23,9 +23,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void Until() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(patternBuilder.Until(new DateTime(2022, 12, 31)));
+            builder.Should().BeSameAs(filterBuilder.Until(new DateTime(2022, 12, 31)));
 
             builder.EndDate.Should().Be(new DateTime(2022, 12, 31));
         }
@@ -33,9 +33,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void StopAfter() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(patternBuilder.StopAfter(10));
+            builder.Should().BeSameAs(filterBuilder.StopAfter(10));
 
             builder.Occurrences.Should().Be(10);
         }
@@ -43,9 +43,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void Daily() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = patternBuilder.Daily();
+            var result = filterBuilder.Daily();
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             builder.PatternBuilders.Should().Contain(result);
@@ -55,9 +55,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void Weekly() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = patternBuilder.Weekly();
+            var result = filterBuilder.Weekly();
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             builder.PatternBuilders.Should().Contain(result);
@@ -67,9 +67,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void Monthly() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = patternBuilder.Monthly();
+            var result = filterBuilder.Monthly();
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             builder.PatternBuilders.Should().Contain(result);
@@ -79,9 +79,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void Every() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = patternBuilder.Every(2);
+            var result = filterBuilder.Every(2);
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             result.Interval.Should().Be(2);
@@ -90,19 +90,30 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void WithDateCaching() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(patternBuilder.WithDateCaching());
+            builder.Should().BeSameAs(filterBuilder.WithDateCaching());
 
             builder.CacheDates.Should().BeTrue();
         }
 
         [Fact]
+        public void ExceptOn() {
+            var builder = new RecurrenceBuilder();
+            var filterBuilder = new TestFilterBuilder(builder);
+
+            var result = filterBuilder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
+            result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+        }
+
+        [Fact]
         public void Build() {
             var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestFilterBuilder(builder);
+            var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = patternBuilder.Build();
+            var result = filterBuilder.Build();
 
             result.Should().NotBeNull();
         }
