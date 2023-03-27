@@ -6,7 +6,7 @@ namespace VDT.Core.RecurringDates.Tests {
     public class DateFilterBuilderTests {
         [Fact]
         public void On() {
-            var builder = new DateFilterBuilder() {
+            var builder = new DateFilterBuilder(new RecurrenceBuilder()) {
                 Dates = new() {
                     new DateTime(2022, 2, 1),
                     new DateTime(2022, 2, 3),
@@ -27,7 +27,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
         [Fact]
         public void BuildFilter() {
-            var builder = new DateFilterBuilder() {
+            var builder = new DateFilterBuilder(new RecurrenceBuilder()) {
                 Dates = new() {
                     new DateTime(2022, 2, 1),
                     new DateTime(2022, 2, 3),

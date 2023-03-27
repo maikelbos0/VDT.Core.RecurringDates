@@ -36,7 +36,7 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets or sets the builders which will be invoked to build filters for this recurrence
         /// </summary>
-        public List<IFilterBuilder> FilterBuilders { get; set; } = new();
+        public List<FilterBuilder> FilterBuilders { get; set; } = new();
 
         /// <inheritdoc/>
         public RecurrenceBuilder GetRecurrenceBuilder() => this;

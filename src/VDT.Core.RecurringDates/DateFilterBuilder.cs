@@ -6,11 +6,17 @@ namespace VDT.Core.RecurringDates {
     /// <summary>
     /// Builder for date filters
     /// </summary>
-    public class DateFilterBuilder : IFilterBuilder {
+    public class DateFilterBuilder : FilterBuilder {
         /// <summary>
         /// Gets or sets the dates to invalidate
         /// </summary>
         public List<DateTime> Dates { get; set; } = new List<DateTime>();
+
+        /// <summary>
+        /// Create a builder for composing a filter to invalidate specific dates
+        /// </summary>
+        /// <param name="recurrenceBuilder">Builder for date recurrences to which this filter builder belongs</param>
+        public DateFilterBuilder(RecurrenceBuilder recurrenceBuilder) : base(recurrenceBuilder) { }
 
         /// <summary>
         /// Adds the given dates to the dates this filter invalidates
@@ -30,6 +36,6 @@ namespace VDT.Core.RecurringDates {
         }
 
         /// <inheritdoc/>
-        public IFilter BuildFilter() => new DateFilter(Dates);
+        public override IFilter BuildFilter() => new DateFilter(Dates);
     }
 }

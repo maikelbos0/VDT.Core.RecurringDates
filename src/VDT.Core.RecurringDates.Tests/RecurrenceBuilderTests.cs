@@ -103,8 +103,8 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.PatternBuilders.Add(new DailyRecurrencePatternBuilder(builder, 3));
             builder.PatternBuilders.Add(new WeeklyRecurrencePatternBuilder(builder, 2));
-            builder.FilterBuilders.Add(new DateFilterBuilder());
-            builder.FilterBuilders.Add(new DateRangeFilterBuilder());
+            builder.FilterBuilders.Add(new DateFilterBuilder(builder));
+            builder.FilterBuilders.Add(new DateRangeFilterBuilder(builder));
 
             var result = builder.Build();
 
