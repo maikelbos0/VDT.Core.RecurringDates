@@ -5,19 +5,19 @@ using Xunit;
 namespace VDT.Core.RecurringDates.Tests {
     public class DateRangeFilterBuilderTests {
         [Fact]
-        public void StartingAt() {
+        public void StartingOn() {
             var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
 
-            builder.Should().BeSameAs(builder.StartingAt(new DateTime(2022, 1, 1)));
+            builder.Should().BeSameAs(builder.StartingOn(new DateTime(2022, 1, 1)));
 
             builder.StartDate.Should().Be(new DateTime(2022, 1, 1));
         }
 
         [Fact]
-        public void EndingAt() {
+        public void EndingOn() {
             var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
 
-            builder.Should().BeSameAs(builder.EndingAt(new DateTime(2022, 12, 31)));
+            builder.Should().BeSameAs(builder.EndingOn(new DateTime(2022, 12, 31)));
 
             builder.EndDate.Should().Be(new DateTime(2022, 12, 31));
         }

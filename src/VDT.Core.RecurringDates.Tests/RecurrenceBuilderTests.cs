@@ -104,6 +104,37 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
+        public void ExceptStartingOn() {
+            var builder = new RecurrenceBuilder();
+
+            var result = builder.ExceptStartingOn(new DateTime(2022, 2, 3));
+
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
+            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
+        }
+
+        [Fact]
+        public void ExceptEndingOn() {
+            var builder = new RecurrenceBuilder();
+
+            var result = builder.ExceptEndingOn(new DateTime(2022, 2, 5));
+
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
+            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+        }
+
+        [Fact]
+        public void ExceptBetween() {
+            var builder = new RecurrenceBuilder();
+
+            var result = builder.ExceptBetween(new DateTime(2022, 2, 3), new DateTime(2022, 2, 5));
+
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
+            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
+            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+        }
+
+        [Fact]
         public void Build() {
             var builder = new RecurrenceBuilder() {
                 StartDate = new DateTime(2022, 1, 1),

@@ -79,6 +79,28 @@ namespace VDT.Core.RecurringDates {
         DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates);
 
         /// <summary>
+        /// Adds a filter to this recurrence for the specified date range
+        /// </summary>
+        /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+        /// <returns></returns>
+        DateRangeFilterBuilder ExceptStartingOn(DateTime? startDate);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified date range
+        /// </summary>
+        /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+        /// <returns></returns>
+        DateRangeFilterBuilder ExceptEndingOn(DateTime? endDate);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified date range
+        /// </summary>
+        /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+        /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+        /// <returns></returns>
+        DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate);
+
+        /// <summary>
         /// Build the recurrence based on the provided specifications and patterns
         /// </summary>
         /// <returns>The composed recurrence</returns>

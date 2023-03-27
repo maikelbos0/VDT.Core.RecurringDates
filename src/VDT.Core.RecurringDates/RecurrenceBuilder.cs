@@ -96,7 +96,37 @@ namespace VDT.Core.RecurringDates {
 
         /// <inheritdoc/>
         public DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates) {
-            var builder = new DateFilterBuilder(this).On(dates);
+            var builder = new DateFilterBuilder(this) {
+                Dates = dates.ToList()
+            };
+            FilterBuilders.Add(builder);
+            return builder;
+        }
+
+        /// <inheritdoc/>
+        public DateRangeFilterBuilder ExceptStartingOn(DateTime? startDate) {
+            var builder = new DateRangeFilterBuilder(this) {
+                StartDate = startDate
+            };
+            FilterBuilders.Add(builder);
+            return builder;
+        }
+
+        /// <inheritdoc/>
+        public DateRangeFilterBuilder ExceptEndingOn(DateTime? endDate) {
+            var builder = new DateRangeFilterBuilder(this) {
+                EndDate = endDate
+            };
+            FilterBuilders.Add(builder);
+            return builder;
+        }
+
+        /// <inheritdoc/>
+        public DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate) {
+            var builder = new DateRangeFilterBuilder(this) {
+                StartDate = startDate,
+                EndDate = endDate
+            };
             FilterBuilders.Add(builder);
             return builder;
         }

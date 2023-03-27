@@ -26,7 +26,7 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
         /// <returns>A reference to this filter builder</returns>
-        public DateRangeFilterBuilder StartingAt(DateTime? startDate) {
+        public DateRangeFilterBuilder StartingOn(DateTime? startDate) {
             StartDate = startDate;
             return this;
         }
@@ -36,7 +36,7 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
         /// <returns>A reference to this filter builder</returns>
-        public DateRangeFilterBuilder EndingAt(DateTime? endDate) {
+        public DateRangeFilterBuilder EndingOn(DateTime? endDate) {
             EndDate = endDate;
             return this;
         }
