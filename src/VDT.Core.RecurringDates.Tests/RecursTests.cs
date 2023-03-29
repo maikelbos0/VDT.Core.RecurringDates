@@ -59,5 +59,35 @@ namespace VDT.Core.RecurringDates.Tests {
 
             result.CacheDates.Should().BeTrue();
         }
+
+
+        [Fact]
+        public void ExceptOn() {
+            var result = Recurs.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+
+            result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+        }
+
+        [Fact]
+        public void ExceptStartingOn() {
+            var result = Recurs.ExceptStartingOn(new DateTime(2022, 2, 3));
+
+            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
+        }
+
+        [Fact]
+        public void ExceptEndingOn() {
+            var result = Recurs.ExceptEndingOn(new DateTime(2022, 2, 5));
+
+            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+        }
+
+        [Fact]
+        public void ExceptBetween() {
+            var result = Recurs.ExceptBetween(new DateTime(2022, 2, 3), new DateTime(2022, 2, 5));
+
+            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
+            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+        }
     }
 }
