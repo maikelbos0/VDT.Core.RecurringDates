@@ -1,0 +1,54 @@
+﻿@page "/Filters"
+
+<h1>Filters</h1>
+
+<p>
+    The displayed recurrence uses a a daily pattern that repeats every day without a start or end date. Use below form to apply a date range filter and/or date
+    filter to remove specific dates from the recurrence.
+</p>
+
+<div class="row">
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="applyDateRangeFilter" checked="@ApplyDateRangeFilter" @onchange="() => ApplyDateRangeFilter = !ApplyDateRangeFilter" />
+            <label class="form-check-label" for="applyDateRangeFilter">Apply date range filter</label>
+        </div>
+
+        @if (ApplyDateRangeFilter) {
+            <div class="mb-3">
+                <label for="startDate" class="form-label">Start date</label>
+                <input type="date" class="form-control" id="startDate" @bind-value="@StartDate" />
+            </div>
+
+            <div class="mb-3">
+                <label for="endDate" class="form-label">End date</label>
+                <input type="date" class="form-control" id="endDate" @bind-value="@EndDate" />
+            </div>
+        }
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4 mb-3 align-self-end">
+        <button class="btn btn-primary w-100" @onclick="ApplyFilters">Apply filters</button>
+    </div>
+</div>
+
+@if (Recurrence != null) {
+    <Calendar Recurrence="Recurrence" NumberOfMonths="3" />
+}
+
+@code {
+    private bool ApplyDateRangeFilter { get; set; }
+    private DateTime? StartDate { get; set; }
+    private DateTime? EndDate { get; set; }
+    private Recurrence? Recurrence { get; set; }
+
+    private void ApplyFilters() {
+        var recurrenceBuilder = Recurs.Every(1).Days();
+
+        if (ApplyDateRangeFilter) {
+            recurrenceBuilder.ExceptBetween(StartDate, EndDate);
+        }
+
+        Recurrence = recurrenceBuilder.Build();
+    }
+}
