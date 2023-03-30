@@ -69,15 +69,15 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
-        public void ExceptStartingOn() {
-            var result = Recurs.ExceptStartingOn(new DateTime(2022, 2, 3));
+        public void ExceptFrom() {
+            var result = Recurs.ExceptFrom(new DateTime(2022, 2, 3));
 
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
         }
 
         [Fact]
-        public void ExceptEndingOn() {
-            var result = Recurs.ExceptEndingOn(new DateTime(2022, 2, 5));
+        public void ExceptUntil() {
+            var result = Recurs.ExceptUntil(new DateTime(2022, 2, 5));
 
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));
         }

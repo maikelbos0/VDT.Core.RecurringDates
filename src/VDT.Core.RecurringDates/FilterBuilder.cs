@@ -59,10 +59,10 @@ namespace VDT.Core.RecurringDates {
         public DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates) => RecurrenceBuilder.ExceptOn(dates);
 
         /// <inheritdoc/>
-        public DateRangeFilterBuilder ExceptStartingOn(DateTime? startDate) => RecurrenceBuilder.ExceptStartingOn(startDate);
+        public DateRangeFilterBuilder ExceptFrom(DateTime? startDate) => RecurrenceBuilder.ExceptFrom(startDate);
 
         /// <inheritdoc/>
-        public DateRangeFilterBuilder ExceptEndingOn(DateTime? endDate) => RecurrenceBuilder.ExceptEndingOn(endDate);
+        public DateRangeFilterBuilder ExceptUntil(DateTime? endDate) => RecurrenceBuilder.ExceptUntil(endDate);
 
         /// <inheritdoc/>
         public DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate) => RecurrenceBuilder.ExceptBetween(startDate, endDate);

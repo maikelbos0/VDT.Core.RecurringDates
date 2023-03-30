@@ -104,7 +104,7 @@ namespace VDT.Core.RecurringDates {
         }
 
         /// <inheritdoc/>
-        public DateRangeFilterBuilder ExceptStartingOn(DateTime? startDate) {
+        public DateRangeFilterBuilder ExceptFrom(DateTime? startDate) {
             var builder = new DateRangeFilterBuilder(this) {
                 StartDate = startDate
             };
@@ -113,7 +113,7 @@ namespace VDT.Core.RecurringDates {
         }
 
         /// <inheritdoc/>
-        public DateRangeFilterBuilder ExceptEndingOn(DateTime? endDate) {
+        public DateRangeFilterBuilder ExceptUntil(DateTime? endDate) {
             var builder = new DateRangeFilterBuilder(this) {
                 EndDate = endDate
             };

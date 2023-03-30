@@ -109,22 +109,22 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
-        public void ExceptStartingOn() {
+        public void ExceptFrom() {
             var builder = new RecurrenceBuilder();
             var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = filterBuilder.ExceptStartingOn(new DateTime(2022, 2, 3));
+            var result = filterBuilder.ExceptFrom(new DateTime(2022, 2, 3));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
         }
 
         [Fact]
-        public void ExceptEndingOn() {
+        public void ExceptUntil() {
             var builder = new RecurrenceBuilder();
             var filterBuilder = new TestFilterBuilder(builder);
 
-            var result = filterBuilder.ExceptEndingOn(new DateTime(2022, 2, 5));
+            var result = filterBuilder.ExceptUntil(new DateTime(2022, 2, 5));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));

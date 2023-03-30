@@ -79,14 +79,14 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
         /// <returns>A builder to configure the date range filter</returns>
-        public static DateRangeFilterBuilder ExceptStartingOn(DateTime? startDate) => new RecurrenceBuilder().ExceptStartingOn(startDate);
+        public static DateRangeFilterBuilder ExceptFrom(DateTime? startDate) => new RecurrenceBuilder().ExceptFrom(startDate);
 
         /// <summary>
         /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
         /// </summary>
         /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
         /// <returns>A builder to configure the date range filter</returns>
-        public static DateRangeFilterBuilder ExceptEndingOn(DateTime? endDate) => new RecurrenceBuilder().ExceptEndingOn(endDate);
+        public static DateRangeFilterBuilder ExceptUntil(DateTime? endDate) => new RecurrenceBuilder().ExceptUntil(endDate);
 
         /// <summary>
         /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
