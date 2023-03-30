@@ -14,17 +14,40 @@
             <label class="form-check-label" for="applyDateRangeFilter">Apply date range filter</label>
         </div>
 
-        @if (ApplyDateRangeFilter) {
-            <div class="mb-3">
-                <label for="startDate" class="form-label">Start date</label>
-                <input type="date" class="form-control" id="startDate" @bind-value="@StartDate" />
+        <div class="mb-3">
+            <label for="startDate" class="form-label">Start date</label>
+            <input type="date" class="form-control" id="startDate" @bind-value="@StartDate" />
+        </div>
+
+        <div class="mb-3">
+            <label for="endDate" class="form-label">End date</label>
+            <input type="date" class="form-control" id="endDate" @bind-value="@EndDate" />
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="applyDateFilter" checked="@ApplyDateFilter" @onchange="() => ApplyDateFilter = !ApplyDateFilter" />
+            <label class="form-check-label" for="applyDateFilter">Apply date filter</label>
+        </div>
+
+        <div class="mb-3">
+            <label for="newDate" class="form-label">Dates</label>
+
+            <div class="input-group mb-3">
+                <input type="date" class="form-control" id="newDate" @bind-value="@NewDate" />
+                <button class="btn btn-primary" type="button" @onclick="AddDate">Add</button>
             </div>
 
-            <div class="mb-3">
-                <label for="endDate" class="form-label">End date</label>
-                <input type="date" class="form-control" id="endDate" @bind-value="@EndDate" />
-            </div>
-        }
+            @for (var i = 0; i < Dates.Count; i++) {
+                var index = i;
+
+                <div class="input-group mb-3">
+                    <input type="date" class="form-control" id="newDate" @bind-value="@Dates[index]" />
+                    <button class="btn btn-secondary" type="button" @onclick="() => Dates.RemoveAt(index)">Remove</button>
+                </div>
+            }
+        </div>
     </div>
 
     <div class="col-12 col-md-6 col-xl-4 mb-3 align-self-end">
@@ -40,13 +63,27 @@
     private bool ApplyDateRangeFilter { get; set; }
     private DateTime? StartDate { get; set; }
     private DateTime? EndDate { get; set; }
+    private bool ApplyDateFilter { get; set; }
+    private DateTime? NewDate { get; set; }
+    private List<DateTime> Dates { get; set; } = new();
     private Recurrence? Recurrence { get; set; }
+
+    private void AddDate() {
+        if (NewDate.HasValue) {
+            Dates.Add(NewDate.Value);
+            NewDate = null;
+        }
+    }
 
     private void ApplyFilters() {
         var recurrenceBuilder = Recurs.Every(1).Days();
 
         if (ApplyDateRangeFilter) {
             recurrenceBuilder.ExceptBetween(StartDate, EndDate);
+        }
+
+        if (ApplyDateFilter) {
+            recurrenceBuilder.ExceptOn(Dates);
         }
 
         Recurrence = recurrenceBuilder.Build();
