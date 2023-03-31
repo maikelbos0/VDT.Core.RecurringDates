@@ -245,3 +245,63 @@ var recurrence = Recurs
 // Get all valid days for the years 2010 to 2012; 2010-04-10, 2010-10-27, 2011-10-27, 2012-04-09 and 2012-10-26
 var dates = recurrence.GetDates(new DateTime(2010, 1, 1), new DateTime(2012, 12, 31)).ToList();
 ```
+
+## Custom filters
+
+If you need custom filtering functionality this is easily achieved by implementing the <code>IFilter</code> interface. To create your own filter builder you
+can inherit from the base <code>FilterBuilder</code> class and add extension methods to the <code>IRecurrenceBuilder</code> interface.
+
+Unfortunately compiler restrictions do not allow you to extend the static `Recurs` class, so you'll need to either manually instantiate the `RecurrenceBuilder`
+class, start with one of the existing starting methods on the `Recurs` class, or create your own starting point.
+
+### Example
+
+```
+public class WeekdayFilter : IFilter {
+    public ImmutableHashSet<DayOfWeek> DaysOfWeek { get; }
+
+    public WeekdayFilter(IEnumerable<DayOfWeek> daysOfWeek) {
+        DaysOfWeek = ImmutableHashSet.CreateRange(daysOfWeek);
+    }
+
+    public bool IsFiltered(DateTime date) => DaysOfWeek.Contains(date.DayOfWeek);
+}
+
+public class WeekdayFilterBuilder : FilterBuilder {
+    public List<DayOfWeek> DaysOfWeek { get; set; } = new List<DayOfWeek>();
+
+    public WeekdayFilterBuilder(RecurrenceBuilder recurrenceBuilder) : base(recurrenceBuilder) { }
+
+    public WeekdayFilterBuilder On(params DayOfWeek[] days)
+        => On(days.AsEnumerable());
+
+    public WeekdayFilterBuilder On(IEnumerable<DayOfWeek> days) {
+        DaysOfWeek.AddRange(days);
+        return this;
+    }
+
+    public override IFilter BuildFilter() => new WeekdayFilter(DaysOfWeek);
+}
+
+public static class RecurrenceBuilderExtensions {
+    public static WeekdayFilterBuilder ExceptOn(this IRecurrenceBuilder recurrenceBuilder, params DayOfWeek[] days)
+        => recurrenceBuilder.ExceptOn(days.AsEnumerable());
+
+    public static WeekdayFilterBuilder ExceptOn(this IRecurrenceBuilder recurrenceBuilder, IEnumerable<DayOfWeek> days) {
+        var builder = new WeekdayFilterBuilder(recurrenceBuilder.GetRecurrenceBuilder()).On(days);
+        recurrenceBuilder.GetRecurrenceBuilder().FilterBuilders.Add(builder);
+        return builder;
+    }
+}
+```
+
+```
+// Create a recurrence that repeats every day except on Wednesdays
+var recurrence = Recurs
+    .Daily()
+    .ExceptOn(DayOfWeek.Wednesday)
+    .Build();
+
+// Get all valid days for the first week of 2023; 2022-01-01, 2022-01-02, 2022-01-03, 2022-01-05, 2022-01-06 and 2022-01-07
+var dates = recurrence.GetDates(new DateTime(2010, 1, 1), new DateTime(2012, 12, 31)).ToList();
+```
