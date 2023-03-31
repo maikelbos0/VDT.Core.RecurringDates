@@ -76,7 +76,7 @@
     }
 
     private void ApplyFilters() {
-        var recurrenceBuilder = Recurs.Every(1).Days();
+        var recurrenceBuilder = Recurs.Daily();
 
         if (ApplyDateRangeFilter) {
             recurrenceBuilder.ExceptBetween(StartDate, EndDate);
