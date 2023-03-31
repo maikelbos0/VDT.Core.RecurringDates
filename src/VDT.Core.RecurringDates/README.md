@@ -9,17 +9,18 @@ Easily calculate ranges of recurring dates based on patterns in an intuitive and
   - Weekly, with options for first day of the week and which days of the week are valid
   - Montly, either for days of the month or specific days of the week in a month
 - Ability to combine patterns easily
+- Filters to exclude dates from patterns
 - Easy to use builder syntax
-- Fully customizable and extensible: it's easy to add your own patterns
+- Fully customizable and extensible: it's easy to add your own patterns and filters
 
 ## Builder syntax
 
 Builders are provided to help you easily set up a recurrence with patterns to calculate dates. Use the static `Recurs` class as a starting point to create a
 `RecurrenceBuilder` that lets you fluently build your recurrence:
 
-- `From(date)` sets a start date
-- `Until(date)` sets an end date
-- `StopAfter(date)` sets a maximum number of occurrences
+- `From(startDate)` sets a start date
+- `Until(endDate)` sets an end date
+- `StopAfter(occurrences)` sets a maximum number of occurrences
 - `Daily()` adds a pattern that repeats every day; it returns a builder that allows you to configure the day-based pattern
 - `Every(interval).Days()` adds a pattern that repeats every `interval` days; it returns a builder that allows you to configure the day-based pattern
 - `Weekly()` adds a pattern that repeats every week; it returns a builder that allows you to configure the week-based pattern
@@ -27,6 +28,10 @@ Builders are provided to help you easily set up a recurrence with patterns to ca
 - `Monthly()` adds a pattern that repeats every month; it returns a builder that allows you to configure the month-based pattern
 - `Every(interval).Months()` adds a pattern that repeats every `interval` months; it returns a builder that allows you to configure the month-based pattern
 - `WithDateCaching()` enables caching of date validity which helps performance but increases memory usage
+- `ExceptOn(dates)` adds a filter that invalidates the specified `dates`; it returns a builder that allows you to configure the filter
+- `ExceptFrom(startDate)` adds a filter that invalidates all dates from `startDate`
+- `ExceptUntil(endDate)` adds a filter that invalidates all dates up to `endDate`
+- `ExceptBetween(startDate, endDate)` adds a filter that invalidates all dates between `startDate` and `endDate`
 
 The pattern builders for days, weeks and months in turn allow you to configure them as desired:
 
@@ -44,6 +49,11 @@ The pattern builders for days, weeks and months in turn allow you to configure t
   - The last days of the month that are valid (e.g. second last day of the month)
   - If no days are provided, the day of the month of the reference date will be used
   - The option to enable caching to speed up this relatively slow pattern at a cost of increased memory usage
+
+The filter builders also allow some configuration after adding them:
+
+- A date filter can be provided with addditional dates to filter
+- A date range filter can be provided with a new start and end date
 
 It's simple to chain calls to the above methods to set the limits and add multiple patterns for a single recurrence.
 
@@ -83,6 +93,19 @@ var fridays = Recurs
 
 // Get all valid dates: 2022-04-29, 2022-05-27 and 2022-06-24
 var dates = fridays.GetDates();
+
+
+// Build a recurrence that repeats every weekday in December 2022, except for Christmas
+var workingDays = Recurs
+    .Daily()
+    .SkipWeekends()
+    .From(new DateTime(2022, 12, 1))
+    .Until(new DateTime(2022, 12, 31))
+    .ExceptOn(new DateTime(2022, 12, 25), new DateTime(2022, 12, 26))
+    .Build();
+
+// Get all valid dates: all week days in December except Christmas
+var dates = workingDays.GetDates();
 ```
 
 ## Manual setup
@@ -98,7 +121,9 @@ var every9days = new Recurrence(
     startDate: new DateTime(2022, 1, 1),
     endDate: DateTime.MaxValue,
     occurrences: null,
-    patterns: new DailyRecurrencePattern(interval: 9, referenceDate: new DateTime(2022, 1, 1), weekendHandling: null)
+    patterns: new[] { new DailyRecurrencePattern(interval: 9, referenceDate: new DateTime(2022, 1, 1), weekendHandling: null) },
+    filters: Enumerable.Empty<IFilter>(),
+    cacheDates: false
 );
 
 // Get all valid days for February 2022: 2022-02-06, 2022-02-15 and 2022-02-24
@@ -115,7 +140,9 @@ var doublePattern = new Recurrence(
     patterns: new RecurrencePattern[] {
         new WeeklyRecurrencePattern(interval: 2, referenceDate: new DateTime(2022, 1, 1), firstDayOfWeek: DayOfWeek.Sunday, daysOfWeek: new[] { DayOfWeek.Monday, DayOfWeek.Tuesday }),
         new MonthlyRecurrencePattern(interval: 1, referenceDate: new DateTime(2022, 1, 1), daysOfMonth: new[] { 1, 3 })
-    }
+    },
+    filters: Enumerable.Empty<IFilter>(),
+    cacheDates: false
 );
 
 // Get all valid days for February 2022: 2022-02-01, 2022-02-03, 2022-02-07, 2022-02-08, 2022-02-22 and 2022-02-23
@@ -127,18 +154,34 @@ var fridays = new Recurrence(
     startDate: new DateTime(2022, 4, 1),
     endDate: DateTime.MaxValue,
     occurrences: 3,
-    patterns: new MonthlyRecurrencePattern(interval: 1, referenceDate: new DateTime(2022, 4, 1), daysOfWeek: new[] { (DayOfWeekInMonth.Last, DayOfWeek.Friday) })
+    patterns: new[] { new MonthlyRecurrencePattern(interval: 1, referenceDate: new DateTime(2022, 4, 1), daysOfWeek: new[] { (DayOfWeekInMonth.Last, DayOfWeek.Friday) }) },
+    filters: Enumerable.Empty<IFilter>(),
+    cacheDates: false
+
 );
 
 // Get all valid dates: 2022-04-29, 2022-05-27 and 2022-06-24
 var dates = fridays.GetDates();
-```
+
+
+// Create a recurrence that repeats every weekday in December 2022, except for Christmas
+var workingDays = new Recurrence(
+    startDate: new DateTime(2022, 12, 1),
+    endDate: new DateTime(2022, 12, 31),
+    occurrences: null,
+    patterns: new[] { new DailyRecurrencePattern(interval: 1, weekendHandling: RecurrencePatternWeekendHandling.Skip) },
+    filters: new[] { new DateFilter(new DateTime(2022, 12, 25), new DateTime(2022, 12, 26)) },
+    cacheDates: false
+);
+
+// Get all valid dates: all week days in December except Christmas
+var dates = workingDays.GetDates();```
 
 ## Custom patterns
 
 If you have a need for adding custom patterns, you can create your own by inheriting from the base `RecurrencePattern` class. In addition, you can create your
-own builder by inheriting from the base `RecurrencePatternBuilder<TBuilder>` and adding extension methods to the `RecurrenceBuilder` and 
-`RecurrencePatternBuilderStart` classes.
+own builder by inheriting from the base `RecurrencePatternBuilder<TBuilder>` and adding extension methods to the `RecurrenceBuilder` interface and 
+`RecurrencePatternBuilderStart` class.
 
 Unfortunately compiler restrictions do not allow you to extend the static `Recurs` class, so you'll need to either manually instantiate the `RecurrenceBuilder`
 class, start with one of the existing starting methods on the `Recurs` class, or create your own starting point.
