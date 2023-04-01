@@ -4,12 +4,19 @@
 
 <p>
     Easily calculate ranges of recurring dates based on patterns in an intuitive and flexible way. Use the builder to create your recurrences with 
-    combinations of daily, weekly or monthly patterns with various options, or construct the recurrence objects directly.
+    combinations of daily, weekly or monthly patterns with various options, or construct the recurrence objects directly. Add standard or custom filters to 
+    block out certain dates or date ranges, either using the builder pattern or by passing them directly to the recurrence object.
 </p>
 
 <p>
     Out of the box, it is possible to combine various daily, weekly and monthly patterns, but if this does not satisfy your needs it is easy to implement and
     use custom patterns by inheriting from the <code>RecurrencePattern</code> base class. In addition, you can create your own builder by inheriting from the
-    base <code>RecurrencePatternBuilder&lt;TBuilder&gt;</code> and adding extension methods to the <code>RecurrenceBuilder</code> and
-    <code>RecurrencePatternBuilderStart</code> classes.
+    base <code>RecurrencePatternBuilder&lt;TBuilder&gt;</code> and adding extension methods to the <code>IRecurrenceBuilder</code> interface and
+    <code>RecurrencePatternBuilderStart</code> class.
+</p>
+
+<p>
+    This project comes with built in filters for invalidating ranges of dates or specific dates. If you need custom filtering functionality this is easily
+    achieved by implementing the <code>IFilter</code> interface. To create your own filter builder you can inherit from the base <code>FilterBuilder</code>
+    class and add extension methods to the <code>IRecurrenceBuilder</code> interface.
 </p>

@@ -18,7 +18,7 @@ namespace VDT.Core.RecurringDates {
         /// <summary>
         /// Gets or sets the days of the week which are valid for this recurrence pattern
         /// </summary>
-        public HashSet<DayOfWeek> DaysOfWeek { get; set; } = new HashSet<DayOfWeek>();
+        public List<DayOfWeek> DaysOfWeek { get; set; } = new List<DayOfWeek>();
 
         /// <summary>
         /// Create a builder for composing patterns for dates that recur every week or every several weeks
@@ -51,7 +51,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="days">Days of the week that should be added</param>
         /// <returns>A reference to this recurrence pattern builder</returns>
         public WeeklyRecurrencePatternBuilder On(IEnumerable<DayOfWeek> days) {
-            DaysOfWeek.UnionWith(days);
+            DaysOfWeek.AddRange(days);
             return this;
         }
 

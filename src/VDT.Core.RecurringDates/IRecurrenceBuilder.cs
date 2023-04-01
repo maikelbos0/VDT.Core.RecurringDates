@@ -1,16 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VDT.Core.RecurringDates {
     /// <summary>
     /// Builder for date recurrences
     /// </summary>
     public interface IRecurrenceBuilder {
-        /// <summary>
-        /// Gets the actual recurrence builder implementation for this interface
-        /// </summary>
-        /// <returns>The actual recurrence builder</returns>
-        RecurrenceBuilder GetRecurrenceBuilder();
-
         /// <summary>
         /// Sets the inclusive start date for this recurrence
         /// </summary>
@@ -62,6 +57,42 @@ namespace VDT.Core.RecurringDates {
         /// </summary>
         /// <returns>A reference to this recurrence pattern builder</returns>
         RecurrenceBuilder WithDateCaching();
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified dates
+        /// </summary>
+        /// <param name="dates">Dates to invalidate</param>
+        /// <returns>A builder to configure the date filter</returns>
+        DateFilterBuilder ExceptOn(params DateTime[] dates);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified dates
+        /// </summary>
+        /// <param name="dates">Dates to invalidate</param>
+        /// <returns>A builder to configure the date filter</returns>
+        DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified date range
+        /// </summary>
+        /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+        /// <returns>A builder to configure the date range filter</returns>
+        DateRangeFilterBuilder ExceptFrom(DateTime? startDate);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified date range
+        /// </summary>
+        /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+        /// <returns>A builder to configure the date range filter</returns>
+        DateRangeFilterBuilder ExceptUntil(DateTime? endDate);
+
+        /// <summary>
+        /// Adds a filter to this recurrence for the specified date range
+        /// </summary>
+        /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+        /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+        /// <returns>A builder to configure the date range filter</returns>
+        DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate);
 
         /// <summary>
         /// Build the recurrence based on the provided specifications and patterns

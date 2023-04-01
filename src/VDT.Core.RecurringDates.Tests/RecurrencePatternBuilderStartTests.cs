@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -8,7 +9,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData(-1)]
         [InlineData(int.MinValue)]
         public void Constructor_Throws_For_Invalid_Interval(int interval) {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new RecurrencePatternBuilderStart(new RecurrenceBuilder(), interval));
+            var action = () => new RecurrencePatternBuilderStart(new RecurrenceBuilder(), interval);
+
+            action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Fact]
@@ -18,9 +21,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = start.Days();
 
-            Assert.Same(recurrenceBuilder, result.RecurrenceBuilder);
-            Assert.Contains(result, recurrenceBuilder.PatternBuilders);
-            Assert.Equal(2, result.Interval);
+            result.RecurrenceBuilder.Should().BeSameAs(recurrenceBuilder);
+            recurrenceBuilder.PatternBuilders.Should().Contain(result);
+            result.Interval.Should().Be(2);
         }
 
         [Fact]
@@ -30,9 +33,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = start.Weeks();
 
-            Assert.Same(recurrenceBuilder, result.RecurrenceBuilder);
-            Assert.Contains(result, recurrenceBuilder.PatternBuilders);
-            Assert.Equal(2, result.Interval);
+            result.RecurrenceBuilder.Should().BeSameAs(recurrenceBuilder);
+            recurrenceBuilder.PatternBuilders.Should().Contain(result);
+            result.Interval.Should().Be(2);
         }
 
         [Fact]
@@ -42,9 +45,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = start.Months();
 
-            Assert.Same(recurrenceBuilder, result.RecurrenceBuilder);
-            Assert.Contains(result, recurrenceBuilder.PatternBuilders);
-            Assert.Equal(2, result.Interval);
+            result.RecurrenceBuilder.Should().BeSameAs(recurrenceBuilder);
+            recurrenceBuilder.PatternBuilders.Should().Contain(result);
+            result.Interval.Should().Be(2);
         }
     }
 }

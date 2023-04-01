@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VDT.Core.RecurringDates {
     /// <summary>
@@ -32,9 +33,6 @@ namespace VDT.Core.RecurringDates {
         public abstract RecurrencePattern BuildPattern();
 
         /// <inheritdoc/>
-        public RecurrenceBuilder GetRecurrenceBuilder() => RecurrenceBuilder;
-
-        /// <inheritdoc/>
         public IRecurrenceBuilder From(DateTime? startDate) => RecurrenceBuilder.From(startDate);
 
         /// <inheritdoc/>
@@ -60,6 +58,21 @@ namespace VDT.Core.RecurringDates {
 
         /// <inheritdoc/>
         public Recurrence Build() => RecurrenceBuilder.Build();
+
+        /// <inheritdoc/>
+        public DateFilterBuilder ExceptOn(params DateTime[] dates) => RecurrenceBuilder.ExceptOn(dates);
+
+        /// <inheritdoc/>
+        public DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates) => RecurrenceBuilder.ExceptOn(dates);
+
+        /// <inheritdoc/>
+        public DateRangeFilterBuilder ExceptFrom(DateTime? startDate) => RecurrenceBuilder.ExceptFrom(startDate);
+
+        /// <inheritdoc/>
+        public DateRangeFilterBuilder ExceptUntil(DateTime? endDate) => RecurrenceBuilder.ExceptUntil(endDate);
+
+        /// <inheritdoc/>
+        public DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate) => RecurrenceBuilder.ExceptBetween(startDate, endDate);
     }
 
     /// <summary>

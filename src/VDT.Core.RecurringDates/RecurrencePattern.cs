@@ -22,7 +22,7 @@ namespace VDT.Core.RecurringDates {
         /// <param name="referenceDate">Date to use as a reference for calculating periods when the interval is greater than 1; defaults to <see cref="DateTime.MaxValue"/></param>
         public RecurrencePattern(int interval, DateTime? referenceDate) {
             Interval = Guard.IsPositive(interval);
-            ReferenceDate = referenceDate?.Date ?? DateTime.MinValue;
+            ReferenceDate = (referenceDate ?? DateTime.MinValue).Date;
         }
 
         /// <summary>

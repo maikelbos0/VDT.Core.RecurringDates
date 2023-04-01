@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -10,7 +9,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var startDate = new DateTime(2022, 1, 15);
             var pattern = new MonthlyRecurrencePattern(1, startDate);
 
-            Assert.Equal(startDate.Day, Assert.Single(pattern.DaysOfMonth));
+            pattern.DaysOfMonth.Should().ContainSingle().Which.Should().Be(startDate.Day);
         }
 
         [Theory]
@@ -18,7 +17,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData(9, 19, -1)]
         [InlineData(int.MinValue)]
         public void Constructor_Throws_For_Invalid_DaysOfMonth(params int[] daysOfMonth) {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new MonthlyRecurrencePattern(1, DateTime.MinValue, daysOfMonth: daysOfMonth));
+            var action = () => new MonthlyRecurrencePattern(1, DateTime.MinValue, daysOfMonth: daysOfMonth);
+
+            action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Theory]
@@ -27,7 +28,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void CacheDaysOfMonth(bool cacheDaysOfMonth, bool expectedCacheDaysOfMonth) {
             var pattern = new MonthlyRecurrencePattern(1, DateTime.MinValue, cacheDaysOfMonth: cacheDaysOfMonth);
 
-            Assert.Equal(expectedCacheDaysOfMonth, pattern.CacheDaysOfMonth);
+            pattern.CacheDaysOfMonth.Should().Be(expectedCacheDaysOfMonth);
         }
 
         [Theory]
@@ -42,7 +43,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValid(int interval, DateTime referenceDate, DateTime date, bool expectedIsValid, params int[] daysOfMonth) {
             var pattern = new MonthlyRecurrencePattern(interval, referenceDate, daysOfMonth: daysOfMonth);
 
-            Assert.Equal(expectedIsValid, pattern.IsValid(date));
+            pattern.IsValid(date).Should().Be(expectedIsValid);
         }
 
         [Theory]
@@ -55,7 +56,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = pattern.GetDaysOfMonth(new DateTime(year, month, 1));
 
-            Assert.Equal(expectedDays.ToHashSet(), result);
+            result.Should().BeEquivalentTo(expectedDays);
         }
 
         [Theory]
@@ -73,7 +74,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = pattern.GetDaysOfMonth(new DateTime(year, month, 1));
 
-            Assert.Equal(expectedDays.ToHashSet(), result);
+            result.Should().BeEquivalentTo(expectedDays);
         }
 
         [Theory]
@@ -89,7 +90,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = pattern.GetDaysOfMonth(new DateTime(year, month, 1));
 
-            Assert.Equal(expectedDays.ToHashSet(), result);
+            result.Should().BeEquivalentTo(expectedDays);
         }
 
         [Theory]
@@ -103,7 +104,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = pattern.GetDaysOfMonth(new DateTime(year, month, 1));
 
-            Assert.Equal(expectedDays.ToHashSet(), result);
+            result.Should().BeEquivalentTo(expectedDays);
         }
 
         [Fact]
@@ -112,7 +113,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = pattern.GetDaysOfMonth(new DateTime(2022, 1, 1));
 
-            Assert.Equal(new HashSet<int>() { 27, 29, 31 }, result);
+            result.Should().BeEquivalentTo(new[] { 27, 29, 31 });
         }
 
         [Fact]
@@ -126,9 +127,7 @@ namespace VDT.Core.RecurringDates.Tests {
                 true
             );
 
-            var result = pattern.GetDaysOfMonth(new DateTime(2022, 1, 1));
-
-            Assert.Same(result, pattern.GetDaysOfMonth(new DateTime(2022, 1, 1)));
+            pattern.GetDaysOfMonth(new DateTime(2022, 1, 1)).Should().BeSameAs(pattern.GetDaysOfMonth(new DateTime(2022, 1, 1)));
         }
 
         [Fact]
@@ -142,9 +141,7 @@ namespace VDT.Core.RecurringDates.Tests {
                 false
             );
 
-            var result = pattern.GetDaysOfMonth(new DateTime(2022, 1, 1));
-
-            Assert.NotSame(result, pattern.GetDaysOfMonth(new DateTime(2022, 1, 1)));
+            pattern.GetDaysOfMonth(new DateTime(2022, 1, 1)).Should().NotBeSameAs(pattern.GetDaysOfMonth(new DateTime(2022, 1, 1)));
         }
     }
 }
