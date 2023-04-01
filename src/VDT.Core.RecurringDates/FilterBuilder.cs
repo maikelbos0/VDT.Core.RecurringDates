@@ -26,9 +26,6 @@ namespace VDT.Core.RecurringDates {
         public abstract IFilter BuildFilter();
 
         /// <inheritdoc/>
-        public RecurrenceBuilder GetRecurrenceBuilder() => RecurrenceBuilder;
-
-        /// <inheritdoc/>
         public IRecurrenceBuilder From(DateTime? startDate) => RecurrenceBuilder.From(startDate);
 
         /// <inheritdoc/>

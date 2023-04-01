@@ -39,9 +39,6 @@ namespace VDT.Core.RecurringDates {
         public List<FilterBuilder> FilterBuilders { get; set; } = new();
 
         /// <inheritdoc/>
-        public RecurrenceBuilder GetRecurrenceBuilder() => this;
-
-        /// <inheritdoc/>
         public IRecurrenceBuilder From(DateTime? startDate) {
             StartDate = startDate;
             return this;
