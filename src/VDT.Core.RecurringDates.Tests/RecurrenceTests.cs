@@ -125,6 +125,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
         [Theory]
         [InlineData("2022-01-01", false)]
+        [InlineData("2022-01-02", false)]
         [InlineData("2022-01-03", true)]
         [InlineData("2022-01-04", false)]
         [InlineData("2022-01-05", true)]
@@ -138,13 +139,14 @@ namespace VDT.Core.RecurringDates.Tests {
 
         [Fact]
         public void IsValid_Removes_Time_From_Date() {
-            var recurrence = new Recurrence(new DateTime(2022, 1, 1, 11, 12, 30), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
+            var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4), null, new[] { new DailyRecurrencePattern(2, new DateTime(2022, 1, 1)) }, Enumerable.Empty<IFilter>(), false);
 
             recurrence.IsValid(new DateTime(2022, 1, 1, 11, 12, 30)).Should().BeTrue();
         }
 
         [Theory]
         [InlineData("2022-01-01", false)]
+        [InlineData("2022-01-02", false)]
         [InlineData("2022-01-03", true)]
         [InlineData("2022-01-04", false)]
         [InlineData("2022-01-05", true)]
@@ -205,7 +207,18 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData("2022-01-02", true)]
         [InlineData("2022-01-03", false)]
         [InlineData("2022-01-04", true)]
-        public void IsValidInPatternsAndFilters_Filters(DateTime date, bool expectedIsValid) {
+        public void IsValidInPatternsAndFilters_Single_Filter(DateTime date, bool expectedIsValid) {
+            var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, new[] { new DateFilter(new[] { new DateTime(2022, 1, 1), new DateTime(2022, 1, 3) }) }, false);
+
+            recurrence.IsValidInPatternsAndFilters(date).Should().Be(expectedIsValid);
+        }
+
+        [Theory]
+        [InlineData("2022-01-01", false)]
+        [InlineData("2022-01-02", true)]
+        [InlineData("2022-01-03", false)]
+        [InlineData("2022-01-04", true)]
+        public void IsValidInPatternsAndFilters_Double_Filter(DateTime date, bool expectedIsValid) {
             var recurrence = new Recurrence(DateTime.MinValue, DateTime.MaxValue, null, new[] { new DailyRecurrencePattern(1, new DateTime(2022, 1, 1)), }, new[] { new DateFilter(new[] { new DateTime(2022, 1, 1) }), new DateFilter(new[] { new DateTime(2022, 1, 3) }) }, false);
 
             recurrence.IsValidInPatternsAndFilters(date).Should().Be(expectedIsValid);
