@@ -124,6 +124,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = patternBuilder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
         }
 
@@ -135,6 +136,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = patternBuilder.ExceptFrom(new DateTime(2022, 2, 3));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
         }
 
@@ -146,6 +148,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = patternBuilder.ExceptUntil(new DateTime(2022, 2, 5));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));
         }
 
@@ -158,6 +161,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
+            builder.FilterBuilders.Should().Contain(result);
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));
         }
 

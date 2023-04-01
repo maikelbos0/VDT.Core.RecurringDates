@@ -100,6 +100,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = builder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
         }
 
@@ -110,6 +111,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = builder.ExceptFrom(new DateTime(2022, 2, 3));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
         }
 
@@ -120,6 +122,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = builder.ExceptUntil(new DateTime(2022, 2, 5));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));
         }
 
@@ -130,6 +133,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var result = builder.ExceptBetween(new DateTime(2022, 2, 3), new DateTime(2022, 2, 5));
 
             result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));
         }
