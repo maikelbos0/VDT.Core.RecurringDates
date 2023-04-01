@@ -14,7 +14,7 @@ namespace VDT.Core.RecurringDates.Tests {
                 }
             };
 
-            builder.Should().Be(builder.On(new DateTime(2022, 2, 2), new DateTime(2022, 2, 4)));
+            builder.Should().BeSameAs(builder.On(new DateTime(2022, 2, 2), new DateTime(2022, 2, 4)));
 
             builder.Dates.Should().Equal(
                 new DateTime(2022, 2, 1),

@@ -12,10 +12,24 @@ namespace VDT.Core.RecurringDates.Tests {
         }
 
         [Fact]
+        public void Constructor_Removes_Time_From_StartDate() {
+            var filter = new DateRangeFilter(new DateTime(2022, 1, 2, 11, 12, 30), null);
+
+            filter.StartDate.Should().Be(new DateTime(2022, 1, 2));
+        }
+
+        [Fact]
         public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 1), null);
 
             filter.EndDate.Should().Be(DateTime.MaxValue.Date);
+        }
+
+        [Fact]
+        public void Constructor_Removes_Time_From_EndDate() {
+            var filter = new DateRangeFilter(null, new DateTime(2022, 1, 3, 12, 37, 30));
+
+            filter.EndDate.Should().Be(new DateTime(2022, 1, 3));
         }
 
         [Theory]
