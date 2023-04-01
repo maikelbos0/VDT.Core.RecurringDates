@@ -28,7 +28,7 @@ Builders are provided to help you easily set up a recurrence with patterns to ca
 - `Monthly()` adds a pattern that repeats every month; it returns a builder that allows you to configure the month-based pattern
 - `Every(interval).Months()` adds a pattern that repeats every `interval` months; it returns a builder that allows you to configure the month-based pattern
 - `WithDateCaching()` enables caching of date validity which helps performance but increases memory usage
-- `ExceptOn(dates)` adds a filter that invalidates the specified `dates`; it returns a builder that allows you to configure the filter
+- `ExceptOn(dates)` adds a filter that invalidates the specified `dates`
 - `ExceptFrom(startDate)` adds a filter that invalidates all dates from `startDate`
 - `ExceptUntil(endDate)` adds a filter that invalidates all dates up to `endDate`
 - `ExceptBetween(startDate, endDate)` adds a filter that invalidates all dates between `startDate` and `endDate`
@@ -157,7 +157,6 @@ var fridays = new Recurrence(
     patterns: new[] { new MonthlyRecurrencePattern(interval: 1, referenceDate: new DateTime(2022, 4, 1), daysOfWeek: new[] { (DayOfWeekInMonth.Last, DayOfWeek.Friday) }) },
     filters: Enumerable.Empty<IFilter>(),
     cacheDates: false
-
 );
 
 // Get all valid dates: 2022-04-29, 2022-05-27 and 2022-06-24
@@ -175,7 +174,8 @@ var workingDays = new Recurrence(
 );
 
 // Get all valid dates: all week days in December except Christmas
-var dates = workingDays.GetDates();```
+var dates = workingDays.GetDates();
+```
 
 ## Custom patterns
 
