@@ -69,9 +69,9 @@ namespace VDT.Core.RecurringDates.Tests {
         [Fact]
         public void On_LastDaysOfMonth() {
             var builder = new MonthlyRecurrencePatternBuilder(new RecurrenceBuilder(), 1) {
-                LastDaysOfMonth = new() { 
-                    LastDayOfMonth.Last, 
-                    LastDayOfMonth.FourthLast 
+                LastDaysOfMonth = new() {
+                    LastDayOfMonth.Last,
+                    LastDayOfMonth.FourthLast
                 }
             };
 
@@ -79,8 +79,8 @@ namespace VDT.Core.RecurringDates.Tests {
 
             builder.LastDaysOfMonth.Should().Equal(
                 LastDayOfMonth.Last,
-                LastDayOfMonth.FourthLast, 
-                LastDayOfMonth.SecondLast, 
+                LastDayOfMonth.FourthLast,
+                LastDayOfMonth.SecondLast,
                 LastDayOfMonth.FifthLast
             );
         }

@@ -27,7 +27,7 @@ namespace VDT.Core.RecurringDates {
                     => FitsInterval(date)
                         || (WeekendHandling == RecurrencePatternWeekendHandling.AdjustToMonday && (FitsInterval(date.AddDays(-1)) || FitsInterval(date.AddDays(-2))))
                         || (WeekendHandling == RecurrencePatternWeekendHandling.AdjustToWeekday && FitsInterval(date.AddDays(-1))),
-                DayOfWeek.Friday 
+                DayOfWeek.Friday
                     => FitsInterval(date)
                         || (WeekendHandling == RecurrencePatternWeekendHandling.AdjustToFriday && (FitsInterval(date.AddDays(1)) || FitsInterval(date.AddDays(2))))
                         || (WeekendHandling == RecurrencePatternWeekendHandling.AdjustToWeekday && FitsInterval(date.AddDays(1))),

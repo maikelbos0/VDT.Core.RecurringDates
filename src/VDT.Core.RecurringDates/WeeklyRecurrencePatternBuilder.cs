@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
-using System.Globalization;
 
 namespace VDT.Core.RecurringDates {
     /// <summary>

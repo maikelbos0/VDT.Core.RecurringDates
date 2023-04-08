@@ -9,7 +9,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
             builder.Should().BeSameAs(builder.WithWeekendHandling(RecurrencePatternWeekendHandling.AdjustToFriday));
-            
+
             builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.AdjustToFriday);
         }
 
