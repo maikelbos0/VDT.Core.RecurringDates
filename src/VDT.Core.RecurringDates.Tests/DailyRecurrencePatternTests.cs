@@ -37,7 +37,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData(RecurrencePatternWeekendHandling.AdjustToWeekday, 9, "2022-12-03", "2022-12-09", false)]
         public void IsValid(RecurrencePatternWeekendHandling weekendHandling, int interval, DateTime referenceDate, DateTime date, bool expectedIsValid) {
             var pattern = new DailyRecurrencePattern(interval, referenceDate, weekendHandling);
-            
+
             pattern.IsValid(date).Should().Be(expectedIsValid);
         }
     }

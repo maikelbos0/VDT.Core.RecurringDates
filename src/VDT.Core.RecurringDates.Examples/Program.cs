@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Threading.Tasks;
 using VDT.Core.RecurringDates.Examples;
 
 namespace VDT.Core.Blazor.Wizard.Examples {
