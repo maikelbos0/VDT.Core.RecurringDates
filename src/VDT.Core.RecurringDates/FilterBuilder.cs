@@ -65,6 +65,9 @@ namespace VDT.Core.RecurringDates {
         public DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate) => RecurrenceBuilder.ExceptBetween(startDate, endDate);
 
         /// <inheritdoc/>
+        public RecurrenceFilterBuilder ExceptIntersecting(Recurrence recurrence) => RecurrenceBuilder.ExceptIntersecting(recurrence);
+
+        /// <inheritdoc/>
         public Recurrence Build() => RecurrenceBuilder.Build();
     }
 }
