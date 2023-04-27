@@ -110,6 +110,13 @@ namespace VDT.Core.RecurringDates {
         }
 
         /// <inheritdoc/>
+        public RecurrenceFilterBuilder ExceptIntersecting(Recurrence recurrence) {
+            var builder = new RecurrenceFilterBuilder(this, recurrence);
+            FilterBuilders.Add(builder);
+            return builder;
+        }
+
+        /// <inheritdoc/>
         public DateRangeFilterBuilder ExceptUntil(DateTime? endDate) {
             var builder = new DateRangeFilterBuilder(this) {
                 EndDate = endDate

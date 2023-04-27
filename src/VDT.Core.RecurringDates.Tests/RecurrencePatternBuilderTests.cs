@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -163,6 +164,19 @@ namespace VDT.Core.RecurringDates.Tests {
             result.StartDate.Should().Be(new DateTime(2022, 2, 3));
             builder.FilterBuilders.Should().Contain(result);
             result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+        }
+
+        [Fact]
+        public void ExceptIntersecting() {
+            var recurrence = new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
+            var builder = new RecurrenceBuilder();
+            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+
+            var result = patternBuilder.ExceptIntersecting(recurrence);
+
+            result.RecurrenceBuilder.Should().BeSameAs(builder);
+            builder.FilterBuilders.Should().Contain(result);
+            result.Recurrence.Should().BeSameAs(recurrence);
         }
 
         [Fact]

@@ -9,13 +9,11 @@
 
 	<PropertyGroup>
 		<PackageId>VDT.Core.RecurringDates</PackageId>
-		<Version>3.0.0</Version>
+		<Version>3.1.0</Version>
 		<Title>VDT.Core.RecurringDates</Title>
 		<PackageIcon>icon_128.png</PackageIcon>
 		<Description>Easily calculate ranges of recurring dates based on patterns such as every 3 days, every Friday, every third Tuesday of every second month, in an intuitive and flexible way</Description>
-		<PackageReleaseNotes>- Added filters to be able to exclude certain dates or date ranges
-- Added IsValid method on the recurrence class
-- Fixed an overflow bug caused by DateTime.MaxValue having a time</PackageReleaseNotes>
+		<PackageReleaseNotes>- Added filter to exclude dates valid for a different recurrence</PackageReleaseNotes>
 		<Authors>Maikel Bos</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Maikel Bos</Copyright>

@@ -3,8 +3,8 @@
 <h1>Filters</h1>
 
 <p>
-    The displayed recurrence uses a a daily pattern that repeats every day without a start or end date. Use below form to apply a date range filter and/or date
-    filter to remove specific dates from the recurrence.
+    The displayed recurrence uses a a daily pattern that repeats every day without a start or end date. Use below form to apply a date range filter, date 
+    filter and/or daily recurrence filter to invalidate dates in the recurrence.
 </p>
 
 <div class="row">
@@ -50,6 +50,23 @@
         </div>
     </div>
 
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="applyRecurrenceFilter" checked="@ApplyRecurrenceFilter" @onchange="() => ApplyRecurrenceFilter = !ApplyRecurrenceFilter" />
+            <label class="form-check-label" for="applyRecurrenceFilter">Apply recurrence filter</label>
+        </div>
+
+        <div class="mb-3">
+            <label for="interval" class="form-label">Interval</label>
+            <input type="number" class="form-control" id="interval" @bind-value="@Interval" min="1" />
+        </div>
+
+        <div class="mb-3">
+            <label for="referenceDate" class="form-label">Interval reference date</label>
+            <input type="date" class="form-control" id="referenceDate" @bind-value="@ReferenceDate" />
+        </div>
+    </div>
+
     <div class="col-12 col-md-6 col-xl-4 mb-3 align-self-end">
         <button class="btn btn-primary w-100" @onclick="ApplyFilters">Apply filters</button>
     </div>
@@ -66,6 +83,9 @@
     private bool ApplyDateFilter { get; set; }
     private DateTime? NewDate { get; set; }
     private List<DateTime> Dates { get; set; } = new();
+    private bool ApplyRecurrenceFilter { get; set; }
+    public int Interval { get; set; } = 1;
+    private DateTime? ReferenceDate { get; set; }
     private Recurrence? Recurrence { get; set; }
 
     private void AddDate() {
@@ -84,6 +104,15 @@
 
         if (ApplyDateFilter) {
             recurrenceBuilder.ExceptOn(Dates);
+        }
+
+        if (ApplyRecurrenceFilter) {
+            recurrenceBuilder.ExceptIntersecting(
+                Recurs
+                    .Every(Interval)
+                    .Days()
+                    .WithReferenceDate(ReferenceDate)
+                    .Build());
         }
 
         Recurrence = recurrenceBuilder.Build();

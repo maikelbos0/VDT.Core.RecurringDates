@@ -95,6 +95,13 @@ namespace VDT.Core.RecurringDates {
         DateRangeFilterBuilder ExceptBetween(DateTime? startDate, DateTime? endDate);
 
         /// <summary>
+        /// Adds a filter to this recurrence for the specified recurrence
+        /// </summary>
+        /// <param name="recurrence">Recurrence to check for dates to invalidate</param>
+        /// <returns>A builder to configure the recurrence filter</returns>
+        RecurrenceFilterBuilder ExceptIntersecting(Recurrence recurrence);
+
+        /// <summary>
         /// Build the recurrence based on the provided specifications and patterns
         /// </summary>
         /// <returns>The composed recurrence</returns>

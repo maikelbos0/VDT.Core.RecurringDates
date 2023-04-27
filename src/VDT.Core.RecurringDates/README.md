@@ -32,6 +32,7 @@ Builders are provided to help you easily set up a recurrence with patterns to ca
 - `ExceptFrom(startDate)` adds a filter that invalidates all dates from `startDate`
 - `ExceptUntil(endDate)` adds a filter that invalidates all dates up to `endDate`
 - `ExceptBetween(startDate, endDate)` adds a filter that invalidates all dates between `startDate` and `endDate`
+- `ExceptIntersecting(recurrence)` adds a filter that invalidates all dates that are valid for `recurrence`
 
 The pattern builders for days, weeks and months in turn allow you to configure them as desired:
 
@@ -54,6 +55,7 @@ The filter builders also allow some configuration after adding them:
 
 - A date filter can be provided with addditional dates to filter
 - A date range filter can be provided with a new start and end date
+- A recurrence filter can be provided with a different recurrence
 
 It's simple to chain calls to the above methods to set the limits and add multiple patterns for a single recurrence.
 
