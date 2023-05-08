@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using VDT.Core.RecurringDates.Examples;
 
-namespace VDT.Core.Blazor.Wizard.Examples {
+namespace VDT.Core.RecurringDates.Examples {
     public class Program {
         public static async Task Main(string[] args) {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
