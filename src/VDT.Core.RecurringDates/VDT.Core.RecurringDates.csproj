@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -9,11 +9,12 @@
 
 	<PropertyGroup>
 		<PackageId>VDT.Core.RecurringDates</PackageId>
-		<Version>3.1.0</Version>
+		<Version>4.0.0</Version>
 		<Title>VDT.Core.RecurringDates</Title>
 		<PackageIcon>icon_128.png</PackageIcon>
 		<Description>Easily calculate ranges of recurring dates based on patterns such as every 3 days, every Friday, every third Tuesday of every second month, in an intuitive and flexible way</Description>
-		<PackageReleaseNotes>- Added filter to exclude dates valid for a different recurrence</PackageReleaseNotes>
+		<PackageReleaseNotes>- Removed explicit .net 7.0 support
+- Added explicit .net 8.0 support</PackageReleaseNotes>
 		<Authors>Maikel Bos</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Maikel Bos</Copyright>
@@ -33,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+	  <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>

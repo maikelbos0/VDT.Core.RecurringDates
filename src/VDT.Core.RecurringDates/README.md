@@ -250,8 +250,8 @@ var dates = recurrence.GetDates(new DateTime(2010, 1, 1), new DateTime(2012, 12,
 
 ## Custom filters
 
-If you need custom filtering functionality this is easily achieved by implementing the <code>IFilter</code> interface. To create your own filter builder you
-can inherit from the base <code>FilterBuilder</code> class and add extension methods to the <code>IRecurrenceBuilder</code> interface.
+If you need custom filtering functionality this is easily achieved by implementing the `IFilter` interface. To create your own filter builder you can inherit
+from the base `FilterBuilder` class and add extension methods to the `IRecurrenceBuilder` interface.
 
 Unfortunately compiler restrictions do not allow you to extend the static `Recurs` class, so you'll need to either manually instantiate the `RecurrenceBuilder`
 class, start with one of the existing starting methods on the `Recurs` class, or create your own starting point.
