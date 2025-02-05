@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Threading;
 using Xunit;
 
@@ -10,7 +9,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var startDate = new DateTime(2022, 1, 15);
             var pattern = new WeeklyRecurrencePattern(1, startDate);
 
-            pattern.DaysOfWeek.Should().ContainSingle().Which.Should().Be(startDate.DayOfWeek);
+            Assert.Equal(startDate.DayOfWeek, Assert.Single(pattern.DaysOfWeek));
         }
 
         [Fact]
@@ -18,7 +17,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var startDate = new DateTime(2022, 1, 15);
             var pattern = new WeeklyRecurrencePattern(1, startDate);
 
-            pattern.FirstDayOfWeek.Should().Be(Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek);
+            Assert.Equal(Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek, pattern.FirstDayOfWeek);
         }
 
         [Theory]
@@ -37,7 +36,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValid(DayOfWeek firstDayOfWeek, int interval, DateTime referenceDate, DateTime date, bool expectedIsValid, params DayOfWeek[] daysOfWeek) {
             var pattern = new WeeklyRecurrencePattern(interval, referenceDate, firstDayOfWeek, daysOfWeek);
 
-            pattern.IsValid(date).Should().Be(expectedIsValid);
+            Assert.Equal(expectedIsValid, pattern.IsValid(date));
         }
     }
 }
