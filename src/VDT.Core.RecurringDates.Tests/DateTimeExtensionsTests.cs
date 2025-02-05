@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -8,7 +7,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData("2022-01-01", 2022 * 12 + 1)]
         [InlineData("2021-12-31", 2021 * 12 + 12)]
         public void TotalMonths(DateTime date, int expectedMonths) {
-            date.TotalMonths().Should().Be(expectedMonths);
+            Assert.Equal(date.TotalMonths(), expectedMonths);
         }
 
         [Theory]
@@ -17,7 +16,7 @@ namespace VDT.Core.RecurringDates.Tests {
         [InlineData("2024-02-01", 29)]
         [InlineData("2022-04-15", 30)]
         public void DaysInMonth(DateTime date, int expectedDaysInMonth) {
-            date.DaysInMonth().Should().Be(expectedDaysInMonth);
+            Assert.Equal(date.DaysInMonth(), expectedDaysInMonth);
         }
     }
 }
