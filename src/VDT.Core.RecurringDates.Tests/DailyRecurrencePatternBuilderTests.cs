@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -8,54 +7,54 @@ namespace VDT.Core.RecurringDates.Tests {
         public void WithWeekendHandling() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.WithWeekendHandling(RecurrencePatternWeekendHandling.AdjustToFriday));
+            Assert.Same(builder, builder.WithWeekendHandling(RecurrencePatternWeekendHandling.AdjustToFriday));
 
-            builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.AdjustToFriday);
+            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToFriday);
         }
 
         [Fact]
         public void IncludeWeekends() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.IncludeWeekends());
+            Assert.Same(builder, builder.IncludeWeekends());
 
-            builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.Include);
+            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.Include);
         }
 
         [Fact]
         public void SkipWeekends() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.SkipWeekends());
+            Assert.Same(builder, builder.SkipWeekends());
 
-            builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.Skip);
+            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.Skip);
         }
 
         [Fact]
         public void AdjustWeekendsToMonday() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.AdjustWeekendsToMonday());
+            Assert.Same(builder, builder.AdjustWeekendsToMonday());
 
-            builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.AdjustToMonday);
+            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToMonday);
         }
 
         [Fact]
         public void AdjustWeekendsToFriday() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.AdjustWeekendsToFriday());
+            Assert.Same(builder, builder.AdjustWeekendsToFriday());
 
-            builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.AdjustToFriday);
+            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToFriday);
         }
 
         [Fact]
         public void AdjustWeekendsToWeekday() {
             var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.AdjustWeekendsToWeekday());
+            Assert.Same(builder, builder.AdjustWeekendsToWeekday());
 
-            builder.WeekendHandling.Should().Be(RecurrencePatternWeekendHandling.AdjustToWeekday);
+            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToWeekday);
         }
 
         [Fact]
@@ -66,11 +65,11 @@ namespace VDT.Core.RecurringDates.Tests {
                 WeekendHandling = RecurrencePatternWeekendHandling.Skip
             };
 
-            var result = builder.BuildPattern().Should().BeOfType<DailyRecurrencePattern>().Subject;
+            var result = Assert.IsType<DailyRecurrencePattern>(builder.BuildPattern());
 
-            result.ReferenceDate.Should().Be(builder.ReferenceDate);
-            result.Interval.Should().Be(builder.Interval);
-            result.WeekendHandling.Should().Be(builder.WeekendHandling);
+            Assert.Equal(builder.ReferenceDate, result.ReferenceDate);
+            Assert.Equal(builder.Interval, result.Interval);
+            Assert.Equal(builder.WeekendHandling, result.WeekendHandling);
         }
 
         [Fact]
@@ -78,7 +77,7 @@ namespace VDT.Core.RecurringDates.Tests {
             var recurrenceBuilder = new RecurrenceBuilder() { StartDate = new DateTime(2022, 2, 1) };
             var builder = new DailyRecurrencePatternBuilder(recurrenceBuilder, 2);
 
-            builder.BuildPattern().ReferenceDate.Should().Be(recurrenceBuilder.StartDate);
+            Assert.Equal(recurrenceBuilder.StartDate, builder.BuildPattern().ReferenceDate);
         }
     }
 }

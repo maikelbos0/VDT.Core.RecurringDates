@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -38,7 +37,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsValid(RecurrencePatternWeekendHandling weekendHandling, int interval, DateTime referenceDate, DateTime date, bool expectedIsValid) {
             var pattern = new DailyRecurrencePattern(interval, referenceDate, weekendHandling);
 
-            pattern.IsValid(date).Should().Be(expectedIsValid);
+            Assert.Equal(expectedIsValid, pattern.IsValid(date));
         }
     }
 }
