@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -8,7 +8,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Constructor_Removes_Time_From_Dates() {
             var filter = new DateFilter(new[] { new DateTime(2022, 1, 2, 11, 12, 30), new DateTime(2022, 1, 3, 12, 37, 30) });
 
-            filter.Dates.Should().Equal(new DateTime(2022, 1, 2), new DateTime(2022, 1, 3));
+            Assert.Equivalent(new List<DateTime>() { new DateTime(2022, 1, 2), new DateTime(2022, 1, 3) }, filter.Dates);
         }
 
         [Theory]
@@ -19,7 +19,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsFiltered(DateTime date, bool expectedIsFiltered) {
             var filter = new DateFilter(new[] { new DateTime(2022, 1, 2), new DateTime(2022, 1, 3) });
 
-            filter.IsFiltered(date).Should().Be(expectedIsFiltered);
+            Assert.Equal(expectedIsFiltered, filter.IsFiltered(date));
         }
     }
 }
