@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -8,18 +7,18 @@ namespace VDT.Core.RecurringDates.Tests {
         public void From() {
             var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
 
-            builder.Should().BeSameAs(builder.From(new DateTime(2022, 1, 1)));
+            Assert.Same(builder, builder.From(new DateTime(2022, 1, 1)));
 
-            builder.StartDate.Should().Be(new DateTime(2022, 1, 1));
+            Assert.Equal(new DateTime(2022, 1, 1), builder.StartDate);
         }
 
         [Fact]
         public void Until() {
             var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
 
-            builder.Should().BeSameAs(builder.Until(new DateTime(2022, 12, 31)));
+            Assert.Same(builder, builder.Until(new DateTime(2022, 12, 31)));
 
-            builder.EndDate.Should().Be(new DateTime(2022, 12, 31));
+            Assert.Equal(new DateTime(2022, 12, 31), builder.EndDate);
         }
 
         [Fact]
@@ -29,10 +28,10 @@ namespace VDT.Core.RecurringDates.Tests {
                 EndDate = new DateTime(2022, 3, 31)
             };
 
-            var result = builder.BuildFilter().Should().BeOfType<DateRangeFilter>().Subject;
+            var result = Assert.IsType<DateRangeFilter>(builder.BuildFilter());
 
-            result.StartDate.Should().Be(builder.StartDate);
-            result.EndDate.Should().Be(builder.EndDate);
+            Assert.Equal(builder.StartDate, result.StartDate);
+            Assert.Equal(builder.EndDate, result.EndDate);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -8,28 +7,28 @@ namespace VDT.Core.RecurringDates.Tests {
         public void Constructor_Without_StartDate_Sets_DateTime_MinValue() {
             var filter = new DateRangeFilter(null, new DateTime(2022, 1, 11));
 
-            filter.StartDate.Should().Be(DateTime.MinValue.Date);
+            Assert.Equal(DateTime.MinValue.Date, filter.StartDate);
         }
 
         [Fact]
         public void Constructor_Removes_Time_From_StartDate() {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 2, 11, 12, 30), null);
 
-            filter.StartDate.Should().Be(new DateTime(2022, 1, 2));
+            Assert.Equal(new DateTime(2022, 1, 2), filter.StartDate);
         }
 
         [Fact]
         public void Constructor_Without_EndDate_Sets_DateTime_MaxValue() {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 1), null);
 
-            filter.EndDate.Should().Be(DateTime.MaxValue.Date);
+            Assert.Equal(DateTime.MaxValue.Date, filter.EndDate);
         }
 
         [Fact]
         public void Constructor_Removes_Time_From_EndDate() {
             var filter = new DateRangeFilter(null, new DateTime(2022, 1, 3, 12, 37, 30));
 
-            filter.EndDate.Should().Be(new DateTime(2022, 1, 3));
+            Assert.Equal(new DateTime(2022, 1, 3), filter.EndDate);
         }
 
         [Theory]
@@ -41,7 +40,7 @@ namespace VDT.Core.RecurringDates.Tests {
         public void IsFiltered(DateTime date, bool expectedIsFiltered) {
             var filter = new DateRangeFilter(new DateTime(2022, 1, 2), new DateTime(2022, 1, 4));
 
-            filter.IsFiltered(date).Should().Be(expectedIsFiltered);
+            Assert.Equal(expectedIsFiltered, filter.IsFiltered(date));
         }
     }
 }
