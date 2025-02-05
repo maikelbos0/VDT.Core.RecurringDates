@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Linq;
+﻿using System.Linq;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests {
@@ -9,9 +8,9 @@ namespace VDT.Core.RecurringDates.Tests {
             var recurrence = new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
             var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false));
 
-            builder.Should().BeSameAs(builder.Intersecting(recurrence));
+            Assert.Same(builder, builder.Intersecting(recurrence));
 
-            builder.Recurrence.Should().BeSameAs(recurrence);
+            Assert.Same(recurrence, builder.Recurrence);
         }
 
         [Fact]
@@ -19,7 +18,9 @@ namespace VDT.Core.RecurringDates.Tests {
             var recurrence = new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
             var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), recurrence);
 
-            builder.BuildFilter().Should().BeOfType<RecurrenceFilter>().Which.Recurrence.Should().BeSameAs(recurrence);
+            var result = Assert.IsType<RecurrenceFilter>(builder.BuildFilter());
+
+            Assert.Same(recurrence, result.Recurrence);
         }
     }
 }

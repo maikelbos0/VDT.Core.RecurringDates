@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Linq;
 using Xunit;
 
@@ -23,7 +22,7 @@ namespace VDT.Core.RecurringDates.Tests {
                 false
             ));
 
-            filter.IsFiltered(date).Should().Be(expectedIsFiltered);
+            Assert.Equal(expectedIsFiltered, filter.IsFiltered(date));
         }
     }
 }
