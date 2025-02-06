@@ -1,5 +1,5 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -16,9 +16,9 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new RecurrenceBuilder();
             var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(filterBuilder.From(new DateTime(2022, 1, 1)));
+            Assert.Same(builder, filterBuilder.From(new DateTime(2022, 1, 1)));
 
-            builder.StartDate.Should().Be(new DateTime(2022, 1, 1));
+            Assert.Equal(new DateTime(2022, 1, 1), builder.StartDate);
         }
 
         [Fact]
@@ -26,9 +26,9 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new RecurrenceBuilder();
             var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(filterBuilder.Until(new DateTime(2022, 12, 31)));
+            Assert.Same(builder, filterBuilder.Until(new DateTime(2022, 12, 31)));
 
-            builder.EndDate.Should().Be(new DateTime(2022, 12, 31));
+            Assert.Equal(new DateTime(2022, 12, 31), builder.EndDate);
         }
 
         [Fact]
@@ -36,9 +36,9 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new RecurrenceBuilder();
             var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(filterBuilder.StopAfter(10));
+            Assert.Same(builder, filterBuilder.StopAfter(10));
 
-            builder.Occurrences.Should().Be(10);
+            Assert.Equal(10, builder.Occurrences);
         }
 
         [Fact]
@@ -48,9 +48,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.Daily();
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.PatternBuilders.Should().Contain(result);
-            result.Interval.Should().Be(1);
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.PatternBuilders);
+            Assert.Equal(1, result.Interval);
         }
 
         [Fact]
@@ -60,9 +60,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.Weekly();
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.PatternBuilders.Should().Contain(result);
-            result.Interval.Should().Be(1);
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.PatternBuilders);
+            Assert.Equal(1, result.Interval);
         }
 
         [Fact]
@@ -72,9 +72,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.Monthly();
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.PatternBuilders.Should().Contain(result);
-            result.Interval.Should().Be(1);
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.PatternBuilders);
+            Assert.Equal(1, result.Interval);
         }
 
         [Fact]
@@ -84,8 +84,8 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.Every(2);
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            result.Interval.Should().Be(2);
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Equal(2, result.Interval);
         }
 
         [Fact]
@@ -93,9 +93,8 @@ namespace VDT.Core.RecurringDates.Tests {
             var builder = new RecurrenceBuilder();
             var filterBuilder = new TestFilterBuilder(builder);
 
-            builder.Should().BeSameAs(filterBuilder.WithDateCaching());
-
-            builder.CacheDates.Should().BeTrue();
+            Assert.Same(builder, filterBuilder.WithDateCaching());
+            Assert.True(builder.CacheDates);
         }
 
         [Fact]
@@ -105,9 +104,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.FilterBuilders);
+            Assert.Equivalent(new List<DateTime>() { new DateTime(2022, 1, 1), new DateTime(2022, 1, 2) }, result.Dates);
         }
 
         [Fact]
@@ -117,9 +116,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.ExceptFrom(new DateTime(2022, 2, 3));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.FilterBuilders);
+            Assert.Equal(new DateTime(2022, 2, 3), result.StartDate);
         }
 
         [Fact]
@@ -129,9 +128,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.ExceptUntil(new DateTime(2022, 2, 5));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.FilterBuilders);
+            Assert.Equal(new DateTime(2022, 2, 5), result.EndDate);
         }
 
         [Fact]
@@ -141,10 +140,10 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.ExceptBetween(new DateTime(2022, 2, 3), new DateTime(2022, 2, 5));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
-            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.FilterBuilders);
+            Assert.Equal(new DateTime(2022, 2, 3), result.StartDate);
+            Assert.Equal(new DateTime(2022, 2, 5), result.EndDate);
         }
 
         [Fact]
@@ -155,9 +154,9 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.ExceptIntersecting(recurrence);
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.Recurrence.Should().BeSameAs(recurrence);
+            Assert.Same(builder, result.RecurrenceBuilder);
+            Assert.Contains(result, builder.FilterBuilders);
+            Assert.Same(recurrence, result.Recurrence);
         }
 
         [Fact]
@@ -167,7 +166,7 @@ namespace VDT.Core.RecurringDates.Tests {
 
             var result = filterBuilder.Build();
 
-            result.Should().NotBeNull();
+            Assert.NotNull(result);
         }
     }
 }
