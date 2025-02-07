@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests;
@@ -26,13 +25,13 @@ public class WeeklyRecurrencePatternBuilderTests {
 
         Assert.Same(builder, builder.On(DayOfWeek.Friday, DayOfWeek.Monday));
 
-        Assert.Equivalent(new List<DayOfWeek>() {
+        Assert.Equal([
             DayOfWeek.Tuesday,
             DayOfWeek.Wednesday,
             DayOfWeek.Thursday,
             DayOfWeek.Friday,
             DayOfWeek.Monday
-        }, builder.DaysOfWeek);
+        ], builder.DaysOfWeek);
     }
 
     [Fact]
