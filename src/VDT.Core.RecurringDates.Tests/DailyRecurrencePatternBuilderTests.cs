@@ -1,83 +1,85 @@
 ﻿using System;
 using Xunit;
 
-namespace VDT.Core.RecurringDates.Tests {
-    public class DailyRecurrencePatternBuilderTests {
-        [Fact]
-        public void WithWeekendHandling() {
-            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+namespace VDT.Core.RecurringDates.Tests;
 
-            Assert.Same(builder, builder.WithWeekendHandling(RecurrencePatternWeekendHandling.AdjustToFriday));
+public class DailyRecurrencePatternBuilderTests {
+    [Fact]
+    public void WithWeekendHandling() {
+        var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToFriday);
-        }
+        Assert.Same(builder, builder.WithWeekendHandling(RecurrencePatternWeekendHandling.AdjustToFriday));
 
-        [Fact]
-        public void IncludeWeekends() {
-            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+        Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToFriday);
+    }
 
-            Assert.Same(builder, builder.IncludeWeekends());
+    [Fact]
+    public void IncludeWeekends() {
+        var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.Include);
-        }
+        Assert.Same(builder, builder.IncludeWeekends());
 
-        [Fact]
-        public void SkipWeekends() {
-            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+        Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.Include);
+    }
 
-            Assert.Same(builder, builder.SkipWeekends());
+    [Fact]
+    public void SkipWeekends() {
+        var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.Skip);
-        }
+        Assert.Same(builder, builder.SkipWeekends());
 
-        [Fact]
-        public void AdjustWeekendsToMonday() {
-            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+        Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.Skip);
+    }
 
-            Assert.Same(builder, builder.AdjustWeekendsToMonday());
+    [Fact]
+    public void AdjustWeekendsToMonday() {
+        var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToMonday);
-        }
+        Assert.Same(builder, builder.AdjustWeekendsToMonday());
 
-        [Fact]
-        public void AdjustWeekendsToFriday() {
-            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+        Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToMonday);
+    }
 
-            Assert.Same(builder, builder.AdjustWeekendsToFriday());
+    [Fact]
+    public void AdjustWeekendsToFriday() {
+        var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToFriday);
-        }
+        Assert.Same(builder, builder.AdjustWeekendsToFriday());
 
-        [Fact]
-        public void AdjustWeekendsToWeekday() {
-            var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+        Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToFriday);
+    }
 
-            Assert.Same(builder, builder.AdjustWeekendsToWeekday());
+    [Fact]
+    public void AdjustWeekendsToWeekday() {
+        var builder = new DailyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToWeekday);
-        }
+        Assert.Same(builder, builder.AdjustWeekendsToWeekday());
 
-        [Fact]
-        public void BuildPattern() {
-            var recurrenceBuilder = new RecurrenceBuilder();
-            var builder = new DailyRecurrencePatternBuilder(recurrenceBuilder, 2) {
-                ReferenceDate = new DateTime(2022, 2, 1),
-                WeekendHandling = RecurrencePatternWeekendHandling.Skip
-            };
+        Assert.Equal(builder.WeekendHandling, RecurrencePatternWeekendHandling.AdjustToWeekday);
+    }
 
-            var result = Assert.IsType<DailyRecurrencePattern>(builder.BuildPattern());
+    [Fact]
+    public void BuildPattern() {
+        var recurrenceBuilder = new RecurrenceBuilder();
+        var builder = new DailyRecurrencePatternBuilder(recurrenceBuilder, 2) {
+            ReferenceDate = new DateTime(2022, 2, 1),
+            WeekendHandling = RecurrencePatternWeekendHandling.Skip
+        };
 
-            Assert.Equal(builder.ReferenceDate, result.ReferenceDate);
-            Assert.Equal(builder.Interval, result.Interval);
-            Assert.Equal(builder.WeekendHandling, result.WeekendHandling);
-        }
+        var result = Assert.IsType<DailyRecurrencePattern>(builder.BuildPattern());
 
-        [Fact]
-        public void BuildPattern_Takes_StartDate_As_Default_ReferenceDate() {
-            var recurrenceBuilder = new RecurrenceBuilder() { StartDate = new DateTime(2022, 2, 1) };
-            var builder = new DailyRecurrencePatternBuilder(recurrenceBuilder, 2);
+        Assert.Equal(builder.ReferenceDate, result.ReferenceDate);
+        Assert.Equal(builder.Interval, result.Interval);
+        Assert.Equal(builder.WeekendHandling, result.WeekendHandling);
+    }
 
-            Assert.Equal(recurrenceBuilder.StartDate, builder.BuildPattern().ReferenceDate);
-        }
+    [Fact]
+    public void BuildPattern_Takes_StartDate_As_Default_ReferenceDate() {
+        var recurrenceBuilder = new RecurrenceBuilder() { StartDate = new DateTime(2022, 2, 1) };
+        var builder = new DailyRecurrencePatternBuilder(recurrenceBuilder, 2);
+
+        var result = builder.BuildPattern();
+
+        Assert.Equal(recurrenceBuilder.StartDate, result.ReferenceDate);
     }
 }

@@ -1,26 +1,25 @@
-﻿using System.Linq;
-using Xunit;
+﻿using Xunit;
 
-namespace VDT.Core.RecurringDates.Tests {
-    public class RecurrenceFilterBuilderTests {
-        [Fact]
-        public void Intersecting() {
-            var recurrence = new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
-            var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false));
+namespace VDT.Core.RecurringDates.Tests;
 
-            Assert.Same(builder, builder.Intersecting(recurrence));
+public class RecurrenceFilterBuilderTests {
+    [Fact]
+    public void Intersecting() {
+        var recurrence = new Recurrence(null, null, null, [], [], false);
+        var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), new Recurrence(null, null, null, [], [], false));
 
-            Assert.Same(recurrence, builder.Recurrence);
-        }
+        Assert.Same(builder, builder.Intersecting(recurrence));
 
-        [Fact]
-        public void BuildFilter() {
-            var recurrence = new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
-            var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), recurrence);
+        Assert.Same(recurrence, builder.Recurrence);
+    }
 
-            var result = Assert.IsType<RecurrenceFilter>(builder.BuildFilter());
+    [Fact]
+    public void BuildFilter() {
+        var recurrence = new Recurrence(null, null, null, [], [], false);
+        var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), recurrence);
 
-            Assert.Same(recurrence, result.Recurrence);
-        }
+        var result = Assert.IsType<RecurrenceFilter>(builder.BuildFilter());
+
+        Assert.Same(recurrence, result.Recurrence);
     }
 }

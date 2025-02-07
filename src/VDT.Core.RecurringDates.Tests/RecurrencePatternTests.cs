@@ -1,34 +1,34 @@
 ﻿using System;
 using Xunit;
 
-namespace VDT.Core.RecurringDates.Tests {
-    public class RecurrencePatternTests {
-        private class TestRecurrencePattern : RecurrencePattern {
-            public TestRecurrencePattern(int interval, DateTime? referenceDate) : base(interval, referenceDate) { }
+namespace VDT.Core.RecurringDates.Tests;
 
-            public override bool IsValid(DateTime date) => throw new NotImplementedException();
-        }
+public class RecurrencePatternTests {
+    private class TestRecurrencePattern : RecurrencePattern {
+        public TestRecurrencePattern(int interval, DateTime? referenceDate) : base(interval, referenceDate) { }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(int.MinValue)]
-        public void Constructor_Throws_For_Invalid_Interval(int interval) {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new TestRecurrencePattern(interval, DateTime.MinValue));
-        }
+        public override bool IsValid(DateTime date) => throw new NotImplementedException();
+    }
 
-        [Fact]
-        public void Constructor_Without_ReferenceDate_Sets_DateTime_MinValue() {
-            var pattern = new TestRecurrencePattern(1, null);
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void Constructor_Throws_For_Invalid_Interval(int interval) {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new TestRecurrencePattern(interval, DateTime.MinValue));
+    }
 
-            Assert.Equal(DateTime.MinValue.Date, pattern.ReferenceDate);
-        }
+    [Fact]
+    public void Constructor_Without_ReferenceDate_Sets_DateTime_MinValue() {
+        var pattern = new TestRecurrencePattern(1, null);
 
-        [Fact]
-        public void Constructor_Removes_Time_From_ReferenceDate() {
-            var pattern = new TestRecurrencePattern(1, new DateTime(2022, 1, 2, 11, 12, 30));
+        Assert.Equal(DateTime.MinValue.Date, pattern.ReferenceDate);
+    }
 
-            Assert.Equal(new DateTime(2022, 1, 2), pattern.ReferenceDate);
-        }
+    [Fact]
+    public void Constructor_Removes_Time_From_ReferenceDate() {
+        var pattern = new TestRecurrencePattern(1, new DateTime(2022, 1, 2, 11, 12, 30));
+
+        Assert.Equal(new DateTime(2022, 1, 2), pattern.ReferenceDate);
     }
 }

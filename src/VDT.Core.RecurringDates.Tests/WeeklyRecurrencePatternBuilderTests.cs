@@ -2,63 +2,63 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace VDT.Core.RecurringDates.Tests {
-    public class WeeklyRecurrencePatternBuilderTests {
-        [Fact]
-        public void UsingFirstDayOfWeek() {
-            var builder = new WeeklyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+namespace VDT.Core.RecurringDates.Tests;
 
-            Assert.Same(builder, builder.UsingFirstDayOfWeek(DayOfWeek.Tuesday));
+public class WeeklyRecurrencePatternBuilderTests {
+    [Fact]
+    public void UsingFirstDayOfWeek() {
+        var builder = new WeeklyRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            Assert.Equal(DayOfWeek.Tuesday, builder.FirstDayOfWeek);
-        }
+        Assert.Same(builder, builder.UsingFirstDayOfWeek(DayOfWeek.Tuesday));
 
-        [Fact]
-        public void On() {
-            var builder = new WeeklyRecurrencePatternBuilder(new RecurrenceBuilder(), 1) {
-                DaysOfWeek = new() {
-                    DayOfWeek.Tuesday,
-                    DayOfWeek.Wednesday,
-                    DayOfWeek.Thursday
-                }
-            };
+        Assert.Equal(DayOfWeek.Tuesday, builder.FirstDayOfWeek);
+    }
 
-            Assert.Same(builder, builder.On(DayOfWeek.Friday, DayOfWeek.Monday));
-
-            Assert.Equivalent(new List<DayOfWeek>() {
+    [Fact]
+    public void On() {
+        var builder = new WeeklyRecurrencePatternBuilder(new RecurrenceBuilder(), 1) {
+            DaysOfWeek = [
                 DayOfWeek.Tuesday,
                 DayOfWeek.Wednesday,
-                DayOfWeek.Thursday,
-                DayOfWeek.Friday,
-                DayOfWeek.Monday
-            }, builder.DaysOfWeek);
-        }
+                DayOfWeek.Thursday
+            ]
+        };
 
-        [Fact]
-        public void BuildPattern() {
-            var recurrenceBuilder = new RecurrenceBuilder();
-            var builder = new WeeklyRecurrencePatternBuilder(recurrenceBuilder, 2) {
-                ReferenceDate = new DateTime(2022, 2, 1),
-                FirstDayOfWeek = DayOfWeek.Wednesday,
-                DaysOfWeek = new() { DayOfWeek.Sunday, DayOfWeek.Thursday }
-            };
+        Assert.Same(builder, builder.On(DayOfWeek.Friday, DayOfWeek.Monday));
 
-            var result = Assert.IsType<WeeklyRecurrencePattern>(builder.BuildPattern());
+        Assert.Equivalent(new List<DayOfWeek>() {
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday,
+            DayOfWeek.Monday
+        }, builder.DaysOfWeek);
+    }
 
-            Assert.Equal(builder.ReferenceDate, result.ReferenceDate);
-            Assert.Equal(builder.Interval, result.Interval);
-            Assert.Equal(builder.FirstDayOfWeek, result.FirstDayOfWeek);
-            Assert.Equivalent(builder.DaysOfWeek, result.DaysOfWeek);
-        }
+    [Fact]
+    public void BuildPattern() {
+        var recurrenceBuilder = new RecurrenceBuilder();
+        var builder = new WeeklyRecurrencePatternBuilder(recurrenceBuilder, 2) {
+            ReferenceDate = new DateTime(2022, 2, 1),
+            FirstDayOfWeek = DayOfWeek.Wednesday,
+            DaysOfWeek = [DayOfWeek.Sunday, DayOfWeek.Thursday]
+        };
 
-        [Fact]
-        public void BuildPattern_Takes_StartDate_As_Default_ReferenceDate() {
-            var recurrenceBuilder = new RecurrenceBuilder() { StartDate = new DateTime(2022, 2, 1) };
-            var builder = new WeeklyRecurrencePatternBuilder(recurrenceBuilder, 2);
+        var result = Assert.IsType<WeeklyRecurrencePattern>(builder.BuildPattern());
 
-            var result = builder.BuildPattern();
+        Assert.Equal(builder.ReferenceDate, result.ReferenceDate);
+        Assert.Equal(builder.Interval, result.Interval);
+        Assert.Equal(builder.FirstDayOfWeek, result.FirstDayOfWeek);
+        Assert.Equivalent(builder.DaysOfWeek, result.DaysOfWeek);
+    }
 
-            Assert.Equal(recurrenceBuilder.StartDate, builder.BuildPattern().ReferenceDate);
-        }
+    [Fact]
+    public void BuildPattern_Takes_StartDate_As_Default_ReferenceDate() {
+        var recurrenceBuilder = new RecurrenceBuilder() { StartDate = new DateTime(2022, 2, 1) };
+        var builder = new WeeklyRecurrencePatternBuilder(recurrenceBuilder, 2);
+
+        var result = builder.BuildPattern();
+
+        Assert.Equal(recurrenceBuilder.StartDate, result.ReferenceDate);
     }
 }
