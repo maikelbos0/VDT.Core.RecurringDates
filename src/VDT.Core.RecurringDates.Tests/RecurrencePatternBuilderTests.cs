@@ -1,192 +1,188 @@
-﻿using FluentAssertions;
-using System;
-using System.Linq;
+﻿using System;
 using Xunit;
 
-namespace VDT.Core.RecurringDates.Tests {
-    public class RecurrencePatternBuilderTests {
-        private class TestRecurrencePatternBuilder : RecurrencePatternBuilder<TestRecurrencePatternBuilder> {
-            public TestRecurrencePatternBuilder(RecurrenceBuilder recurrenceBuilder, int interval) : base(recurrenceBuilder, interval) { }
+namespace VDT.Core.RecurringDates.Tests;
 
-            public override RecurrencePattern BuildPattern() => throw new NotImplementedException();
-        }
+public class RecurrencePatternBuilderTests {
+    private class TestRecurrencePatternBuilder : RecurrencePatternBuilder<TestRecurrencePatternBuilder> {
+        public TestRecurrencePatternBuilder(RecurrenceBuilder recurrenceBuilder, int interval) : base(recurrenceBuilder, interval) { }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(int.MinValue)]
-        public void Constructor_Throws_For_Invalid_Interval(int interval) {
-            var action = () => new TestRecurrencePatternBuilder(new RecurrenceBuilder(), interval);
+        public override RecurrencePattern BuildPattern() => throw new NotImplementedException();
+    }
 
-            action.Should().Throw<ArgumentOutOfRangeException>();
-        }
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(int.MinValue)]
+    public void Constructor_Throws_For_Invalid_Interval(int interval) {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new TestRecurrencePatternBuilder(new RecurrenceBuilder(), interval));
+    }
 
-        [Fact]
-        public void WithReferenceDate() {
-            var builder = new TestRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
+    [Fact]
+    public void WithReferenceDate() {
+        var builder = new TestRecurrencePatternBuilder(new RecurrenceBuilder(), 1);
 
-            builder.Should().BeSameAs(builder.WithReferenceDate(new DateTime(2022, 2, 1)));
+        Assert.Same(builder, builder.WithReferenceDate(new DateTime(2022, 2, 1)));
 
-            builder.ReferenceDate.Should().Be(new DateTime(2022, 2, 1));
-        }
+        Assert.Equal(new DateTime(2022, 2, 1), builder.ReferenceDate);
+    }
 
-        [Fact]
-        public void From() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void From() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            builder.Should().BeSameAs(patternBuilder.From(new DateTime(2022, 1, 1)));
+        Assert.Same(builder, patternBuilder.From(new DateTime(2022, 1, 1)));
 
-            builder.StartDate.Should().Be(new DateTime(2022, 1, 1));
-        }
+        Assert.Equal(new DateTime(2022, 1, 1), builder.StartDate);
+    }
 
-        [Fact]
-        public void Until() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void Until() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            builder.Should().BeSameAs(patternBuilder.Until(new DateTime(2022, 12, 31)));
+        Assert.Same(builder, patternBuilder.Until(new DateTime(2022, 12, 31)));
 
-            builder.EndDate.Should().Be(new DateTime(2022, 12, 31));
-        }
+        Assert.Equal(new DateTime(2022, 12, 31), builder.EndDate);
+    }
 
-        [Fact]
-        public void StopAfter() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void StopAfter() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            builder.Should().BeSameAs(patternBuilder.StopAfter(10));
+        Assert.Same(builder, patternBuilder.StopAfter(10));
 
-            builder.Occurrences.Should().Be(10);
-        }
+        Assert.Equal(10, builder.Occurrences);
+    }
 
-        [Fact]
-        public void Daily() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void Daily() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.Daily();
+        var result = patternBuilder.Daily();
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.PatternBuilders.Should().Contain(result);
-            result.Interval.Should().Be(1);
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.PatternBuilders);
+        Assert.Equal(1, result.Interval);
+    }
 
-        [Fact]
-        public void Weekly() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void Weekly() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.Weekly();
+        var result = patternBuilder.Weekly();
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.PatternBuilders.Should().Contain(result);
-            result.Interval.Should().Be(1);
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.PatternBuilders);
+        Assert.Equal(1, result.Interval);
+    }
 
-        [Fact]
-        public void Monthly() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void Monthly() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.Monthly();
+        var result = patternBuilder.Monthly();
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.PatternBuilders.Should().Contain(result);
-            result.Interval.Should().Be(1);
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.PatternBuilders);
+        Assert.Equal(1, result.Interval);
+    }
 
-        [Fact]
-        public void Every() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void Every() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.Every(2);
+        var result = patternBuilder.Every(2);
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            result.Interval.Should().Be(2);
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Equal(2, result.Interval);
+    }
 
-        [Fact]
-        public void WithDateCaching() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void WithDateCaching() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            builder.Should().BeSameAs(patternBuilder.WithDateCaching());
+        Assert.Same(builder, patternBuilder.WithDateCaching());
 
-            builder.CacheDates.Should().BeTrue();
-        }
+        Assert.True(builder.CacheDates);
+    }
 
-        [Fact]
-        public void ExceptOn() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void ExceptOn() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+        var result = patternBuilder.ExceptOn(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.Dates.Should().Equal(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.FilterBuilders);
+        Assert.Equal([new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)], result.Dates);
+    }
 
-        [Fact]
-        public void ExceptFrom() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void ExceptFrom() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.ExceptFrom(new DateTime(2022, 2, 3));
+        var result = patternBuilder.ExceptFrom(new DateTime(2022, 2, 3));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.FilterBuilders);
+        Assert.Equal(new DateTime(2022, 2, 3), result.StartDate);
+    }
 
-        [Fact]
-        public void ExceptUntil() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void ExceptUntil() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.ExceptUntil(new DateTime(2022, 2, 5));
+        var result = patternBuilder.ExceptUntil(new DateTime(2022, 2, 5));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.FilterBuilders);
+        Assert.Equal(new DateTime(2022, 2, 5), result.EndDate);
+    }
 
-        [Fact]
-        public void ExceptBetween() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void ExceptBetween() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.ExceptBetween(new DateTime(2022, 2, 3), new DateTime(2022, 2, 5));
+        var result = patternBuilder.ExceptBetween(new DateTime(2022, 2, 3), new DateTime(2022, 2, 5));
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            result.StartDate.Should().Be(new DateTime(2022, 2, 3));
-            builder.FilterBuilders.Should().Contain(result);
-            result.EndDate.Should().Be(new DateTime(2022, 2, 5));
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.FilterBuilders);
+        Assert.Equal(new DateTime(2022, 2, 3), result.StartDate);
+        Assert.Equal(new DateTime(2022, 2, 5), result.EndDate);
+    }
 
-        [Fact]
-        public void ExceptIntersecting() {
-            var recurrence = new Recurrence(null, null, null, Enumerable.Empty<RecurrencePattern>(), Enumerable.Empty<IFilter>(), false);
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void ExceptIntersecting() {
+        var recurrence = new Recurrence(null, null, null, [], [], false);
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.ExceptIntersecting(recurrence);
+        var result = patternBuilder.ExceptIntersecting(recurrence);
 
-            result.RecurrenceBuilder.Should().BeSameAs(builder);
-            builder.FilterBuilders.Should().Contain(result);
-            result.Recurrence.Should().BeSameAs(recurrence);
-        }
+        Assert.Same(builder, result.RecurrenceBuilder);
+        Assert.Contains(result, builder.FilterBuilders);
+        Assert.Same(recurrence, result.Recurrence);
+    }
 
-        [Fact]
-        public void Build() {
-            var builder = new RecurrenceBuilder();
-            var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
+    [Fact]
+    public void Build() {
+        var builder = new RecurrenceBuilder();
+        var patternBuilder = new TestRecurrencePatternBuilder(builder, 1);
 
-            var result = patternBuilder.Build();
+        var result = patternBuilder.Build();
 
-            result.Should().NotBeNull();
-        }
+        Assert.NotNull(result);
     }
 }
