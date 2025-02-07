@@ -9,12 +9,12 @@
 
 	<PropertyGroup>
 		<PackageId>VDT.Core.RecurringDates</PackageId>
-		<Version>5.0.0</Version>
+		<Version>5.0.1</Version>
 		<Title>VDT.Core.RecurringDates</Title>
 		<PackageIcon>icon_128.png</PackageIcon>
 		<Description>Easily calculate ranges of recurring dates based on patterns such as every 3 days, every Friday, every third Tuesday of every second month, in an intuitive and flexible way</Description>
-		<PackageReleaseNotes>- Removed explicit .net 6.0 support
-- Added explicit .net 9.0 support</PackageReleaseNotes>
+		<PackageReleaseNotes>- Improved code style
+- Improved tests</PackageReleaseNotes>
 		<Authors>Maikel Bos</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Maikel Bos</Copyright>
