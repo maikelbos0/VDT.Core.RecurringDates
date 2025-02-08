@@ -147,7 +147,7 @@ public class FilterBuilderTests {
 
     [Fact]
     public void ExceptIntersecting() {
-        var recurrence = new Recurrence(null, null, null, [], [], false);
+        var recurrence = new Recurrence(DateOnly.MinValue, DateOnly.MaxValue, null, [], [], false);
         var builder = new RecurrenceBuilder();
         var filterBuilder = new TestFilterBuilder(builder);
 

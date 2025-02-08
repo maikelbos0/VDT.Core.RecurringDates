@@ -14,8 +14,8 @@ public class RecurrenceFilterTests {
     [InlineData("2023-04-18", false)]
     public void IsFiltered(DateTime date, bool expectedIsFiltered) {
         var filter = new RecurrenceFilter(new Recurrence(
-            null,
-            null,
+            DateOnly.MinValue,
+            DateOnly.MaxValue,
             null,
             [new WeeklyRecurrencePattern(1, DateOnly.MinValue, null, [DayOfWeek.Saturday, DayOfWeek.Sunday])],
             [],

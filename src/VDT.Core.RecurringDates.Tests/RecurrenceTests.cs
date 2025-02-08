@@ -70,7 +70,7 @@ public class RecurrenceTests {
 
     [Fact]
     public void GetDates_Until_DateTime_MaxValue() {
-        var recurrence = new Recurrence(null, null, null, [new DailyRecurrencePattern(1, new DateTime(2022, 1, 1))], [], false);
+        var recurrence = new Recurrence(DateOnly.MinValue, DateOnly.MaxValue, null, [new DailyRecurrencePattern(1, new DateTime(2022, 1, 1))], [], false);
 
         var dates = recurrence.GetDates(new DateTime(9999, 12, 30), DateTime.MaxValue);
 
