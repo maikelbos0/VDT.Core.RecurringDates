@@ -6,7 +6,7 @@ using System.Linq;
 namespace VDT.Core.RecurringDates;
 
 /// <summary>
-/// <see cref="DateOnly"/> extensions for building date recurrences
+/// <see cref="DateOnly"/> extensions for <see cref="IRecurrenceBuilder"/>
 /// </summary>
 public static class IRecurrenceBuilderDateOnlyExtensions {
     /// <summary>

@@ -77,6 +77,17 @@ public class Recurrence {
         }
     }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Gets valid dates for this recurrence within the specified optional range
+    /// </summary>
+    /// <param name="from">If provided, no dates before this date will be returned</param>
+    /// <param name="until">If provided, no dates after this date will be returned</param>
+    /// <returns>Valid dates for this recurrence within the specified optional range</returns>
+    public IEnumerable<DateOnly> GetDates(DateOnly? from = null, DateOnly? until = null) 
+        => GetDates(from?.ToDateTime(), until?.ToDateTime()).Select(date => DateOnly.FromDateTime(date));
+#endif
+
     /// <summary>
     /// Gets valid dates for this recurrence within the specified optional range
     /// </summary>
@@ -131,6 +142,16 @@ public class Recurrence {
             }
         }
     }
+
+#if NET8_0_OR_GREATER
+
+    /// <summary>
+    /// Determine whether a given date is valid according to this recurrence
+    /// </summary>
+    /// <param name="date">Date to check</param>
+    /// <returns><see langword="true"/> if the given date is valid according to this recurrence; otherwise <see langword="false"/></returns>
+    public bool IsValid(DateOnly date) => IsValid(date.ToDateTime());
+#endif
 
     /// <summary>
     /// Determine whether a given date is valid according to this recurrence

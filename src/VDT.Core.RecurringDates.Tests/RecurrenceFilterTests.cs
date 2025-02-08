@@ -17,7 +17,7 @@ public class RecurrenceFilterTests {
             DateOnly.MinValue,
             DateOnly.MaxValue,
             null,
-            [new WeeklyRecurrencePattern(1, DateOnly.MinValue, null, [DayOfWeek.Saturday, DayOfWeek.Sunday])],
+            [new WeeklyRecurrencePattern(1, (DateOnly?)null, null, [DayOfWeek.Saturday, DayOfWeek.Sunday])],
             [],
             false
         ));
