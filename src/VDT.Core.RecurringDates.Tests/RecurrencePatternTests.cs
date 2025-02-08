@@ -32,12 +32,10 @@ public class RecurrencePatternTests {
         Assert.Equal(new DateTime(2022, 1, 2), pattern.ReferenceDate);
     }
 
-#if NET8_0_OR_GREATER
     [Fact]
     public void IsValid_DateOnly() {
         var pattern = new TestRecurrencePattern(1, null);
 
         Assert.True(pattern.IsValid(new DateOnly(2022, 1, 2)));
     }
-#endif
 }

@@ -5,7 +5,16 @@ namespace VDT.Core.RecurringDates.Tests;
 
 public class DateRangeFilterBuilderTests {
     [Fact]
-    public void From() {
+    public void From_DateOnly() {
+        var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
+
+        Assert.Same(builder, builder.From(new DateOnly(2022, 1, 1)));
+
+        Assert.Equal(new DateTime(2022, 1, 1), builder.StartDate);
+    }
+
+    [Fact]
+    public void From_DateTime() {
         var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
 
         Assert.Same(builder, builder.From(new DateTime(2022, 1, 1)));
@@ -14,7 +23,16 @@ public class DateRangeFilterBuilderTests {
     }
 
     [Fact]
-    public void Until() {
+    public void Until_DateOnly() {
+        var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
+
+        Assert.Same(builder, builder.Until(new DateOnly(2022, 12, 31)));
+
+        Assert.Equal(new DateTime(2022, 12, 31), builder.EndDate);
+    }
+
+    [Fact]
+    public void Until_DateTime() {
         var builder = new DateRangeFilterBuilder(new RecurrenceBuilder());
 
         Assert.Same(builder, builder.Until(new DateTime(2022, 12, 31)));
