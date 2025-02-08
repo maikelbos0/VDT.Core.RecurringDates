@@ -32,6 +32,30 @@ public class MonthlyRecurrencePattern : RecurrencePattern {
     /// </summary>
     public bool CacheDaysOfMonth => daysOfMonthCache != null;
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Create a builder for composing patterns for dates that recur every month or every several months
+    /// </summary>
+    /// <param name="interval">Interval in months between occurrences of the pattern to be created</param>
+    /// <param name="referenceDate">Date to use to determine the reference month when the interval is greater than 1; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <param name="daysOfMonth">Days of the month which are valid for this recurrence pattern</param>
+    /// <param name="daysOfWeek">Ordinal days of the week (e.g. the second Thursday of the month) which are valid for this recurrence pattern</param>
+    /// <param name="lastDaysOfMonth">Last days of the month which are valid for this recurrence pattern</param>
+    /// <param name="cacheDaysOfMonth">Indicates whether or not days of specific months should be cached; defaults to <see langword="false"/></param>
+    /// <remarks>
+    /// If <paramref name="daysOfMonth"/>, <paramref name="daysOfWeek"/> and <paramref name="lastDaysOfMonth"/> are empty, the day of the month of 
+    /// <paramref name="referenceDate"/> will be added to <see cref="DaysOfMonth"/>.
+    /// </remarks>
+    public MonthlyRecurrencePattern(
+        int interval,
+        DateOnly? referenceDate,
+        IEnumerable<int>? daysOfMonth = null,
+        IEnumerable<(DayOfWeekInMonth, DayOfWeek)>? daysOfWeek = null,
+        IEnumerable<LastDayOfMonth>? lastDaysOfMonth = null,
+        bool cacheDaysOfMonth = false
+    ) : this(interval, referenceDate?.ToDateTime(), daysOfMonth, daysOfWeek, lastDaysOfMonth, cacheDaysOfMonth) { }
+#endif
+
     /// <summary>
     /// Create a builder for composing patterns for dates that recur every month or every several months
     /// </summary>

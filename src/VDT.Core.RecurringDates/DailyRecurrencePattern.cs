@@ -11,6 +11,16 @@ public class DailyRecurrencePattern : RecurrencePattern {
     /// </summary>
     public RecurrencePatternWeekendHandling WeekendHandling { get; }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Create a pattern for dates that recur every day or every several days
+    /// </summary>
+    /// <param name="interval">Interval in days between occurrences of this pattern</param>
+    /// <param name="referenceDate">Date to use as a reference date when the interval is greater than 1; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <param name="weekendHandling">Indicates how a recurrence pattern should handle <see cref="DayOfWeek.Saturday"/> and <see cref="DayOfWeek.Sunday"/></param>
+    public DailyRecurrencePattern(int interval, DateOnly? referenceDate, RecurrencePatternWeekendHandling? weekendHandling = null) : this(interval, referenceDate?.ToDateTime(), weekendHandling) { }
+#endif
+
     /// <summary>
     /// Create a pattern for dates that recur every day or every several days
     /// </summary>
