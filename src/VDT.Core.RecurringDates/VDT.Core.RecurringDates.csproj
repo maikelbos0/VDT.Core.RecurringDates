@@ -9,16 +9,15 @@
 
 	<PropertyGroup>
 		<PackageId>VDT.Core.RecurringDates</PackageId>
-		<Version>5.0.1</Version>
+		<Version>6.0.0</Version>
 		<Title>VDT.Core.RecurringDates</Title>
 		<PackageIcon>icon_128.png</PackageIcon>
 		<Description>Easily calculate ranges of recurring dates based on patterns such as every 3 days, every Friday, every third Tuesday of every second month, in an intuitive and flexible way</Description>
-		<PackageReleaseNotes>- Improved code style
-- Improved tests</PackageReleaseNotes>
+		<PackageReleaseNotes>- Added DateOnly support</PackageReleaseNotes>
 		<Authors>Maikel Bos</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Maikel Bos</Copyright>
-		<PackageTags>date DateTime dates repeat repeats repeating recur recurs recurring pattern daily days weekly weeks monthly months weekdays</PackageTags>
+		<PackageTags>date DateTime DateOnly dates repeat repeats repeating recur recurs recurring pattern daily days weekly weeks monthly months weekdays</PackageTags>
 		<PackageProjectUrl>https://github.com/maikelbos0/VDT.Core.RecurringDates</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
