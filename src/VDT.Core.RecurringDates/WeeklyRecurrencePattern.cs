@@ -23,6 +23,20 @@ public class WeeklyRecurrencePattern : RecurrencePattern {
     /// </summary>
     public ImmutableHashSet<DayOfWeek> DaysOfWeek { get; }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Create a pattern for dates that recur every week or every several weeks
+    /// </summary>
+    /// <param name="interval">Interval in weeks between occurrences of the pattern to be created</param>
+    /// <param name="referenceDate">Date to use as a reference when calculating the reference week when the interval is greater than 1; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <param name="firstDayOfWeek">First day of the week to use when calculating the reference week when the interval is greater than 1; defaults to <see cref="DateTimeFormatInfo.FirstDayOfWeek"/> from <see cref="Thread.CurrentCulture"/></param>
+    /// <param name="daysOfWeek">Days of the week which are valid for this recurrence pattern</param>
+    /// <remarks>
+    /// If <paramref name="daysOfWeek"/> is empty, the day of the week of <paramref name="referenceDate"/> will be added to <see cref="DaysOfWeek"/>.
+    /// </remarks>
+    public WeeklyRecurrencePattern(int interval, DateOnly? referenceDate, DayOfWeek? firstDayOfWeek = null, IEnumerable<DayOfWeek>? daysOfWeek = null) : this(interval, referenceDate?.ToDateTime(), firstDayOfWeek, daysOfWeek) { }
+#endif
+
     /// <summary>
     /// Create a pattern for dates that recur every week or every several weeks
     /// </summary>

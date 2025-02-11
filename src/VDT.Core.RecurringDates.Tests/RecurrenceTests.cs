@@ -54,7 +54,7 @@ public class RecurrenceTests {
     public void GetDates() {
         var recurrence = new Recurrence(new DateTime(2022, 1, 1), new DateTime(2022, 1, 5), null, [new DailyRecurrencePattern(2, new DateTime(2022, 1, 1))], [], false);
 
-        var dates = recurrence.GetDates();
+        var dates = recurrence.GetDates((DateTime?)null, null);
 
         Assert.Equal([new DateTime(2022, 1, 1), new DateTime(2022, 1, 3), new DateTime(2022, 1, 5)], dates);
     }
@@ -70,7 +70,7 @@ public class RecurrenceTests {
 
     [Fact]
     public void GetDates_Until_DateTime_MaxValue() {
-        var recurrence = new Recurrence(null, null, null, [new DailyRecurrencePattern(1, new DateTime(2022, 1, 1))], [], false);
+        var recurrence = new Recurrence((DateOnly?)null, null, null, [new DailyRecurrencePattern(1, new DateTime(2022, 1, 1))], [], false);
 
         var dates = recurrence.GetDates(new DateTime(9999, 12, 30), DateTime.MaxValue);
 
@@ -108,7 +108,7 @@ public class RecurrenceTests {
     public void GetDates_Occurrences() {
         var recurrence = new Recurrence(new DateTime(2022, 1, 1), DateTime.MaxValue, 2, [new DailyRecurrencePattern(2, new DateTime(2022, 1, 1))], [], false);
 
-        var dates = recurrence.GetDates();
+        var dates = recurrence.GetDates((DateTime?)null, null);
 
         Assert.Equal([new DateTime(2022, 1, 1), new DateTime(2022, 1, 3)], dates);
     }

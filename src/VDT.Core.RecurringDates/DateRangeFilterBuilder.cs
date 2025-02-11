@@ -22,6 +22,15 @@ public class DateRangeFilterBuilder : FilterBuilder {
     /// <param name="recurrenceBuilder">Builder for date recurrences to which this filter builder belongs</param>
     public DateRangeFilterBuilder(RecurrenceBuilder recurrenceBuilder) : base(recurrenceBuilder) { }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Sets the inclusive start date for this filter
+    /// </summary>
+    /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <returns>A reference to this filter builder</returns>
+    public DateRangeFilterBuilder From(DateOnly? startDate) => From(startDate?.ToDateTime());
+#endif
+
     /// <summary>
     /// Sets the inclusive start date for this filter
     /// </summary>
@@ -31,6 +40,15 @@ public class DateRangeFilterBuilder : FilterBuilder {
         StartDate = startDate;
         return this;
     }
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Sets the inclusive end date for this filter
+    /// </summary>
+    /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+    /// <returns>A reference to this filter builder</returns>
+    public DateRangeFilterBuilder Until(DateOnly? endDate) => Until(endDate?.ToDateTime());
+#endif
 
     /// <summary>
     /// Sets the inclusive end date for this filter

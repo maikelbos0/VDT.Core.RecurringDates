@@ -8,12 +8,30 @@ namespace VDT.Core.RecurringDates;
 /// Starting point for creating recurrence builders
 /// </summary>
 public static class Recurs {
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a new recurrence builder and sets the inclusive start date
+    /// </summary>
+    /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <returns>A newly created recurrence builder</returns>
+    public static IRecurrenceBuilder From(DateOnly? startDate) => new RecurrenceBuilder().From(startDate?.ToDateTime());
+#endif
+
     /// <summary>
     /// Creates a new recurrence builder and sets the inclusive start date
     /// </summary>
     /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
     /// <returns>A newly created recurrence builder</returns>
     public static IRecurrenceBuilder From(DateTime? startDate) => new RecurrenceBuilder().From(startDate);
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a new recurrence builder and sets the inclusive end date
+    /// </summary>
+    /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+    /// <returns>A newly created recurrence builder</returns>
+    public static IRecurrenceBuilder Until(DateOnly? endDate) => new RecurrenceBuilder().Until(endDate?.ToDateTime());
+#endif
 
     /// <summary>
     /// Creates a new recurrence builder and sets the inclusive end date
@@ -61,6 +79,22 @@ public static class Recurs {
     /// <returns>A starting point to add recurrence patterns that repeat with the provided interval</returns>
     public static RecurrencePatternBuilderStart Every(int interval) => new RecurrenceBuilder().Every(interval);
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a new recurrence builder and adds a filter to this recurrence for the specified dates
+    /// </summary>
+    /// <param name="dates">Dates to invalidate</param>
+    /// <returns>A builder to configure the date filter</returns>
+    public static DateFilterBuilder ExceptOn(params DateOnly[] dates) => new RecurrenceBuilder().ExceptOn(dates.Select(date => date.ToDateTime()).AsEnumerable());
+
+    /// <summary>
+    /// Creates a new recurrence builder and adds a filter to this recurrence for the specified dates
+    /// </summary>
+    /// <param name="dates">Dates to invalidate</param>
+    /// <returns>A builder to configure the date filter</returns>
+    public static DateFilterBuilder ExceptOn(IEnumerable<DateOnly> dates) => new RecurrenceBuilder().ExceptOn(dates.Select(date => date.ToDateTime()).AsEnumerable());
+#endif
+
     /// <summary>
     /// Creates a new recurrence builder and adds a filter to this recurrence for the specified dates
     /// </summary>
@@ -75,6 +109,15 @@ public static class Recurs {
     /// <returns>A builder to configure the date filter</returns>
     public static DateFilterBuilder ExceptOn(IEnumerable<DateTime> dates) => new RecurrenceBuilder().ExceptOn(dates);
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
+    /// </summary>
+    /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <returns>A builder to configure the date range filter</returns>
+    public static DateRangeFilterBuilder ExceptFrom(DateOnly? startDate) => new RecurrenceBuilder().ExceptFrom(startDate?.ToDateTime());
+#endif
+
     /// <summary>
     /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
     /// </summary>
@@ -82,12 +125,31 @@ public static class Recurs {
     /// <returns>A builder to configure the date range filter</returns>
     public static DateRangeFilterBuilder ExceptFrom(DateTime? startDate) => new RecurrenceBuilder().ExceptFrom(startDate);
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
+    /// </summary>
+    /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+    /// <returns>A builder to configure the date range filter</returns>
+    public static DateRangeFilterBuilder ExceptUntil(DateOnly? endDate) => new RecurrenceBuilder().ExceptUntil(endDate?.ToDateTime());
+#endif
+
     /// <summary>
     /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
     /// </summary>
     /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
     /// <returns>A builder to configure the date range filter</returns>
     public static DateRangeFilterBuilder ExceptUntil(DateTime? endDate) => new RecurrenceBuilder().ExceptUntil(endDate);
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range
+    /// </summary>
+    /// <param name="startDate">The inclusive start date; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <param name="endDate">The inclusive end date; defaults to <see cref="DateTime.MaxValue"/></param>
+    /// <returns>A builder to configure the date range filter</returns>
+    public static DateRangeFilterBuilder ExceptBetween(DateOnly? startDate, DateOnly? endDate) => new RecurrenceBuilder().ExceptBetween(startDate?.ToDateTime(), endDate?.ToDateTime());
+#endif
 
     /// <summary>
     /// Creates a new recurrence builder and adds a filter to this recurrence for the specified date range

@@ -19,6 +19,22 @@ public class DateFilterBuilder : FilterBuilder {
     /// <param name="recurrenceBuilder">Builder for date recurrences to which this filter builder belongs</param>
     public DateFilterBuilder(RecurrenceBuilder recurrenceBuilder) : base(recurrenceBuilder) { }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Adds the given dates to the dates this filter invalidates
+    /// </summary>
+    /// <param name="dates">Dates that should be added</param>
+    /// <returns>A reference to this filter builder</returns>
+    public DateFilterBuilder On(params DateOnly[] dates) => On(dates.Select(date => date.ToDateTime()));
+
+    /// <summary>
+    /// Adds the given dates to the dates this filter invalidates
+    /// </summary>
+    /// <param name="dates">Dates that should be added</param>
+    /// <returns>A reference to this filter builder</returns>
+    public DateFilterBuilder On(IEnumerable<DateOnly> dates) => On(dates.Select(date => date.ToDateTime()));
+#endif
+
     /// <summary>
     /// Adds the given dates to the dates this filter invalidates
     /// </summary>

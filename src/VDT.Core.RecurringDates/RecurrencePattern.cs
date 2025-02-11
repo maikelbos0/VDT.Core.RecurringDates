@@ -26,6 +26,15 @@ public abstract class RecurrencePattern {
         ReferenceDate = (referenceDate ?? DateTime.MinValue).Date;
     }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Determine whether a given date is valid according to this recurrence pattern
+    /// </summary>
+    /// <param name="date">Date to check</param>
+    /// <returns><see langword="true"/> if the given date is valid according to this recurrence pattern; otherwise <see langword="false"/></returns>
+    public bool IsValid(DateOnly date) => IsValid(date.ToDateTime());
+#endif
+
     /// <summary>
     /// Determine whether a given date is valid according to this recurrence pattern
     /// </summary>

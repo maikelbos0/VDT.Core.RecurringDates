@@ -42,6 +42,20 @@ public class Recurrence {
     /// </summary>
     public bool CacheDates => dateCache != null;
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Create a recurrence to determine valid dates for the given patterns
+    /// </summary>
+    /// <param name="startDate">Inclusive start date for this recurrence; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <param name="endDate">Inclusive end date for this recurrence; defaults to <see cref="DateTime.MaxValue"/></param>
+    /// <param name="occurrences">Maximum number of occurrences for this recurrence</param>
+    /// <param name="patterns">Recurrence patterns that this recurrence will use to determine valid dates</param>
+    /// <param name="filters">Filters that this recurrence will use to invalidate otherwise valid dates</param>
+    /// <param name="cacheDates">Indicates whether or not date validity should be cached; if you use custom patterns that can be edited the cache may need to be disabled</param>
+    public Recurrence(DateOnly? startDate, DateOnly? endDate, int? occurrences, IEnumerable<RecurrencePattern> patterns, IEnumerable<IFilter> filters, bool cacheDates)
+        : this(startDate?.ToDateTime(), endDate?.ToDateTime(), occurrences, patterns, filters, cacheDates) { }
+#endif
+
     /// <summary>
     /// Create a recurrence to determine valid dates for the given patterns
     /// </summary>
@@ -62,6 +76,17 @@ public class Recurrence {
             dateCache = new();
         }
     }
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Gets valid dates for this recurrence within the specified optional range
+    /// </summary>
+    /// <param name="from">If provided, no dates before this date will be returned</param>
+    /// <param name="until">If provided, no dates after this date will be returned</param>
+    /// <returns>Valid dates for this recurrence within the specified optional range</returns>
+    public IEnumerable<DateOnly> GetDates(DateOnly? from = null, DateOnly? until = null) 
+        => GetDates(from?.ToDateTime(), until?.ToDateTime()).Select(date => DateOnly.FromDateTime(date));
+#endif
 
     /// <summary>
     /// Gets valid dates for this recurrence within the specified optional range
@@ -117,6 +142,15 @@ public class Recurrence {
             }
         }
     }
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Determine whether a given date is valid according to this recurrence
+    /// </summary>
+    /// <param name="date">Date to check</param>
+    /// <returns><see langword="true"/> if the given date is valid according to this recurrence; otherwise <see langword="false"/></returns>
+    public bool IsValid(DateOnly date) => IsValid(date.ToDateTime());
+#endif
 
     /// <summary>
     /// Determine whether a given date is valid according to this recurrence

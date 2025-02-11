@@ -14,6 +14,14 @@ public class DateFilter : IFilter {
     /// </summary>
     public ImmutableHashSet<DateTime> Dates { get; }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Create a filter to invalidate specific dates
+    /// </summary>
+    /// <param name="dates">Dates to invalidate</param>
+    public DateFilter(IEnumerable<DateOnly> dates) : this(dates.Select(date => date.ToDateTime())) { }
+#endif
+
     /// <summary>
     /// Create a filter to invalidate specific dates
     /// </summary>

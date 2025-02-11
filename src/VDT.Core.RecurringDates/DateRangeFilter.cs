@@ -16,6 +16,15 @@ public class DateRangeFilter : IFilter {
     /// </summary>
     public DateTime EndDate { get; }
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Create a filter to invalidate date ranges
+    /// </summary>
+    /// <param name="startDate">Inclusive date from which dates will be invalidated; defaults to <see cref="DateTime.MinValue"/></param>
+    /// <param name="endDate">Inclusive date up to which dates will be invalidated; defaults to <see cref="DateTime.MaxValue"/></param>
+    public DateRangeFilter(DateOnly? startDate, DateOnly? endDate) : this(startDate?.ToDateTime(), endDate?.ToDateTime()) { }
+#endif
+
     /// <summary>
     /// Create a filter to invalidate date ranges
     /// </summary>

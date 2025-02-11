@@ -1,12 +1,13 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 
 namespace VDT.Core.RecurringDates.Tests;
 
 public class RecurrenceFilterBuilderTests {
     [Fact]
     public void Intersecting() {
-        var recurrence = new Recurrence(null, null, null, [], [], false);
-        var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), new Recurrence(null, null, null, [], [], false));
+        var recurrence = new Recurrence((DateOnly?)null, null, null, [], [], false);
+        var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), new Recurrence((DateOnly?)null, null, null, [], [], false));
 
         Assert.Same(builder, builder.Intersecting(recurrence));
 
@@ -15,7 +16,7 @@ public class RecurrenceFilterBuilderTests {
 
     [Fact]
     public void BuildFilter() {
-        var recurrence = new Recurrence(null, null, null, [], [], false);
+        var recurrence = new Recurrence((DateOnly?)null, null, null, [], [], false);
         var builder = new RecurrenceFilterBuilder(new RecurrenceBuilder(), recurrence);
 
         var result = Assert.IsType<RecurrenceFilter>(builder.BuildFilter());
