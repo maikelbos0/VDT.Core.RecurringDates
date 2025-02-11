@@ -52,8 +52,6 @@ public class DateFilterBuilder : FilterBuilder {
         return this;
     }
 
-    // TODO DateOnly overload
-
     /// <inheritdoc/>
     public override IFilter BuildFilter() => new DateFilter(Dates);
 }

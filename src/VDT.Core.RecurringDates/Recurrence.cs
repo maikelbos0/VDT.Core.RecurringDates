@@ -144,7 +144,6 @@ public class Recurrence {
     }
 
 #if NET8_0_OR_GREATER
-
     /// <summary>
     /// Determine whether a given date is valid according to this recurrence
     /// </summary>
